@@ -10,8 +10,22 @@ namespace DnD4e.LibraryHelper.Monster {
         [XmlElement]
         public SimpleValue Amount { get; set; }
 
+        [XmlElement]
+        public string Details { get; set; }
+
         public override string ToString () {
-            return String.Format("{0} {1}", Amount.Value, Name);
+            var sb = new StringBuilder();
+            if (this.Amount.Value > 0) {
+                sb.AppendFormat("{0} ", this.Amount.Value);
+            }
+
+            if (String.IsNullOrWhiteSpace(this.Details)) {
+                sb.Append(this.Name);
+            }
+            else {
+                sb.AppendFormat("{0} {1}", this.Name, this.Details);
+            }
+            return sb.ToString();
         }
     }
 }

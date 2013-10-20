@@ -16,9 +16,17 @@ namespace DnD4e.LibraryHelper.Monster {
         [XmlElement]
         public string Expression { get; set; }
 
+        [XmlIgnore]
         public int Bonus {
             get {
                 return (int)Math.Round(this.DamageConstant.Bonus.Value);
+            }
+        }
+
+        [XmlIgnore]
+        public bool IsEmpty {
+            get {
+                return String.IsNullOrWhiteSpace(this.Expression);
             }
         }
 

@@ -63,6 +63,8 @@
     <Compile Include="Common\IProtectedDictionary.cs" />
     <Compile Include="Common\NamedElement.cs" />
     <Compile Include="Common\Range.cs" />
+    <Compile Include="ExtensionMethods\AttackType.cs" />
+    <Compile Include="ExtensionMethods\Integer.cs" />
     <Compile Include="ExtensionMethods\MonsterPower.cs" />
     <Compile Include="ExtensionMethods\StringBuilder.cs" />
     <Compile Include="Monster\Attack.cs" />

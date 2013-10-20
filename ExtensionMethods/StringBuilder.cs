@@ -21,12 +21,12 @@ namespace DnD4e.LibraryHelper.ExtensionMethods {
             return sb;
         }
 
-        public static StringBuilder AppendFormatIfNotEmpty (this StringBuilder sb, string format, object arg0) {
-            if (arg0 == null) {
+        public static StringBuilder AppendFormatIfNotEmpty (this StringBuilder sb, string format, params object[] args) {
+            if (args == null || args[0] == null) {
                 return sb;
             }
-            else if (!String.IsNullOrWhiteSpace(arg0.ToString())) {
-                sb.AppendFormat(format, arg0);
+            else if (!String.IsNullOrWhiteSpace(args[0].ToString())) {
+                sb.AppendFormat(format, args);
             }
             return sb;
         }

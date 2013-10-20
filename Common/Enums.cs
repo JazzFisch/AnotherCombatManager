@@ -82,7 +82,9 @@ namespace DnD4e.LibraryHelper.Common {
             }
             string[] parts = actionTypeString.Split();
             ActionType type;
-            Enum.TryParse(parts[0], true, out type);
+            if (!Enum.TryParse(parts[0], true, out type) && parts.Length >= 2) {
+                Enum.TryParse(parts[1], true, out type);
+            }
             return type;
         }
 

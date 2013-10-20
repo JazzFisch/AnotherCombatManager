@@ -31,6 +31,19 @@ namespace DnD4e.LibraryHelper.Monster {
         [XmlArrayItem("MonsterSustainEffect")]
         public List<AttackType> Sustains { get; set; }
 
+        [XmlIgnore]
+        public bool IsEmpty {
+            get {
+                return String.IsNullOrWhiteSpace(this.Action) &&
+                       this.AfterEffects.Count == 0 &&
+                       this.Attacks.Count == 0 &&
+                       this.Damage.IsEmpty &&
+                       String.IsNullOrWhiteSpace(this.Description) &&
+                       this.FailedSavingThrows.Count == 0 &&
+                       this.Sustains.Count == 0;
+            }
+        }
+
         public override string ToString () {
             return String.Format("{0} {1}", this.Damage, this.Description);
         }
