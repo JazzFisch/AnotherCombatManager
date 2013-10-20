@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace DnD4e.LibraryHelper.Monster {
+namespace DnD4e.LibraryHelper.Common {
     // simple wrapper to get XML naming right
     public class AbilityScoreNumber : SimpleValue { }
 

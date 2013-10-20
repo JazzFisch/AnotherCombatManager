@@ -8,24 +8,28 @@ using DnD4e.LibraryHelper.Monster;
 namespace DnD4e.LibraryHelper.ExtensionMethods {
     public static class AttackTypeMethods {
         public static string ToText (this AttackType attack, string delimiter) {
+            var sb = new StringBuilder();
             if (attack.IsEmpty) {
                 return String.Empty;
             }
             else if (attack.Damage.IsEmpty) {
-                return attack.Description;
+                sb.Append(attack.Description);
+            }
+            else {
+                sb.AppendIfNotEmpty(attack.ToString());
+                for (int i = 0; i < attack.FailedSavingThrows.Count; ++i) {
+                    var failed = attack.FailedSavingThrows[i];
+                    sb.AppendFormat("{0}    {1} Failed Saving Throw: {1}", delimiter, (i + 1).ToIteration(), failed.Description); // failed.ToHtml(power));
+                }
+                foreach (var after in attack.AfterEffects) {
+                    sb.AppendFormat("{0}    Aftereffect: {1}", delimiter, after.Description); //after.ToHtml(power));
+                }
             }
 
-            var sb = new StringBuilder();
-            sb.AppendIfNotEmpty(attack.ToString());
-            for (int i = 0; i < attack.FailedSavingThrows.Count; ++i) {
-                var failed = attack.FailedSavingThrows[i];
-                sb.AppendFormat("    {0} Failed Saving Throw: {1}{2}", (i + 1).ToIteration(), failed.Description, delimiter); // failed.ToHtml(power));
-            }
-            foreach (var after in attack.AfterEffects) {
-                sb.AppendFormat("    After Effect: {0}{1}", after.Description, delimiter); //after.ToHtml(power));
-            }
             foreach (var sustain in attack.Sustains) {
-                sb.AppendFormat("    Sustain: {0}{1}", sustain.Description, delimiter); //sustain.ToHtml(power));
+                sb.AppendFormat("{0}    Sustain", delimiter);
+                sb.AppendFormatIfNotEmpty(" {0}", sustain.Action);
+                sb.AppendFormat(": {0}", sustain.Description); //sustain.ToHtml(power));
             }
 
             return sb.ToString();

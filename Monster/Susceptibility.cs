@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Common;
 
 namespace DnD4e.LibraryHelper.Monster {
-    public class CreatureSusceptibility : ReferencedObjectWrapper {
+    public class Susceptibility : ReferencedObjectWrapper {
         [XmlElement]
         public SimpleValue Amount { get; set; }
 

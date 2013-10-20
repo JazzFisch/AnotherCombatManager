@@ -9,6 +9,11 @@ namespace DnD4e.LibraryHelper.Monster {
         [XmlElement]
         public string Action { get; set; }
 
+        [XmlIgnore]
+        public ActionType ActionType {
+            get { return this.Action.ToActionType(); }
+        }
+
         [XmlArray("Aftereffects")]
         [XmlArrayItem("MonsterAttackEntry")]
         public List<AttackType> AfterEffects { get; set; }

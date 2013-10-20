@@ -82,7 +82,7 @@ namespace DnD4e.LibraryHelper.Monster {
 
         [XmlArray]
         [XmlArrayItem("CreatureSusceptibility")]
-        public List<CreatureSusceptibility> Resistances { get; set; }
+        public List<Susceptibility> Resistances { get; set; }
 
         [XmlElement]
         public ObjectReference Role { get; set; }
@@ -118,7 +118,7 @@ namespace DnD4e.LibraryHelper.Monster {
 
         [XmlArray]
         [XmlArrayItem("CreatureSusceptibility")]
-        public List<CreatureSusceptibility> Weaknesses { get; set; }
+        public List<Susceptibility> Weaknesses { get; set; }
 
         public Monster () {
             // TODO: construct all wrapped objects

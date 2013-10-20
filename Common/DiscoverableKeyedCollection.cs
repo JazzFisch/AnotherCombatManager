@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace DnD4e.LibraryHelper.Common {
-    public abstract class DiscoverableKeyedCollection<TKey, TItem> : KeyedCollection<TKey, TItem>, IProtectedDictionary {
+    public abstract class DiscoverableKeyedCollection<TKey, TItem> : KeyedCollection<TKey, TItem> {
         public ICollection<TKey> Keys {
             get {
                 if (base.Dictionary != null) {
@@ -36,13 +36,5 @@ namespace DnD4e.LibraryHelper.Common {
                 }
             }
         }
-
-        #region IProtectedDictionary Members
-
-        System.Collections.IDictionary IProtectedDictionary.GetDictionary () {
-            return base.Dictionary as System.Collections.IDictionary; 
-        }
-
-        #endregion
     }
 }

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Common;
 
-namespace DnD4e.LibraryHelper.Monster {
-    public sealed class ValueEnumCollection<TKey, TItem> : IProtectedDictionary
+namespace DnD4e.LibraryHelper.Common {
+    public sealed class ValueEnumCollection<TKey, TItem>
         where TKey : struct
         where TItem : SimpleValue 
     {
@@ -25,19 +24,5 @@ namespace DnD4e.LibraryHelper.Monster {
         public ValueEnumCollection () {
             this.Values = new EnumCollection<TKey, TItem>();
         }
-
-        #region IProtectedDictionary Members
-
-        System.Collections.IDictionary IProtectedDictionary.GetDictionary () {
-            IProtectedDictionary vals = this.Values;
-            if (vals != null) {
-                return vals.GetDictionary();
-            }
-            else {
-                return null;
-            }
-        }
-
-        #endregion
     }
 }

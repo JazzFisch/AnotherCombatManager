@@ -60,9 +60,13 @@
     <Compile Include="Common\DiscoverableKeyedCollection.cs" />
     <Compile Include="Common\EnumCollection.cs" />
     <Compile Include="Common\Enums.cs" />
-    <Compile Include="Common\IProtectedDictionary.cs" />
     <Compile Include="Common\NamedElement.cs" />
     <Compile Include="Common\Range.cs" />
+    <Compile Include="Common\ReferencedObject.cs" />
+    <Compile Include="Common\SimpleValue.cs" />
+    <Compile Include="Common\SimpleValueWrappers.cs" />
+    <Compile Include="Common\ValueEnumCollection.cs" />
+    <Compile Include="Common\ValueList.cs" />
     <Compile Include="ExtensionMethods\AttackType.cs" />
     <Compile Include="ExtensionMethods\Integer.cs" />
     <Compile Include="ExtensionMethods\MonsterPower.cs" />
@@ -70,21 +74,16 @@
     <Compile Include="Monster\Attack.cs" />
     <Compile Include="Monster\AttackBonus.cs" />
     <Compile Include="Monster\AttackType.cs" />
-    <Compile Include="Monster\CreatureSusceptibility.cs" />
     <Compile Include="Monster\Damage.cs" />
     <Compile Include="Monster\ItemAndQuantity.cs" />
     <Compile Include="Monster\Monster.cs" />
     <Compile Include="Monster\Power.cs" />
     <Compile Include="Monster\PowerBase.cs" />
     <Compile Include="Monster\Powers.cs" />
-    <Compile Include="Monster\ReferencedObject.cs" />
     <Compile Include="Monster\SenseReference.cs" />
-    <Compile Include="Monster\SimpleValue.cs" />
-    <Compile Include="Monster\SimpleValueWrappers.cs" />
     <Compile Include="Monster\Speed.cs" />
+    <Compile Include="Monster\Susceptibility.cs" />
     <Compile Include="Monster\Trait.cs" />
-    <Compile Include="Monster\ValueEnumCollection.cs" />
-    <Compile Include="Monster\ValueList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

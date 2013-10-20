@@ -16,26 +16,37 @@ namespace DnD4e.LibraryHelper.ExtensionMethods {
             sb.AppendFormatIfNotEmpty("Trigger: {0}{1}", power.Trigger, delimeter);
 
             foreach (var attack in power.Attacks) {
-                sb.Append(attack.AttackBonuses.Count == 0 ? "Effect" : "Attack");
-                switch (power.ActionType) {
-                    case ActionTypeEnum.Interrupt:
-                    case ActionTypeEnum.Reaction:
-                        sb.AppendFormat(" ({0})", power.Action);
-                        break;
-
-                    default:
-                        break;
-                }
-                sb.Append(": ");
-
                 if (attack.AttackBonuses.Count == 0) {
-                    sb.Append(attack.Effect.ToText(delimeter));
-                    sb.Append(delimeter);
+                    // effect only
+                    var effect = attack.Effect.ToText(delimeter);
+                    sb.Append("Effect");
+                    switch (power.ActionType) {
+                        case ActionTypeEnum.Free:
+                            sb.AppendFormat(" ({0})", power.Action);
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    sb.AppendFormat(": {0}{1}", effect, delimeter);
                 }
                 else {
+                    sb.Append("Attack");
+                    switch (power.ActionType) {
+                        case ActionTypeEnum.Interrupt:
+                        case ActionTypeEnum.Reaction:
+                            sb.AppendFormat(" ({0})", power.Action);
+                            break;
+
+                        default:
+                            break;
+                    }
+                    sb.Append(": ");
                     sb.AppendFormatIfNotEmpty("{0}; ", attack.ToString());
                     sb.Append(String.Join(", ", attack.AttackBonuses));
                     sb.Append(delimeter);
+
                     sb.AppendFormatIfNotEmpty("Hit: {0}{1}", attack.Hit.ToText(delimeter), delimeter);
                     sb.AppendFormatIfNotEmpty("Miss: {0}{1}", attack.Miss.ToText(delimeter), delimeter);
                     sb.AppendFormatIfNotEmpty("Effect: {0}{1}", attack.Effect.ToText(delimeter), delimeter);

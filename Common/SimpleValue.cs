@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Common;
 
-namespace DnD4e.LibraryHelper.Monster {
+namespace DnD4e.LibraryHelper.Common {
     public class PercentageNumberBonus : DefaultBonus { }
 
     public class AddNumberBonus : DefaultBonus { }
