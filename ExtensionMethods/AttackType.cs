@@ -17,19 +17,26 @@ namespace DnD4e.LibraryHelper.ExtensionMethods {
             }
             else {
                 sb.AppendIfNotEmpty(attack.ToString());
-                for (int i = 0; i < attack.FailedSavingThrows.Count; ++i) {
-                    var failed = attack.FailedSavingThrows[i];
-                    sb.AppendFormat("{0}    {1} Failed Saving Throw: {1}", delimiter, (i + 1).ToIteration(), failed.Description); // failed.ToHtml(power));
-                }
-                foreach (var after in attack.AfterEffects) {
-                    sb.AppendFormat("{0}    Aftereffect: {1}", delimiter, after.Description); //after.ToHtml(power));
-                }
             }
 
+            for (int i = 0; i < attack.FailedSavingThrows.Count; ++i) {
+                var failed = attack.FailedSavingThrows[i];
+                sb.AppendFormat("{0}    {1} Failed Saving Throw: {2}", delimiter, (i + 1).ToIteration(), failed); // failed.ToHtml(power));
+            }
             foreach (var sustain in attack.Sustains) {
                 sb.AppendFormat("{0}    Sustain", delimiter);
                 sb.AppendFormatIfNotEmpty(" {0}", sustain.Action);
                 sb.AppendFormat(": {0}", sustain.Description); //sustain.ToHtml(power));
+            }
+
+            foreach (var attackInner in attack.Attacks) {
+                sb.AppendFormat("{0}    {1}: {2}", delimiter, attackInner.Name, attackInner.Effect);
+            }
+
+            if (!attack.Damage.IsEmpty) {
+                foreach (var after in attack.AfterEffects) {
+                    sb.AppendFormat("{0}    Aftereffect: {1}", delimiter, after); //after.ToHtml(power));
+                }
             }
 
             return sb.ToString();
