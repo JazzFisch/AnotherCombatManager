@@ -1,7 +1,7 @@
 ﻿using System;
-using DnD4e.LibraryHelper.Common;
+using DnD4e.LibraryHelper.Import.Common;
 
-namespace DnD4e.LibraryHelper.Character {
+namespace DnD4e.LibraryHelper.Import.Character {
     public class Rules : DiscoverableKeyedCollection<string, Rule> {
         protected override string GetKeyForItem (Rule rule) {
             if (!String.IsNullOrWhiteSpace(rule.InternalId)) {

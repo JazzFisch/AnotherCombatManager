@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DnD4e.LibraryHelper.ExtensionMethods;
 using DnD4e.LibraryHelper.Monster;
 
-namespace DnD4e.LibraryHelper.ExtensionMethods {
+namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
     public static class AttackTypeMethods {
         public static string ToText (this AttackType attack, string delimiter) {
             var sb = new StringBuilder();

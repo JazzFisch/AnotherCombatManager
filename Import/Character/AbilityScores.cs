@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DnD4e.LibraryHelper.Common;
+using DnD4e.LibraryHelper.Import.Common;
 
-namespace DnD4e.LibraryHelper.Character
-{
-    public class AbilityScores
-    {
+namespace DnD4e.LibraryHelper.Import.Character {
+    public class AbilityScores {
         private Stats stats;
 
-        public AbilityScores (Stats stats)
-        {
-            if (stats == null)
-            {
+        public AbilityScores (Stats stats) {
+            if (stats == null) {
                 throw new ArgumentNullException("stats");
             }
             this.stats = stats;
@@ -38,10 +30,8 @@ namespace DnD4e.LibraryHelper.Character
         public int Charisma { get { return this.stats["Charisma"]; } }
         public int CharismaModifier { get { return this.stats["Charisma modifier"]; } }
 
-        public int this[AbilityScore score]
-        {
-            get
-            {
+        public int this[AbilityScore score] {
+            get {
                 return this.stats[score.ToString()];
             }
         }

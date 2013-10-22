@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
-namespace DnD4e.LibraryHelper.Character {
+namespace DnD4e.LibraryHelper.Import.Character {
     public class Item {
         [XmlElement("RulesElement")]
         public Rules Rules { get; set; }

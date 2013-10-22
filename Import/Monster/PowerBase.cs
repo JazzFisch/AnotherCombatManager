@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Common;
-using AttackTypeEnum = DnD4e.LibraryHelper.Common.AttackType;
+using DnD4e.LibraryHelper.Import.Common;
+using AttackTypeEnum = DnD4e.LibraryHelper.Import.Common.AttackType;
 
 namespace DnD4e.LibraryHelper.Monster {
     public class PowerBase : NamedValueElement {

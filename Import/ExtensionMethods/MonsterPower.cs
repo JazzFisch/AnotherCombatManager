@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DnD4e.LibraryHelper.ExtensionMethods;
 using DnD4e.LibraryHelper.Monster;
-using ActionTypeEnum = DnD4e.LibraryHelper.Common.ActionType;
-using PowerUsageEnum = DnD4e.LibraryHelper.Common.PowerUsage;
+using ActionTypeEnum = DnD4e.LibraryHelper.Import.Common.ActionType;
+using PowerUsageEnum = DnD4e.LibraryHelper.Import.Common.PowerUsage;
 
-namespace DnD4e.LibraryHelper.ExtensionMethods {
+namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
     public static class MonsterPowerMethods {
         public static string ToText (this MonsterPower power, string delimeter) {
             //attack.text_out(tempPow, "###")

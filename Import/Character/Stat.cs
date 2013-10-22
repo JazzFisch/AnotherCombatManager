@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace DnD4e.LibraryHelper.Character {
+namespace DnD4e.LibraryHelper.Import.Character {
     public class Stat {
         [XmlElement("alias")]
         public List<TextString> Aliases { get; set; }

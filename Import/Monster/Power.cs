@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Common;
-using ActionTypeEnum = DnD4e.LibraryHelper.Common.ActionType;
-using PowerUsageEnum = DnD4e.LibraryHelper.Common.PowerUsage;
+using DnD4e.LibraryHelper.Import.Common;
+using ActionTypeEnum = DnD4e.LibraryHelper.Import.Common.ActionType;
+using PowerUsageEnum = DnD4e.LibraryHelper.Import.Common.PowerUsage;
 
 namespace DnD4e.LibraryHelper.Monster {
     public class MonsterPower : PowerBase {

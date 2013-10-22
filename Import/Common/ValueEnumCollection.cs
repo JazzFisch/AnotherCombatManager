@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace DnD4e.LibraryHelper.Common {
+namespace DnD4e.LibraryHelper.Import.Common {
     public sealed class ValueEnumCollection<TKey, TItem>
         where TKey : struct
         where TItem : SimpleValue 

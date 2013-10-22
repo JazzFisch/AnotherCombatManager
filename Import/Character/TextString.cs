@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Common;
+using DnD4e.LibraryHelper.Import.Common;
 
-namespace DnD4e.LibraryHelper.Character {
+namespace DnD4e.LibraryHelper.Import.Character {
     public class TextString : NamedAttributeElement {
         [XmlText]
         public string Value { get; set; }

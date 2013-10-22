@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Common;
+using DnD4e.LibraryHelper.Import.Common;
 
 namespace DnD4e.LibraryHelper.Monster {
     public class AttackType : NamedValueElement {
