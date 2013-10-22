@@ -2,11 +2,11 @@
 using System.Xml.Serialization;
 
 namespace DnD4e.LibraryHelper.Import.Common {
-    public interface INamedObject {
+    internal interface INamedObject {
         string Name { get; set; }
     }
 
-    public class NamedAttributeElement : INamedObject {
+    internal class NamedAttributeElement : INamedObject {
         private string name;
 
         [XmlAttribute("name")]
@@ -20,7 +20,7 @@ namespace DnD4e.LibraryHelper.Import.Common {
         }
     }
 
-    public class NamedValueElement : INamedObject {
+    internal class NamedValueElement : INamedObject {
         private string name;
 
         [XmlElement]

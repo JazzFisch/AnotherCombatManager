@@ -2,8 +2,8 @@
 using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Import.Common;
 
-namespace DnD4e.LibraryHelper.Monster {
-    public class SenseReference : ReferencedObjectWrapper {
+namespace DnD4e.LibraryHelper.Import.Monster {
+    internal class SenseReference : ReferencedObjectWrapper {
         [XmlElement]
         public int Range { get; set; }
     }

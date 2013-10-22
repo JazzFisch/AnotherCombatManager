@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DnD4e.LibraryHelper.Common;
 
 namespace DnD4e.LibraryHelper.Import.Common {
-    public class Range {
+    internal class Range {
         public static readonly Range Invalid = new Range();
 
         public AttackType AttackType { get; set; }

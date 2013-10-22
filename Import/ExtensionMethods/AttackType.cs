@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using DnD4e.LibraryHelper.ExtensionMethods;
-using DnD4e.LibraryHelper.Monster;
+using MonsterAttackType = DnD4e.LibraryHelper.Import.Monster.AttackType;
 
 namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
-    public static class AttackTypeMethods {
-        public static string ToText (this AttackType attack, string delimiter) {
+    internal static class AttackTypeMethods {
+        public static string ToText (this MonsterAttackType attack, string delimiter) {
             var sb = new StringBuilder();
             if (attack.IsEmpty) {
                 return String.Empty;

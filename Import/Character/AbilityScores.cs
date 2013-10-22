@@ -1,8 +1,9 @@
 ﻿using System;
+using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.Import.Common;
 
 namespace DnD4e.LibraryHelper.Import.Character {
-    public class AbilityScores {
+    internal class AbilityScores {
         private Stats stats;
 
         public AbilityScores (Stats stats) {

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Enums.cs" />
     <Compile Include="ExtensionMethods\Integer.cs" />
     <Compile Include="ExtensionMethods\StringBuilder.cs" />
     <Compile Include="Import\Character\AbilityScores.cs" />
@@ -61,7 +62,6 @@
     <Compile Include="Import\Character\Weapon.cs" />
     <Compile Include="Import\Common\DiscoverableKeyedCollection.cs" />
     <Compile Include="Import\Common\EnumCollection.cs" />
-    <Compile Include="Import\Common\Enums.cs" />
     <Compile Include="Import\Common\NamedElement.cs" />
     <Compile Include="Import\Common\Range.cs" />
     <Compile Include="Import\Common\ReferencedObject.cs" />
@@ -70,6 +70,7 @@
     <Compile Include="Import\Common\ValueEnumCollection.cs" />
     <Compile Include="Import\Common\ValueList.cs" />
     <Compile Include="Import\ExtensionMethods\AttackType.cs" />
+    <Compile Include="Import\ExtensionMethods\Enums.cs" />
     <Compile Include="Import\ExtensionMethods\MonsterPower.cs" />
     <Compile Include="Import\Monster\Attack.cs" />
     <Compile Include="Import\Monster\AttackBonus.cs" />
@@ -85,6 +86,9 @@
     <Compile Include="Import\Monster\Susceptibility.cs" />
     <Compile Include="Import\Monster\Trait.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Monster\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

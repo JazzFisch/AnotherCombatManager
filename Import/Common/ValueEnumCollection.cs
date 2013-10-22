@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace DnD4e.LibraryHelper.Import.Common {
-    public sealed class ValueEnumCollection<TKey, TItem>
+    internal sealed class ValueEnumCollection<TKey, TItem>
         where TKey : struct
         where TItem : SimpleValue 
     {

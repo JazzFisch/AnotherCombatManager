@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace DnD4e.LibraryHelper.Import.Common {
-    public class ValueList<TValue> {
+    internal class ValueList<TValue> {
         [XmlArray("Values")]
         public List<TValue> Values { get; set; }
 

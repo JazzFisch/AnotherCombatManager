@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.Import.Common;
+using DnD4e.LibraryHelper.Import.ExtensionMethods;
 
-namespace DnD4e.LibraryHelper.Monster {
-    public class Attack : NamedValueElement {
+namespace DnD4e.LibraryHelper.Import.Monster {
+    internal class Attack : NamedValueElement {
         [XmlArray]
         [XmlArrayItem("MonsterPowerAttackNumber")]
         public List<AttackBonus> AttackBonuses { get; set; }

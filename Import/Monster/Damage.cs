@@ -2,8 +2,8 @@
 using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Import.Common;
 
-namespace DnD4e.LibraryHelper.Monster {
-    public class Damage {
+namespace DnD4e.LibraryHelper.Import.Monster {
+    internal class Damage {
         [XmlElement("DamageConstant")]
         public DamageConstant DamageConstant { get; set; }
 

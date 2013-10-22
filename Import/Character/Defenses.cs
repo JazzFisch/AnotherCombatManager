@@ -1,16 +1,12 @@
 ﻿using System;
-using DnD4e.LibraryHelper.Import.Common;
+using DnD4e.LibraryHelper.Common;
 
-namespace DnD4e.LibraryHelper.Import.Character
-{
-    public class Defenses
-    {
+namespace DnD4e.LibraryHelper.Import.Character {
+    internal class Defenses {
         private Stats stats;
 
-        public Defenses (Stats stats)
-        {
-            if (stats == null)
-            {
+        public Defenses (Stats stats) {
+            if (stats == null) {
                 throw new ArgumentNullException("stats");
             }
             this.stats = stats;
@@ -24,10 +20,8 @@ namespace DnD4e.LibraryHelper.Import.Character
 
         public int WillDefense { get { return this.stats["Will Defense"]; } }
 
-        public int this[Defense defense]
-        {
-            get
-            {
+        public int this[Defense defense] {
+            get {
                 return this.stats[defense.ToString()];
             }
         }

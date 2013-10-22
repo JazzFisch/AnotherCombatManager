@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml.Serialization;
 
 namespace DnD4e.LibraryHelper.Import.Character {
-    public class Stat {
+    internal class Stat {
         [XmlElement("alias")]
         public List<TextString> Aliases { get; set; }
 

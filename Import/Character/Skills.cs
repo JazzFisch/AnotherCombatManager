@@ -1,14 +1,11 @@
 ﻿using System;
-using DnD4e.LibraryHelper.Import.Common;
+using DnD4e.LibraryHelper.Common;
 
-namespace DnD4e.LibraryHelper.Import.Character
-{
-    public class Skills
-    {
+namespace DnD4e.LibraryHelper.Import.Character {
+    internal class Skills {
         private Stats stats;
 
-        public Skills (Stats stats)
-        {
+        public Skills (Stats stats) {
             this.stats = stats;
         }
 
@@ -46,10 +43,8 @@ namespace DnD4e.LibraryHelper.Import.Character
 
         public int Thievery { get { return this.stats["Thievery"]; } }
 
-        public int this[Skill skill]
-        {
-            get
-            {
+        public int this[Skill skill] {
+            get {
                 return this.stats[skill.ToString()];
             }
         }

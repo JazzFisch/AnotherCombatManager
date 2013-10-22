@@ -2,13 +2,13 @@
 using System.Xml.Serialization;
 
 namespace DnD4e.LibraryHelper.Import.Common {
-    public class PercentageNumberBonus : DefaultBonus { }
+    internal class PercentageNumberBonus : DefaultBonus { }
 
-    public class AddNumberBonus : DefaultBonus { }
+    internal class AddNumberBonus : DefaultBonus { }
 
     [XmlInclude(typeof(AddNumberBonus))]
     [XmlInclude(typeof(PercentageNumberBonus))]
-    public class DefaultBonus : NamedValueElement {
+    internal class DefaultBonus : NamedValueElement {
         [XmlElement]
         public string ID { get; set; }
 
@@ -20,7 +20,7 @@ namespace DnD4e.LibraryHelper.Import.Common {
         }
     }
 
-    public class SimpleValue : NamedValueElement {
+    internal class SimpleValue : NamedValueElement {
         [XmlElement("DefaultBonus")]
         public DefaultBonus Bonus { get; set; }
 

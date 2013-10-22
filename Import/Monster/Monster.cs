@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.Import.Common;
 
-namespace DnD4e.LibraryHelper.Monster {
+namespace DnD4e.LibraryHelper.Import.Monster {
     [XmlRoot]
-    public class Monster : NamedValueElement {
+    internal class Monster : NamedValueElement {
         [XmlElement]
         public ValueEnumCollection<AbilityScore, AbilityScoreNumber> AbilityScores { get; set; }
 

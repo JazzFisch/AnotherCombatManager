@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Import.Common;
-using AttackTypeEnum = DnD4e.LibraryHelper.Import.Common.AttackType;
+using DnD4e.LibraryHelper.Import.ExtensionMethods;
+using AttackTypeEnum = DnD4e.LibraryHelper.Common.AttackType;
 
-namespace DnD4e.LibraryHelper.Monster {
-    public class PowerBase : NamedValueElement {
+namespace DnD4e.LibraryHelper.Import.Monster {
+    internal class PowerBase : NamedValueElement {
         private AttackTypeEnum attackType;
         private string type;
 

@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 
 namespace DnD4e.LibraryHelper.Import.Character {
-    public class Damage {
+    internal class Damage {
         private string expression;
 
         [XmlText]
