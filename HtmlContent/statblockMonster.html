@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CombatManager</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="D&amp;D 4E Stat Block display" />
+        <meta name="author" content="Jason Fischer" />
+    </head>
+    <body>
+        <div class="ggdark">
+            <div class="mbheadleft"><span data-bind="text: Name()">Ghost Beholder</span></div>
+            <div class="mbheadright"><span data-bind="text: LevelString()">Level 19 Foo Bar Baz</span></div>
+        </div>
+        <div class="ggdark">
+            <div class="mbsubleft"><span data-bind="text: TraitsString()">Owa Tagoo Siam</span></div>
+            <div class="mbsubright">XP <span data-bind="text: addCommas(Experience())">4,000</span></div>
+        </div>
+        <table>
+            <tr>
+                <td class="indlt">
+                    <strong>HP </strong><span data-bind="text: addCommas(HitPoints())">128</span>; <strong>Bloodied </strong><span data-bind="text: addCommas(Bloodied())">64</span><br/>
+                    <strong>AC </strong> 30, <strong>Fortitude</strong> 29, <strong>Reflex</strong> 30, <strong>Will</strong> 30<br/>
+                    <strong>Speed</strong> 0, Fly 6 (hover)<br/>
+                    <strong>Immune</strong> Disease, Poison; <strong>Resist</strong> insubstantial; <strong>Vulnerability </strong>10 Radiant<br/>
+                    <strong>Saving Throws</strong> 2; <strong>Action Points</strong> 1
+                </td>
+                <td class="indlt" align="right">
+                    <strong>Initiative </strong><span data-bind="text: Initiative()"></span><br/>
+                    <strong>Perception </strong> +17<br/>
+                    <strong>Insight </strong> 0<br/>Darkvision
+                </td>
+            </tr>
+        </table>
+        <div class="ggtype">
+            <div class="mbsubleft">
+                <strong>Traits</strong>
+            </div>
+        </div>
+        <div class="ggmed">
+            <strong>All-Around Vision</strong>
+        </div>
+        <div class="gglt">
+            <div class="ggindent">Enemies can't gain combat advantage by flanking the ghost beholder.</div>
+        </div>
+
+        <div class="ggtype">
+            <div class="mbsubleft">
+                <strong>Standard Actions</strong>
+            </div>
+        </div>
+        <div class="ggmed">
+            <font face="4etools symbols">m</font>
+            <strong>Bite</strong>
+            <strong>&bull; At-Will</strong>
+        </div>
+        <div class="gglt">
+            <div class="ggindent">
+                Attack: Melee 1 (one creature); +21 vs. Reflex<br/>
+                Hit: 3d8 + 13 necrotic damage.<br/>
+            </div>
+        </div>
+
+        <div class="ggmed">
+            <font face="4etools symbols">R</font>
+            <strong>Eye Ray</strong>
+            <strong>&bull; At-Will</strong>
+        </div>
+        <div class="gglt">
+            <div class="ggindent">
+                Effect: The beholder uses one of the following eye rays without provoking an opportunity attack.<br/>
+                Attack: Ranged 10 (one creature); +21 vs. Fortitude<br/>
+                Hit: 4d8 + 8 cold and necrotic damage, and the target is slowed (save ends).<br/>
+                First Failed Saving Throw:  The target is immobilized instead of slowed (save ends).<br/>
+                Attack: Ranged 10 (one creature); +21 vs. Will<br/>
+                Hit: Ongoing 15 psychic damage (save ends).<br/>
+                First Failed Saving Throw:  In addition to the ongoing damage, the target is dazed (save ends both).<br/>
+                Second Failed Saving Throw:  The target is dominated instead of dazed and continues to take the ongoing damage (save ends both). The beholder is removed from play until the effect ends. When the effect ends, the beholder reappears in an unoccupied space within 10 squares of the target. The beholder can end the effect as a free action.<br/>
+                Attack: Ranged 10 (one creature); +21 vs. Will<br/>
+                Hit: 1d8 + 9 psychic damage, and the target makes a melee basic attack against itself as a free action. If the target is not wielding a melee weapon, it drops a held item and draws a melee weapon as a free action and then makes the attack.<br/>
+            </div>
+        </div>
+
+        <div class="ggtype">
+            <div class="mbsubleft">
+                <strong>Minor Actions</strong>
+            </div>
+        </div>
+        <div class="ggmed">
+            <font face="4etools symbols">r</font> <strong>Central Eye</strong> (Fear) <strong>&bull; At-Will</strong> 1/round
+        </div>
+        <div class="gglt">
+            <div class="ggindent">
+                Attack: Ranged 10 (one creature); +21 vs. Will<br/>
+                Hit: The beholder slides the target 5 squares, and the target gains vulnerable 5 necrotic and vulnerable 5 psychic until the start of the beholder's next turn.<br/>
+            </div>
+        </div>
+
+        <div class="ggtype">
+            <div class="mbsubleft">
+                <strong>Triggered Actions</strong>
+            </div>
+        </div>
+        <div class="ggmed">
+            <font face="4etools symbols">R</font>
+            <strong>Eyes of the Beholder</strong>
+            <strong>&bull; At-Will</strong>
+        </div>
+        <div class="gglt">
+            <div class="ggindent">
+                Trigger: An enemy starts its turn within 5 squares of the beholder.<br/>
+                Effect (Free Action): The beholder uses eye ray against the triggering enemy. Determine which ray it uses by rolling a d4, rerolling the die on a result of 4.<br/>
+            </div>
+        </div>
+
+        <div class="ggmed">
+            <table>
+                <tr>
+                    <td colspan="3" class="indmed">
+                        <strong>Skills</strong> Perception +17
+                    </td>
+                </tr>
+                <tr>
+                    <td class="indmed"><strong>Str </strong><span data-bind="text: AbilityScores().Strength">12</span> (+1)</td>
+                    <td class="indmed"><strong>Dex </strong><span data-bind="text: AbilityScores().Dexterity">34</span> (+7)</td>
+                    <td class="indmed"><strong>Wis </strong><span data-bind="text: AbilityScores().Wisdom">56</span> (+3)</td>
+                </tr>
+                <tr>
+                    <td class="indmed"><strong>Con </strong><span data-bind="text: AbilityScores().Constitution">78</span> (+4)</td>
+                    <td class="indmed"><strong>Int </strong><span data-bind="text: AbilityScores().Intelligence">90</span> (+6)</td>
+                    <td class="indmed"><strong>Cha </strong><span data-bind="text: AbilityScores().Charisma">12</span> (+7)</td>
+                </tr>
+            </table>
+        </div>
+        <div class="gglt">
+            <strong>Alignment </strong><span data-bind="text: Alignment()">Evil</span>&nbsp;<strong>Languages </strong>Deep Speech<br/>
+            <strong>Source</strong> Monster Manual 3<br/>
+        </div>
+    </body>
+</html>
