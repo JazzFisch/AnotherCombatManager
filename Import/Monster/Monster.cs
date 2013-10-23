@@ -8,7 +8,7 @@ using DnD4e.LibraryHelper.Import.Common;
 
 namespace DnD4e.LibraryHelper.Import.Monster {
     [XmlRoot]
-    internal class Monster : NamedValueElement {
+    public class Monster : NamedValueElement {
         [XmlElement]
         public ValueEnumCollection<AbilityScore, AbilityScoreNumber> AbilityScores { get; set; }
 

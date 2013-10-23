@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Import.Common;
 
 namespace DnD4e.LibraryHelper.Import.Monster {
-    internal class ItemAndQuantity {
+    public class ItemAndQuantity {
         [XmlElement]
         public int Quantity { get; set; }
 

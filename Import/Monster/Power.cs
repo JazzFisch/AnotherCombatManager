@@ -8,7 +8,7 @@ using ActionTypeEnum = DnD4e.LibraryHelper.Common.ActionType;
 using PowerUsageEnum = DnD4e.LibraryHelper.Common.PowerUsage;
 
 namespace DnD4e.LibraryHelper.Import.Monster {
-    internal class MonsterPower : PowerBase {
+    public class MonsterPower : PowerBase {
         private ActionTypeEnum actionType;
         private PowerUsageEnum powerUsage;
         private string action;

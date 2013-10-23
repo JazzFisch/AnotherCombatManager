@@ -6,7 +6,7 @@ using DnD4e.LibraryHelper.Import.ExtensionMethods;
 using AttackTypeEnum = DnD4e.LibraryHelper.Common.AttackType;
 
 namespace DnD4e.LibraryHelper.Import.Monster {
-    internal class PowerBase : NamedValueElement {
+    public class PowerBase : NamedValueElement {
         private AttackTypeEnum attackType;
         private string type;
 

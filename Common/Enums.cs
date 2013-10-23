@@ -22,6 +22,15 @@ namespace DnD4e.LibraryHelper.Common {
         Interrupt
     }
 
+    public enum Alignment {
+        Invalid,
+        LawfulGood,
+        Good,
+        Neutral,
+        Evil,
+        ChaoticEvil
+    }
+
     public enum AttackType {
         Invalid,
         Personal,
@@ -36,6 +45,12 @@ namespace DnD4e.LibraryHelper.Common {
         CloseBlast,
         CloseBurst,
         Trait
+    }
+
+    public enum CombatantType {
+        Invalid,
+        Character,
+        Monster
     }
 
     public enum Defense {

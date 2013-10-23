@@ -3,17 +3,17 @@ using System.Xml.Serialization;
 
 namespace DnD4e.LibraryHelper.Import.Common {
     // simple wrapper to get XML naming right
-    internal class AbilityScoreNumber : SimpleValue { }
+    public class AbilityScoreNumber : SimpleValue { }
 
-    internal class CalculatedNumber : SimpleValue { }
+    public class CalculatedNumber : SimpleValue { }
 
-    internal class DamageConstant : SimpleValue { }
+    public class DamageConstant : SimpleValue { }
 
-    internal class MonsterSavingThrow : SimpleValue { }
+    public class MonsterSavingThrow : SimpleValue { }
 
-    internal class SimpleAdjustableNumber : SimpleValue { }
+    public class SimpleAdjustableNumber : SimpleValue { }
 
-    internal class SkillNumber : SimpleValue {
+    public class SkillNumber : SimpleValue {
         [XmlElement]
         public bool Trained { get; set; }
 

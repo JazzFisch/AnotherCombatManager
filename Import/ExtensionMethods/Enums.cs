@@ -16,6 +16,16 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
             return type;
         }
 
+        public static Alignment ToAlignment (this string alignmentString) {
+            if (String.IsNullOrWhiteSpace(alignmentString)) {
+                return Alignment.Invalid;
+            }
+            string tmp = alignmentString.Replace(" ", String.Empty);
+            Alignment alignment;
+            Enum.TryParse(tmp, true, out alignment);
+            return alignment;
+        }
+
         public static AttackType ToAttackType (this string attackTypeString) {
             if (String.IsNullOrWhiteSpace(attackTypeString)) {
                 return AttackType.Invalid;

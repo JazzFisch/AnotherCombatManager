@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,7 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Combatant.cs" />
     <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\Power.cs" />
     <Compile Include="ExtensionMethods\Integer.cs" />
     <Compile Include="ExtensionMethods\StringBuilder.cs" />
     <Compile Include="Import\Character\AbilityScores.cs" />
@@ -73,6 +79,7 @@
     <Compile Include="Import\Common\ValueList.cs" />
     <Compile Include="Import\ExtensionMethods\AttackType.cs" />
     <Compile Include="Import\ExtensionMethods\Enums.cs" />
+    <Compile Include="Import\ExtensionMethods\Monster.cs" />
     <Compile Include="Import\ExtensionMethods\MonsterPower.cs" />
     <Compile Include="Import\Monster\Attack.cs" />
     <Compile Include="Import\Monster\AttackBonus.cs" />
@@ -87,10 +94,11 @@
     <Compile Include="Import\Monster\Speed.cs" />
     <Compile Include="Import\Monster\Susceptibility.cs" />
     <Compile Include="Import\Monster\Trait.cs" />
+    <Compile Include="Monster\Monster.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Monster\" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

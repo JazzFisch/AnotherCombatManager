@@ -7,7 +7,7 @@ using DnD4e.LibraryHelper.Import.Common;
 using DnD4e.LibraryHelper.Import.ExtensionMethods;
 
 namespace DnD4e.LibraryHelper.Import.Monster {
-    internal class AttackType : NamedValueElement {
+    public class AttackType : NamedValueElement {
         [XmlElement]
         public string Action { get; set; }
 

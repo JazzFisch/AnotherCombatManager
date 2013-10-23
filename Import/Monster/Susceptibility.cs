@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Import.Common;
 
 namespace DnD4e.LibraryHelper.Import.Monster {
-    internal class Susceptibility : ReferencedObjectWrapper {
+    public class Susceptibility : ReferencedObjectWrapper {
         [XmlElement]
         public SimpleValue Amount { get; set; }
 

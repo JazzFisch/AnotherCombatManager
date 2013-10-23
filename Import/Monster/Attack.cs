@@ -6,7 +6,7 @@ using DnD4e.LibraryHelper.Import.Common;
 using DnD4e.LibraryHelper.Import.ExtensionMethods;
 
 namespace DnD4e.LibraryHelper.Import.Monster {
-    internal class Attack : NamedValueElement {
+    public class Attack : NamedValueElement {
         [XmlArray]
         [XmlArrayItem("MonsterPowerAttackNumber")]
         public List<AttackBonus> AttackBonuses { get; set; }

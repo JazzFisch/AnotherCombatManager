@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Common;
 
 namespace DnD4e.LibraryHelper.Import.Common {
-    internal class ReferencedObject : NamedValueElement {
+    public class ReferencedObject : NamedValueElement {
         [XmlElement]
         public string Description { get; set; }
 
@@ -19,7 +19,7 @@ namespace DnD4e.LibraryHelper.Import.Common {
         public string Url { get; set; }
     }
 
-    internal class ReferencedObjectWrapper {
+    public class ReferencedObjectWrapper {
         [XmlElement]
         public ReferencedObject ReferencedObject { get; set; }
 
@@ -37,9 +37,9 @@ namespace DnD4e.LibraryHelper.Import.Common {
     }
 
     // to be used when the element has xsi:type="ObjectReference"
-    internal class ObjectReference : ReferencedObjectWrapper { }
+    public class ObjectReference : ReferencedObjectWrapper { }
 
-    internal class DefenseReference : ReferencedObjectWrapper {
+    public class DefenseReference : ReferencedObjectWrapper {
         public Defense Defense {
             get {
                 Defense def;
