@@ -29,7 +29,7 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private void toolStripStatListLoadATButon_Click (object sender, EventArgs e) {
-            this.AddFiles<Monster>("Monster Files|*.monster");
+            this.AddFilesToStatsList<Monster>("Monster Files|*.monster");
         }
 
         private void toolStripStatListLoadCBButton_Click (object sender, EventArgs e) {
@@ -76,10 +76,8 @@ namespace DnD4e.CombatManager.Test {
             }
         }
 
-        private void statsListBox_Click (object sender, EventArgs e) {
-            MouseEventArgs args = (MouseEventArgs)e;
-            var index = this.statsListBox.IndexFromPoint(args.Location);
-            Combatant combatant = this.statsListBox.Items[index] as Combatant;
+        private void statsListBox_SelectedIndexChanged (object sender, EventArgs e) {
+            Combatant combatant = this.statsListBox.SelectedItem as Combatant;
             if (combatant == null) {
                 return;
             }
@@ -89,8 +87,8 @@ namespace DnD4e.CombatManager.Test {
                 this.combatantToView = combatant;
                 if (this.combatantType != CombatantType.Monster) {
                     this.combatantType = CombatantType.Monster;
-                    this.statDetailsWebBrowser.DocumentCompleted += statDetailsWebBrowser_DocumentCompleted;
                     this.statDetailsWebBrowser.DocumentText = Properties.Resources.statblockMonster_html;
+                    this.statDetailsWebBrowser.DocumentCompleted += this.statDetailsWebBrowser_DocumentCompleted;
                 }
                 else {
                     this.RenderCombatantDetails(this.combatantToView);
@@ -102,7 +100,7 @@ namespace DnD4e.CombatManager.Test {
 
         private void statDetailsWebBrowser_DocumentCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
             // stop listening
-            this.statDetailsWebBrowser.DocumentCompleted -= statDetailsWebBrowser_DocumentCompleted;
+            this.statDetailsWebBrowser.DocumentCompleted -= this.statDetailsWebBrowser_DocumentCompleted;
 
             // load our css in
             this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.normalize_css);
@@ -123,7 +121,7 @@ namespace DnD4e.CombatManager.Test {
 
         #endregion
 
-        private void AddFiles<T> (string filter) where T : Combatant {
+        private void AddFilesToStatsList<T> (string filter) where T : Combatant {
             OpenFileDialog dialog = new OpenFileDialog() {
                 Filter = filter + "|All files (*.*)|*.*",
                 CheckFileExists = true,

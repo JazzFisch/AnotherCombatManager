@@ -223,7 +223,7 @@
             this.statsListBox.Size = new System.Drawing.Size(318, 479);
             this.statsListBox.Sorted = true;
             this.statsListBox.TabIndex = 1;
-            this.statsListBox.Click += new System.EventHandler(this.statsListBox_Click);
+            this.statsListBox.SelectedIndexChanged += new System.EventHandler(this.statsListBox_SelectedIndexChanged);
             this.statsListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.statsListBox_KeyDown);
             // 
             // toolStripStatListButtons
@@ -308,7 +308,6 @@
             this.statDetailsWebBrowser.Size = new System.Drawing.Size(441, 554);
             this.statDetailsWebBrowser.TabIndex = 0;
             this.statDetailsWebBrowser.WebBrowserShortcutsEnabled = false;
-            this.statDetailsWebBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.statDetailsWebBrowser_DocumentCompleted);
             // 
             // StatLibraryForm
             // 

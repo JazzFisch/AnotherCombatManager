@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>CombatManager</title>
+        <title data-bind="text: Monster().Name"></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="D&amp;D 4E Stat Block display" />
         <meta name="author" content="Jason Fischer" />
     </head>
     <body>
         <div class="ggdark">
-            <div class="mbheadleft"><span data-bind="text: Name()">Ghost Beholder</span></div>
-            <div class="mbheadright"><span data-bind="text: LevelString()">Level 19 Foo Bar Baz</span></div>
+            <div class="mbheadleft">
+                <span data-bind="text: Monster().Name"></span>
+            </div>
+            <div class="mbheadright">
+                <span data-bind="text: LevelString()"></span>
+            </div>
         </div>
         <div class="ggdark">
-            <div class="mbsubleft"><span data-bind="text: TraitsString()">Owa Tagoo Siam</span></div>
-            <div class="mbsubright">XP <span data-bind="text: addCommas(Experience())">4,000</span></div>
+            <div class="mbsubleft"><span data-bind="text: TraitsString()"></span></div>
+            <div class="mbsubright">XP&nbsp;<span data-bind="text: addCommas(Monster().Experience)"></span></div>
         </div>
         <table>
             <tr>
                 <td class="indlt">
-                    <strong>HP </strong><span data-bind="text: addCommas(HitPoints())">128</span>; <strong>Bloodied </strong><span data-bind="text: addCommas(Bloodied())">64</span><br/>
-                    <strong>AC </strong> 30, <strong>Fortitude</strong> 29, <strong>Reflex</strong> 30, <strong>Will</strong> 30<br/>
+                    <strong>HP&nbsp;</strong><span data-bind="text: addCommas(Monster().HitPoints)"></span>;&nbsp;<strong>Bloodied</strong>&nbsp;<span data-bind="text: addCommas(Bloodied())"></span><br/>
+                    <strong>AC&nbsp;</strong>30, <strong>Fortitude</strong> 29, <strong>Reflex</strong> 30, <strong>Will</strong> 30<br/>
                     <strong>Speed</strong> 0, Fly 6 (hover)<br/>
-                    <strong>Immune</strong> Disease, Poison; <strong>Resist</strong> insubstantial; <strong>Vulnerability </strong>10 Radiant<br/>
-                    <strong>Saving Throws</strong> 2; <strong>Action Points</strong> 1
+
+                    <strong>Saving Throws</strong><span data-bind="text: Monster().SavingThrows"></span>;&nbsp;<strong>Action Points</strong>&nbsp;<span data-bind="text: Monster().ActionPoints"></span>
                 </td>
                 <td class="indlt" align="right">
-                    <strong>Initiative </strong><span data-bind="text: Initiative()"></span><br/>
-                    <strong>Perception </strong> +17<br/>
+                    <strong>Initiative</strong>&nbsp;<span data-bind="text: addSign(Monster().Initiative)"></span><br/>
+                    <strong>Perception</strong>&nbsp;+17<br/>
                     <strong>Insight </strong> 0<br/>Darkvision
                 </td>
             </tr>
@@ -120,20 +124,38 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="indmed"><strong>Str </strong><span data-bind="text: AbilityScores().Strength">12</span> (+1)</td>
-                    <td class="indmed"><strong>Dex </strong><span data-bind="text: AbilityScores().Dexterity">34</span> (+7)</td>
-                    <td class="indmed"><strong>Wis </strong><span data-bind="text: AbilityScores().Wisdom">56</span> (+3)</td>
+                    <td class="indmed">
+                        <strong>Str</strong>&nbsp;<span data-bind="text: AbilityScore('Strength')"></span>
+                    </td>
+                    <td class="indmed">
+                        <strong>Dex</strong>&nbsp;<span data-bind="text: AbilityScore('Dexterity')"></span>
+                    </td>
+                    <td class="indmed">
+                        <strong>Wis</strong>&nbsp;<span data-bind="text: AbilityScore('Wisdom')"></span>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="indmed"><strong>Con </strong><span data-bind="text: AbilityScores().Constitution">78</span> (+4)</td>
-                    <td class="indmed"><strong>Int </strong><span data-bind="text: AbilityScores().Intelligence">90</span> (+6)</td>
-                    <td class="indmed"><strong>Cha </strong><span data-bind="text: AbilityScores().Charisma">12</span> (+7)</td>
+                    <td class="indmed">
+                        <strong>Con</strong>&nbsp;<span data-bind="text: AbilityScore('Constitution')"></span>
+                    </td>
+                    <td class="indmed">
+                        <strong>Int</strong>&nbsp;<span data-bind="text: AbilityScore('Intelligence')"></span>
+                    </td>
+                    <td class="indmed">
+                        <strong>Cha</strong>&nbsp;<span data-bind="text: AbilityScore('Charisma')"></span>
+                    </td>
                 </tr>
             </table>
         </div>
         <div class="gglt">
-            <strong>Alignment </strong><span data-bind="text: Alignment()">Evil</span>&nbsp;<strong>Languages </strong>Deep Speech<br/>
-            <strong>Source</strong> Monster Manual 3<br/>
+            <strong>Alignment</strong>&nbsp;<span data-bind="text: Monster().Alignment"></span>&nbsp;<strong>Languages</strong>&nbsp;<span data-bind="text: combineArray(Monster().Languages)"></span><br/>
+            <strong>Source</strong>&nbsp;<a data-bind="attr: { href: Monster().CompendiumUrl }, text: Monster().SourceBook"></a><br/>
         </div>
     </body>
 </html>
+
+<script type="text/html" id="test">
+    <strong data-bind="visible: Monster().Immunities.length">Immune&nbsp;</strong><span data-bind="text: combineArray(Monster().Immunities) + ' '"></span>
+    <strong data-bind="visible: Monster().Resistances.length">Resist&nbsp;</strong>
+    <strong>Vulnerability&nbsp;</strong><br/>
+</script>
