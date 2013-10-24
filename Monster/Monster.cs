@@ -12,13 +12,9 @@ using ImportMonster = DnD4e.LibraryHelper.Import.Monster.Monster;
 namespace DnD4e.LibraryHelper.Monster {
     [JsonObject]
     public class Monster : Combatant {
-        //public ValueEnumCollection<AbilityScore, AbilityScoreNumber> AbilityScores { get; set; }
-
         //public ValueList<CalculatedNumber> AttackBonuses { get; set; }
 
         public string CompendiumUrl { get; set; }
-
-        //public ValueEnumCollection<Defense, SimpleAdjustableNumber> Defenses { get; set; }
 
         public string Description { get; set; }
 
@@ -40,15 +36,13 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public int Regeneration { get; set; }
 
-        //public List<Susceptibility> Resistances { get; set; }
+        public List<Susceptibility> Resistances { get; set; }
 
         public string Role { get; set; }
 
-        //public List<MonsterSavingThrow> SavingThrows { get; set; }
+        public int SavingThrows { get; set; }
 
         //public List<SenseReference> Senses { get; set; }
-
-        //public ValueEnumCollection<Skill, SkillNumber> Skills { get; set; }
 
         //public List<Speed> Speeds { get; set; }
 
@@ -60,7 +54,7 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public string Type { get; set; }
 
-        //public List<Susceptibility> Weaknesses { get; set; }
+        public List<Susceptibility> Weaknesses { get; set; }
 
         public Monster () {
             // TODO: construct all wrapped objects

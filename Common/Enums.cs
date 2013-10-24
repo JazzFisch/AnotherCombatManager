@@ -27,6 +27,7 @@ namespace DnD4e.LibraryHelper.Common {
         LawfulGood,
         Good,
         Neutral,
+        Unaligned,
         Evil,
         ChaoticEvil
     }

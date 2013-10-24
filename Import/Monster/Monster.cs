@@ -5,12 +5,13 @@ using System.Xml;
 using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.Import.Common;
+using ImportAbilityScoreNumber = DnD4e.LibraryHelper.Import.Common.AbilityScoreNumber;
 
 namespace DnD4e.LibraryHelper.Import.Monster {
     [XmlRoot]
     public class Monster : NamedValueElement {
         [XmlElement]
-        public ValueEnumCollection<AbilityScore, AbilityScoreNumber> AbilityScores { get; set; }
+        public ValueEnumCollection<AbilityScore, ImportAbilityScoreNumber> AbilityScores { get; set; }
 
         [XmlElement]
         public SimpleValue ActionPoints { get; set; }
@@ -123,7 +124,7 @@ namespace DnD4e.LibraryHelper.Import.Monster {
 
         public Monster () {
             // TODO: construct all wrapped objects
-            this.AbilityScores = new ValueEnumCollection<AbilityScore, AbilityScoreNumber>();
+            this.AbilityScores = new ValueEnumCollection<AbilityScore, ImportAbilityScoreNumber>();
             this.AttackBonuses = new ValueList<CalculatedNumber>();
             this.Defenses = new ValueEnumCollection<Defense, SimpleAdjustableNumber>();
             this.Skills = new ValueEnumCollection<Skill, SkillNumber>();
@@ -137,22 +138,6 @@ namespace DnD4e.LibraryHelper.Import.Monster {
 
         public override string ToString () {
             return this.Name;
-        }
-
-        public static bool TryDeserializeFromPath (string path, out Monster monster) {
-            using (var fs = new FileStream(path, FileMode.Open)) {
-                using (var xml = new XmlTextReader(fs)) {
-                    XmlSerializer serializer = new XmlSerializer(typeof(Monster));
-                    if (serializer.CanDeserialize(xml)) {
-                        monster = serializer.Deserialize(xml) as Monster;
-                        return true;
-                    }
-                    else {
-                        monster = null;
-                        return false;
-                    }
-                }
-            }
         }
     }
 }
