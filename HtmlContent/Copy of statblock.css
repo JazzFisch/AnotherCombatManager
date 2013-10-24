@@ -1,0 +1,780 @@
+﻿/*
+-----------------------------------------------------
+Wizards.com:  site.css
+Copyright (c) 2007 Wizards of the Coast
+http: //www.wizards.com/
+-----------------------------------------------------
+*/
+
+/*
+Reset based on Eric Meyer's updated version of the Yahoo! UI Group's reset.css
+http://meyerweb.com/eric/thoughts/2008/01/15/resetting-again/
+*/
+html, body, div, span, applet, object, iframe, 
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code, 
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var, 
+dl, dt, dd, ol, ul, li, 
+fieldset, form, label, legend {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+}
+body {
+	line-height: 1;
+}
+ol, ul { 
+	list-style: none; 
+}
+blockquote, q {
+	quotes: none;
+}
+:focus { 
+	outline: 0; 
+}
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* General Elements/Typography */
+/* ----------------------------------------------- */
+/*
+All font sizes, margins and padding are using em's to ensure vertical rhythm in the typography
+even if the font is resized by the user. See: http://24ways.org/2006/compose-to-a-vertical-rhythm
+
+font-size:	Font size you are trying to achieve / 12px
+margin:		18 / Font size you are trying to achieve
+padding:	If padding is added, the value must be subtracted from the margin
+border:		If a border is added, divide the value you are trying to achieve by the font-size
+			and remember to subtract the value from the padding (or the margin) in order to keep
+			the vertical rhythm.
+*/
+
+body {
+	font-size: 75%; /* Makes default size of text 12px on most older browsers */
+	line-height: 1.5em;
+}
+body, div, p, th, td, li, dd, input, select, textarea	{ /* Redundant selectors to help IE6 remember */
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000;
+}
+table, thead, tbody, tr, th, td { /* Redundant selectors to help IE6 remember */
+	font-size: 1em;
+}
+html>body { /* Makes default size of text 12px on Firefox, Safari, IE7, Opera, etc. */
+	font-size: 12px;
+}
+
+/* From here on out, 1em = 12px */
+
+a img { border-style: none; }
+
+a:link { color: blue; }
+a:visited { color: purple; }
+a:focus
+a:hover,
+a:active { color: blue; }
+
+p {
+	font-size: 1em;
+	margin: 0 0 1.5em 0;
+}
+p strong, p b { /* outside of paragraphs, strong can be used for emphasis not necessarily as bold text */
+	font-weight: bold;
+}
+p em, p i { /* outside of paragraphs, em can be used for emphasis not necessarily as italic text */
+	font-style: italic;
+}
+
+.left {
+	float: left;
+	margin: 0.5em 0.5em 0.5em 0;
+}
+.right {
+	float: right;
+	margin: 0.5em 0 0.5em 0.5em;
+}
+.clear { clear: both; }
+
+.hidden { position: absolute; left: -9999em; }
+
+span.super {
+	font-size: 0.917em;
+	vertical-align: super;
+}
+span.sub {
+	font-size: 0.917em;
+	vertical-align: sub;
+}
+
+/* Logo */
+/* ----------------------------------------------- */
+
+h1#WizardsLogo img {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	z-index: 3;
+}
+h1#WizardsLogo img a {
+	display: block;
+	width: 94px;
+	height: 60px;
+}
+
+/* Wrapper / Main Content */
+/* ----------------------------------------------- */
+
+#wrap { /* wraps around container (for applying a background style/color/image to centered content */
+	float: left;
+}
+
+#container { /* wraps around header, main content and footer */
+	position: relative; /* makes logo (and everything else) absolutely positioned relative to this wrapper */
+	margin: 0 auto;
+	width: 910px;
+}
+#MasterMainContent {
+	clear: both; /* clears the float from the main navigation */
+}
+#bannerGraphic img {
+	display: block; /* gets rid of 3px of white space under image */
+}
+
+/* Search Control */
+/* ----------------------------------------------- */
+
+.searchControl .textBox { width:150px; }
+.searchControl .emptyTextBox { width:150px; font-style:italic; }
+
+#detail {
+	background: #fff;
+	float: left;
+	padding: 15px;
+	width: 560px;
+    color: #000000;
+}
+#detail {
+    font-size: 8.75pt;
+}
+#detail p {
+	padding-left: 15px;
+	color: #000000;
+	font-size: 8.75pt;	
+}
+#detail table {
+	width: 100%;
+}
+#detail table td {
+	vertical-align: top;
+	padding: 0 10px 0;
+	background: #d6d6c2;
+	border-bottom: 1px solid #fff;
+}
+#detail p.flavor,
+#detail span.flavor,
+#detail ul.flavor {
+	display: block;
+	padding: 2px 15px;
+	margin: 0;
+	background: #d6d6c2;
+	font-size:8.75pt;
+}
+#detail p.powerstat {
+	padding: 0px 0px 0px 15px;
+	margin: 0;
+	background: #FFFFFF;
+	font-size:8.75pt;
+}
+#detail span.ritualstats {
+	float:right;
+	padding: 0 30px 0 0;
+}
+#detail p.flavorIndent {
+	display: block;
+	padding: 2px 15px 2px 30px;
+	margin: 0;
+	background: #d6d6c2;
+}
+#detail span.clearIndent {
+	display: block;
+	padding: 2px 15px 2px 30px;
+	margin: 0;
+	background: #FFFFFF;
+}
+#detail p.alt,
+#detail span.alt,
+#detail td.alt {
+	background: #c3c6ad;
+}
+#detail th {
+    background: #1d3d5e;
+    color: #fff;
+    text-align: left;
+    padding: 0 0 0 5px;
+}
+#detail i,
+#detail em {
+	font-style: italic;
+}
+#detail ul {
+    list-style: disc;
+    margin: 1em 0 1em 30px;
+}
+#detail table,
+#detail ul.flavor {
+	margin-bottom: 1em;
+}
+#detail ul li {
+    color: #3e141e;
+}
+#detail ul.flavor li {
+	list-style-image: url("http://www.wizards.com/dnd/images/symbol/x.gif");
+	margin-left: 15px;
+}
+#detail a {
+    color: #3e141e;
+}
+#detail blockquote
+{
+	padding: 0 0 0 22px;
+	background: #d6d6c2;
+}
+#detail span.block 
+{
+    display: block;
+	padding: 0 0 0 22px;
+	background: #d6d6c2;
+}
+#detail h1 {
+    font-size: 1.09em;
+    line-height: 2;
+    padding-left: 15px;
+    margin: 0;
+    color: #fff;
+    background: #000;
+}
+
+#detail h1.player {
+    background: #1d3d5e;
+    font-size: 1.35em;
+}
+#detail h1.dm {
+    background: #5c1f34;
+}
+#detail h1.trap {
+    background: #5c1f34;
+    height:38px;
+}
+#detail h1.atwillpower {
+    background: #619869;
+}
+#detail h1.encounterpower {
+    background: #961334;
+}
+#detail h1.dailypower {
+    background: #4d4d4f;
+}
+#detail span.milevel {
+    font-size:9pt;
+}
+#detail h1.poison {
+    background: #000000;
+}
+#detail h1.poison .level {
+    padding-right: 15px;
+	margin-top: 0;
+	text-align: right;
+	float: right;
+	position:relative;
+	top:-24px;    
+}
+#detail h1.utilitypower {
+    background: #1c3d5f;
+}
+#detail h1.familiar 
+{
+	background: #4e5c2e;
+}
+#detail h1 .level {
+    padding-right: 15px;
+	margin-top: 0;
+	text-align: right;
+	float: right;
+}
+#detail .rightalign {
+	text-align: right;
+}
+/* Traps */
+#detail h1.trap .level {
+	margin-top: 0;
+	text-align: right;
+	position:relative;
+	top:-60px;
+}
+#detail h1.trap .type,
+#detail h1.trap .xp {
+	display: block;
+	position: relative;
+	z-index: 99;
+	top: -0.75em;
+	height: 1em;
+	font-weight: normal;
+	font-size: 0.917em;
+}
+#detail .traplead {
+	display: block;
+	padding: 1px 15px;
+	margin: 0;
+	background: #ffffff;
+}
+#detail .trapblocktitle {
+	display: block;
+	padding: 1px 15px;
+	margin: 0;
+	background: #d6d6c2;
+	font-weight: bold;
+}
+#detail .trapblockbody {
+	display: block;
+	padding: 1px 15px 1px 30px;
+	margin: 0;
+	background: #ffffff;
+}
+
+/* Detail page related link section */
+/* -------------------------------------------- */
+
+#detail #RelatedArticles h5 {
+	width: 100px;
+	float: left;
+	padding-top: 10px;
+	padding-left: 20px;
+	color: #3e141e;
+	font-weight: bold;
+}
+#detail #RelatedArticles ul.RelatedArticles {
+	padding: 10px 0 0 0;
+	float: right;
+	width: 430px;
+	margin: 0;
+	list-style: none;
+}
+
+#detail .bodytable {
+	border: 0;
+	margin: 0;
+	width: 560px;
+	background: #D1D1BC;
+}
+#detail .bodytable td {
+	border-bottom: none;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+#detail h2 {
+    font-size: 1.25em;
+    padding-left: 15px;
+    margin: 0;
+    color: #fff;
+    background: #4e5c2e;
+    height:20px;
+    font-variant: small-caps;
+    padding-top: 5px;
+}
+
+/* Monster */
+#detail h1.monster {
+    background: #4e5c2e;
+    height:38px;
+}
+#detail h1.monster .level {
+	margin-top: 0;
+	text-align: right;
+	position:relative;
+	top:-60px;
+}
+#detail h1.monster .type,
+#detail h1.monster .xp {
+	display: block;
+	position: relative;
+	z-index: 99;
+	top: -0.75em;
+	height: 1em;
+	font-weight: normal;
+	font-size: 0.917em;
+}
+#detail h2.monster {
+    font-size: 9pt;
+    padding-left: 15px;
+    margin: 0;
+    color: #fff;
+    background: #4e5c2e;
+    height:20px;
+    font-variant: small-caps;
+    padding-top: 3px;
+}
+#detail h3.monster {
+	font-size: 8;
+	font-weight: bold;
+	color: #000000;
+	background: #c3c6ad;
+	padding: 0px 5px 0px 10px;
+	margin: 0;
+	display: block;
+}
+#detail p.monster {
+	display: block;
+	padding: 2px 15px;
+	margin: 0;
+	background: #CADBB7;
+	font-size:8.75pt;	
+	display: block;
+}
+#detail p.monstat {
+	background: #CADBB7;
+}
+
+/* Magic Items */
+#detail h1.magicitem {
+    background: #DA9722;
+    font-size:12pt;
+    font-weight:bold;
+	height: 17pt;
+	margin-top: 2;
+	line-height: 1.5em;
+}
+#detail h1.magicitem .milevel {
+    padding-right: 15px;
+	margin-top: 0px;
+	text-align: right;
+	float: right;
+	position:relative;
+}
+#detail h1.mihead {
+    background: #DA9722;
+    font-size:12pt;
+    font-weight:bold;
+	height: 17pt;
+	margin-top: 2;
+	line-height: 1.5em;
+}
+#detail h1.mihead .milevel {
+    padding-right: 15px;
+	margin-top: 0px;
+	text-align: right;
+	float: right;
+	position:relative;
+}
+#detail p.miflavor {
+	display: block;
+	padding: 2px 15px;
+	margin: 0;
+	background: #EFD09F;
+	font-size:8.75pt;
+	font-style: italic;
+	color: #000000;
+}
+#detail table.magicitem {
+    width: 560px;
+    margin-bottom: 0;
+}
+#detail table.magicitem td {
+    border: none;
+    font-size: 8.75pt;
+	background: #F8E9D5;
+}
+#detail td.mic1 {
+    padding-left: 20px;
+    padding-right: 0px;
+    width: 50px;
+}
+#detail td.mic2 {
+    width: 40px;
+    padding: 0px;
+}
+#detail td.mic3 {
+    width: 100px;
+    text-align:right;
+    padding: 0px;
+}
+#detail td.mic4 {
+    width: 100px;
+    padding: 0px;
+}
+#detail h2.magicitem {
+    background: #EFD09F;
+    color: #000000;
+    font-variant: normal;
+    font-size: 8.75pt;
+    line-height: 18px;
+    padding-top: 0px;
+    vertical-align: bottom;
+    height: 18px;
+}
+#detail h2.mihead {
+	display: block;
+    background: #EFD09F;
+    color: #000000;
+    font-variant: normal;
+    font-size: 8.75pt;
+    line-height: 18px;
+    padding-top: 0px;
+    vertical-align: bottom;
+    height: 18px;
+}
+#detail p.publishedIn {
+    font-size: 8pt;
+    margin-top: 10px;
+}
+#detail h2.artifactHeading1 {
+	font-size: 14pt;
+	padding-left: 5px;
+	padding-top: 5px;
+	margin: 0px;
+	background: #FFFFFF;
+	color: #254950;
+	font-variant: normal;
+}
+#detail h2.artifactHeading2 {
+	font-size: 14pt;
+	padding-left: 5px;
+	padding-top: 5px;
+	margin: 0px;
+	background: #FFFFFF;
+	color: #556C75;
+	font-variant: normal;
+}
+#detail h2.ah1 {
+	font-size: 14pt;
+	padding-left: 5px;
+	padding-top: 5px;
+	padding-bottom: 2px;
+	margin: 0px;
+	background: #FFFFFF;
+	color: #254950;
+	font-variant: normal;
+}
+#detail h2.ah2 {
+	font-size: 14pt;
+	padding-left: 5px;
+	padding-top: 5px;
+	padding-bottom: 2px;
+	margin: 0px;
+	background: #FFFFFF;
+	color: #556C75;
+	font-variant: normal;
+}
+#detail h2.ah3 {
+	font-size: 12pt;
+	padding-left: 5px;
+	padding-top: 5px;
+	margin: 0px;
+	background: #FFFFFF;
+	color: #556C75;
+	font-variant: normal;
+}
+#detail p.mistat {
+	padding: 0px 0px 0px 15px;
+	display: block;
+	margin: 0;
+	background: #F8E9D5;
+	font-size:8.75pt;
+	color: #000000;
+}
+#detail p.mistatAI {
+	padding: 0px 0px 0px 15px;
+	margin: 0;
+	background: #F8E9D5;
+	font-size:8.75pt;
+	color: #000000;
+	height: 36px;
+}
+#detail span.miright {
+	padding: 0px 5px 0px 0px;
+	margin-top: 0px;
+	text-align: right;
+	float: right;
+	position:relative;
+}
+#detail p.indent {
+	padding: 0px 0px 0px 30px;
+	text-indent: -15px;
+}
+#detail p.indent1 {
+	padding: 0px 0px 0px 45px;
+	text-indent: -15px;
+}
+#detail p.indent2 {
+	padding: 0px 0px 0px 60px;
+	text-indent: -15px;	
+}
+#detail p.mitext {
+	padding: 0px 0px 0px 5px;
+	margin: 0;
+	background: #FFFFFF;
+	font-size:8.75pt;
+	color: #000000;
+}
+#detail ul.mitext {
+	margin-bottom: 1em;
+	display: block;
+	padding: 2px 5px;
+	margin-top: 0;
+	margin-right: 0;
+	background: #FFFFFF;
+	font-size:8.75pt;
+	color: #000000;
+}
+#detail ul.mitext li {
+	list-style-image: url("http://www.wizards.com/dnd/images/symbol/x.gif");
+	color: #000000;
+}
+#detail ul.mistat {
+	margin-bottom: 0;
+	padding: 2px 5px 2px 30px;
+	margin: 0;
+	background: #F8E9D5;
+	font-size:8.75pt;
+	color: #000000;
+}
+#detail ul.mistat li {
+	list-style-image: url("http://www.wizards.com/dnd/images/symbol/x.gif");
+	color: #000000;
+}
+#detail h1.miset {
+    background: #22444B;
+    font-size:12pt;
+    font-weight:bold;
+	height: 17pt;
+	margin-top: 2;
+	line-height: 1.5em;
+}
+#detail h1.miset .milevel {
+    padding-right: 15px;
+	margin-top: 0px;
+	text-align: right;
+	float: right;
+	position:relative;
+}
+.ignore { }
+#detail th.miset {
+    background: #22444B;
+    color: #FFFFFF;
+    text-align: left;
+    padding: 0 0 0 5px;	
+}
+/*
+#detail h1.thHead {
+    background: #45133C;
+    font-size:12pt;
+    font-weight:bold;
+	height: 17pt;
+	margin-top: 2;
+	line-height: 1.5em;
+}
+#detail h1.thHead .thLevel {
+    padding-right: 15px;
+	margin-top: 0px;
+	text-align: right;
+	float: right;
+	position:relative;
+	top: -1.5em;
+}
+
+#detail p.thSubHead  {
+    background: #45133C;
+	color: white;
+	font-weight: normal;
+	font-size: 8.75pt;
+	line-height: 1.2em;
+}
+#detail p.thSubHead .thXP {
+    padding-right: 15px;
+	margin-top: 0px;
+	text-align: right;
+	float: right;
+	position:relative;
+	top: -1.2em;
+}
+*/
+#detail h1.thHead {
+    background: #45133C;
+    height:38px;
+}
+#detail h1.thHead .thLevel {
+	margin-top: 0;
+	text-align: right;
+	position:relative;
+	top:-60px;
+    padding-right: 15px;
+	float: right;
+}
+#detail h1.thHead .thSubHead,
+#detail h1.thHead .thXP {
+	display: block;
+	position: relative;
+	z-index: 99;
+	top: -0.75em;
+	height: 1em;
+	font-weight: normal;
+	font-size: 0.917em;
+}
+#detail h2.thHead {
+	display: block;
+    background: #65345D;
+    color: #FFFFFF;
+    font-variant: small-caps;
+    font-size: 8.75pt;
+    line-height: 18px;
+    padding-top: 0px;
+    vertical-align: bottom;
+    height: 18px;
+}
+#detail p.thBody {
+	padding: 0px 0px 0px 30px;
+	text-indent: -15px;
+	display: block;
+	margin: 0;
+	background: #E8F2D6;
+	font-size:8.75pt;
+	color: #000000;
+}
+#detail p.tbod {
+	padding: 0px 0px 0px 45px;
+	text-indent: -15px;
+	display: block;
+	margin: 0;
+	background: #E8F2D6;
+	font-size:8.75pt;
+	color: #000000;
+}
+#detail p.thStat {
+	padding: 0px 0px 0px 15px;
+	display: block;
+	margin: 0;
+	background: #E8F2D6;
+	font-size:8.75pt;
+	color: #000000;
+}
+#detail span.thInit {
+	background: #E8F2D6;
+	font-size:8.75pt;
+	color: #000000;
+	position: absolute;
+	left: 400px;
+	top: 53px;
+}
+#detail p.th2 {
+	padding: 0px 0px 0px 15px;
+	display: block;
+	margin: 0;
+	background: #CADBB7;
+	font-size:8.75pt;
+	color: #000000;
+}
