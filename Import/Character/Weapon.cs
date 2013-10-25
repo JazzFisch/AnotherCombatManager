@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Import.Common;
 
 namespace DnD4e.LibraryHelper.Import.Character {
-    internal class Weapon : NamedAttributeElement {
+    public class Weapon : NamedAttributeElement {
         [XmlElement("RulesElement")]
         public Rules Rules { get; set; }
 

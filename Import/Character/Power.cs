@@ -6,7 +6,7 @@ using DnD4e.LibraryHelper.Import.Common;
 using DnD4e.LibraryHelper.Import.ExtensionMethods;
 
 namespace DnD4e.LibraryHelper.Import.Character {
-    internal class Power : NamedAttributeElement {
+    public class Power : NamedAttributeElement {
         [XmlElement("specific")]
         public Specifics Specifics { get; set; }
 

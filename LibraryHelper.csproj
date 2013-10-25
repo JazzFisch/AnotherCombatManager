@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Character\Character.cs" />
     <Compile Include="Common\Combatant.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\Power.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Import\Common\ValueEnumCollection.cs" />
     <Compile Include="Import\Common\ValueList.cs" />
     <Compile Include="Import\ExtensionMethods\AttackType.cs" />
+    <Compile Include="Import\ExtensionMethods\Character.cs" />
     <Compile Include="Import\ExtensionMethods\Enums.cs" />
     <Compile Include="Import\ExtensionMethods\Monster.cs" />
     <Compile Include="Import\ExtensionMethods\MonsterPower.cs" />

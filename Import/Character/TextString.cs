@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Import.Common;
 
 namespace DnD4e.LibraryHelper.Import.Character {
-    internal class TextString : NamedAttributeElement {
+    public class TextString : NamedAttributeElement {
         [XmlText]
         public string Value { get; set; }
 

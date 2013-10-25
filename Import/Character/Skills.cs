@@ -2,7 +2,7 @@
 using DnD4e.LibraryHelper.Common;
 
 namespace DnD4e.LibraryHelper.Import.Character {
-    internal class Skills {
+    public class Skills {
         private Stats stats;
 
         public Skills (Stats stats) {

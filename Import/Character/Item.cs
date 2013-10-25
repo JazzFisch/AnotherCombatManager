@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 
 namespace DnD4e.LibraryHelper.Import.Character {
-    internal class Item {
+    public class Item {
         [XmlElement("RulesElement")]
         public Rules Rules { get; set; }
 

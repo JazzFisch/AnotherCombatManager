@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace DnD4e.LibraryHelper.Import.Character {
     [XmlRoot("D20Character")]
-    internal class Character {
+    public class Character {
         // private so we can track when the serialize changes it
         private Sheet sheet;
 

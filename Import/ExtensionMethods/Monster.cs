@@ -39,7 +39,7 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 Skills = import.Skills.ToDictionary(),
                 Size = import.Size.Name,
                 SourceBook = import.SourceBook.Name,
-                Tactics = import.Tactics,
+                //Tactics = import.Tactics,
                 Type = import.Type.Name,
                 Weaknesses = import.Weaknesses.Select(w => new DnD4e.LibraryHelper.Monster.Susceptibility() { 
                     Name = w.Name, Details = w.Details, Value = w.Amount != null ? w.Amount.Value : 0}

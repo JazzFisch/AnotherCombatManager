@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace DnD4e.LibraryHelper.Import.Character {
-    internal class Sheet {
+    public class Sheet {
         [XmlElement]
         public Details Details { get; set; }
 

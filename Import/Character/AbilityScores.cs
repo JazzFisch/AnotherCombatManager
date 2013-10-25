@@ -3,7 +3,7 @@ using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.Import.Common;
 
 namespace DnD4e.LibraryHelper.Import.Character {
-    internal class AbilityScores {
+    public class AbilityScores {
         private Stats stats;
 
         public AbilityScores (Stats stats) {

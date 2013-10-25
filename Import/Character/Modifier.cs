@@ -3,7 +3,7 @@ using System.Text;
 using System.Xml.Serialization;
 
 namespace DnD4e.LibraryHelper.Import.Character {
-    internal class Modifier {
+    public class Modifier {
         [XmlAttribute("abilmod")]
         public bool AbilityModifier { get; set; }
 

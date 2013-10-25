@@ -2,7 +2,7 @@
 using DnD4e.LibraryHelper.Import.Common;
 
 namespace DnD4e.LibraryHelper.Import.Character {
-    internal class Details : NamedAttributeElement {
+    public class Details : NamedAttributeElement {
         [XmlElement]
         public int Level { get; set; }
 

@@ -36,17 +36,17 @@ namespace DnD4e.LibraryHelper.Common {
         public string Size { get; set; }
 
         public virtual string ToJson () {
-            return JsonConvert.SerializeObject(
-                this,
 #if DEBUG
-                Formatting.Indented,
+            Formatting formatting = Formatting.Indented;
 #else
-                Formatting.None,
+            Formatting formatting = Formatting.None;
 #endif
-                new JsonSerializerSettings() {
-                    Converters = new List<JsonConverter>() { new StringEnumConverter() }
-                }
-            );
+            var settings = new JsonSerializerSettings() {
+                Converters = new List<JsonConverter>() { new StringEnumConverter() }
+            };
+
+            string json = JsonConvert.SerializeObject(this, formatting, settings);
+            return json;
         }
 
         public override string ToString () {
