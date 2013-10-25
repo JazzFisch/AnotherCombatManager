@@ -4,12 +4,14 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using DnD4e.CombatManager.Test.ExtensionMethods;
+using DnD4e.LibraryHelper.Character;
 using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.Monster;
 
@@ -33,7 +35,7 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private void toolStripStatListLoadCBButton_Click (object sender, EventArgs e) {
-
+            this.AddFilesToStatsList<Monster>("Character Files|*.dnd4e");
         }
 
         private void toolStripStatListDeleteButton_Click (object sender, EventArgs e) {
@@ -87,7 +89,7 @@ namespace DnD4e.CombatManager.Test {
                 this.combatantToView = combatant;
                 if (this.combatantType != CombatantType.Monster) {
                     this.combatantType = CombatantType.Monster;
-                    this.statDetailsWebBrowser.DocumentText = Properties.Resources.statblockMonster_html;
+                    this.statDetailsWebBrowser.DocumentText = Properties.Resources.monsterStatblock_html;
                     this.statDetailsWebBrowser.DocumentCompleted += this.statDetailsWebBrowser_DocumentCompleted;
                 }
                 else {
@@ -108,13 +110,13 @@ namespace DnD4e.CombatManager.Test {
 
             // load our javascript in
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.modernizr_2_6_2_js);
-            //this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.json2_js);
-            //this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.jquery_1_10_2_js);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_2_2_1_debug_js);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_mapping_latest_debug_js);
             
             // TODO: flip based upon type of combatant being viewed
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.statblockMonster_js);
+            // ordering of the following is IMPORTANT
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.bindingHandlers_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.monsterStatblock_js);
 
             this.RenderCombatantDetails(this.combatantToView);
         }
@@ -137,18 +139,29 @@ namespace DnD4e.CombatManager.Test {
             }
 
             foreach (var filename in dialog.FileNames) {
-                // TODO: come up with better generic loading algorithm
                 Monster monster;
+                Character character;
+                Combatant combatant = null;
                 if (Monster.TryCreateFromFile(filename, out monster)) {
-                    if (this.combatants.ContainsKey(monster.Handle)) {
-                        var old = this.statsListBox.Items
-                                                   .OfType<Monster>()
-                                                   .Where(m => m.Handle == monster.Handle);
-                        this.statsListBox.Items.Remove(old.Single());
-                    }
-                    this.combatants[monster.Handle] = monster;
-                    this.statsListBox.Items.Add(monster);
+                    combatant = monster;
                 }
+                else if (Character.TryCreateFromFile(filename, out character)) {
+                    combatant = character;
+                }
+                else {
+                    var msg = String.Format("Unable to import \"{0}\"", Path.GetFileName(filename));
+                    MessageBox.Show(msg, "Import warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    continue;
+                }
+
+                if (this.combatants.ContainsKey(combatant.Handle)) {
+                    var old = this.statsListBox.Items
+                                                .OfType<Combatant>()
+                                                .Where(m => m.Handle == monster.Handle);
+                    this.statsListBox.Items.Remove(old.Single());
+                }
+                this.combatants[combatant.Handle] = combatant;
+                this.statsListBox.Items.Add(combatant);
             }
         }
 

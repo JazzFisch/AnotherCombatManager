@@ -4,28 +4,32 @@
     <title data-bind="text: Monster().Name"></title>
     <meta name="description" content="D&amp;D 4E Stat Block display" />
     <meta name="author" content="Jason Fischer" />
-    <script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js'></script>
+    <!--<script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js'></script>
     <script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-debug.js'></script>
-    <script type='text/javascript' src='statblockMonster.js'></script>
+    <script type='text/javascript' src='bindingHandlers.js'></script>
+    <script type='text/javascript' src='monsterStatblock.js'></script>-->
 </head>
 <body>
     <div id="detail">
         <h1 class="monster" data-bind="text: Monster().Name"></h1>
         <span class="type" data-bind="text: TraitsString()"></span>
         <span class="level" data-bind="text: LevelString()"></span>
-        <span class="xp" data-bind="text: 'XP ' + addCommas(Monster().Experience)"></span>
+        <span class="xp" data-bind="commaNum: Monster().Experience, prefix: 'XP '"></span>
         <table class="bodytable">
             <tr>
-                <td><b>HP</b><span data-bind="text: ' ' + addCommas(Monster().HitPoints) + '; '"></span><b>Bloodied</b><span data-bind="text: ' ' + addCommas(Bloodied())"></span></td>
-                <td class="rightalign"><b>Initiative</b><span data-bind="text: ' ' + addSign(Monster().Initiative)"></span></td>
+                <td><b>HP</b><span data-bind="commaNum: Monster().HitPoints, postfix: '; '"></span><b>Bloodied</b><span data-bind="commaNum: Bloodied(), prefix: ' '"></span></td>
+                <td class="rightalign"><b>Initiative</b><span data-bind="commaNum: Monster().Initiative, prefix: ' ', signed: true"></span></td>
             </tr>
             <tr>
                 <td>
-                    <b>AC</b> 30, <b>Fortitude</b> 29, <b>Reflex</b> 30, <b>Will</b> 30
-                    </td>
+                    <b>AC</b><span data-bind="text: ' '+ Monster().Defenses.AC + ', '"></span>
+                    <b>Fortitude</b><span data-bind="text: ' '+ Monster().Defenses.Fortitude + ', '"></span>
+                    <b>Reflex</b><span data-bind="text: ' '+ Monster().Defenses.Reflex + ', '"></span>
+                    <b>Will</b><span data-bind="text: ' '+ Monster().Defenses.Will"></span>
+                </td>
                 <td class="rightalign">
                     <b>Perception</b>+17
-                    </td>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -35,14 +39,14 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <b data-bind="visible: Monster().Immunities.length">Immune</b><span data-bind="text: ' ' + combineArray(Monster().Immunities) + ' '"></span>
-                    <b data-bind="visible: Monster().Resistances.length">Resist</b><span data-bind="template: { name: 'susceptibility', foreach: Monster().Resistances }"></span>
-                    <b data-bind="visible: Monster().Weaknesses.length">Vulnerability </b><span data-bind="template: { name: 'susceptibility', foreach: Monster().Weaknesses }"></span>
+                    <b data-bind="visible: Monster().Immunities.length">Immune</b>&nbsp;<span data-bind="stringArray: Monster().Immunities, prefix: ' '"></span>
+                    <span data-bind="template: { name: 'susceptibilities', data: { Name: 'Resist', Susceptibilities: Monster().Resistances } }"></span>
+                    <span data-bind="template: { name: 'susceptibilities', data: { Name: 'Vulnerability', Susceptibilities: Monster().Weaknesses } }"></span>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <b>Saving Throws</b><span data-bind="text: ' ' + addSign(Monster().SavingThrows) + '; '"></span>
+                    <b>Saving Throws</b><span data-bind="commaNum: Monster().SavingThrows, prefix: ' ', postfix: '; ', signed: true"></span>
                     <b>Action Points</b><span data-bind="text: ' ' + Monster().ActionPoints"></span>
                 </td>
             </tr>
@@ -52,7 +56,7 @@
             <b>All-Around Vision</b>
             <b></b>
         </p>
-        <p class="flavorIndent">Enemies can’t gain combat advantage by flanking the ghost beholder.</p>
+        <p class="flavorIndent">Enemies can't gain combat advantage by flanking the ghost beholder.</p>
         <h2>Standard Actions</h2>
         <p class="flavor alt">
             <img src="http://www.wizards.com/dnd/images/symbol/S2.gif" />
@@ -136,7 +140,7 @@
            
         </p>
         <p class="flavorIndent">
-            <i>Hit:</i> The beholder slides the target 5 squares, and the target gains vulnerable 5 necrotic and vulnerable 5 psychic until the start of the beholder’s next turn.
+            <i>Hit:</i> The beholder slides the target 5 squares, and the target gains vulnerable 5 necrotic and vulnerable 5 psychic until the start of the beholderâ€™s next turn.
            
         </p>
         <h2>Triggered Actions</h2>
@@ -151,50 +155,45 @@
            
         </p>
         <p class="flavorIndent">
-            <i>Effect (Free Action):</i> The beholder uses eye ray against the triggering enemy. Determine which ray it uses by rolling a d4, rerolling the die on a result of 4.
-           
+            <i>Effect (Free Action):</i> The beholder uses eye ray against the triggering enemy. Determine which ray it uses by rolling a d4, rerolling the die on a result of 4.           
         </p>
-        <!--<p class="flavor alt">
-            <b>Str</b> 12 (+10)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Dex</b> 25 (+16)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Wis</b> 16 (+12)<br />
-            <b>Con</b> 19 (+13)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Int</b> 22 (+15)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Cha</b> 25 (+16)
-           
-        </p>-->
-		<table>
+		<table class="flavor alt">
 			<tr>
-				<td class="indmed"> <!-- TODO: use custom bindings http://knockoutjs.com/documentation/custom-bindings.html -->
-					<b>Str</b><span data-bind="text: ' ' + AbilityScore('Strength')"></span>
+				<td class="indmed">
+					<b>Str</b><span data-bind="abilityScore: Monster().AbilityScores.Strength"></span>
 				</td>
 				<td class="indmed">
-					<b>Dex</b><span data-bind="text: ' ' + AbilityScore('Dexterity')"></span>
+					<b>Dex</b><span data-bind="abilityScore: Monster().AbilityScores.Dexterity"></span>
 				</td>
 				<td class="indmed">
-					<b>Wis</b><span data-bind="text: ' ' + AbilityScore('Wisdom')"></span>
+					<b>Wis</b><span data-bind="abilityScore: Monster().AbilityScores.Wisdom"></span>
 				</td>
 			</tr>
 			<tr>
 				<td class="indmed">
-					<b>Con</b><span data-bind="text: ' ' + AbilityScore('Constitution')"></span>
+					<b>Con</b><span data-bind="abilityScore: Monster().AbilityScores.Constitution"></span>
 				</td>
 				<td class="indmed">
-					<b>Int</b><span data-bind="text: ' ' + AbilityScore('Intelligence')"></span>
+					<b>Int</b><span data-bind="abilityScore: Monster().AbilityScores.Intelligence"></span>
 				</td>
 				<td class="indmed">
-					<b>Cha</b><span data-bind="text: ' ' + AbilityScore('Charisma')"></span>
+					<b>Cha</b><span data-bind="abilityScore: Monster().AbilityScores.Charisma"></span>
 				</td>
 			</tr>
 		</table>
         <p class="flavor">
-            <b>Alignment</b><span data-bind="text: ' ' + Monster().Alignment"></span>
-			<b>Languages</b><span data-bind="text: ' ' + combineArray(Monster().Languages, '-')"></span><br/>
+            <b>Alignment</b>&nbsp;<span data-bind="text: Monster().Alignment"></span>
+			<b>Languages</b>&nbsp;<span data-bind="stringArray: Monster().Languages, fallback: '-'"></span><br/>
             <b>Source</b>&nbsp;<a data-bind="attr: { href: Monster().CompendiumUrl }, text: Monster().SourceBook"></a><br/>               
         </p>
     </div>
-<script type="text/html" id="susceptibility">
-    <b data-bind="text: Value"></b>
-    <!-- ko if: ($index && Value) -->;&nbsp;<!-- /ko -->
-    <!-- ko if: Value --><span data-bind="text: ' ' + Value"></span><!-- /ko -->
-    <!-- ko if: Name --><span data-bind="text: ' ' + Name"></span><!-- /ko -->
-    <!-- ko if: Details --><span data-bind="text: ' ' + Details"></span><!-- /ko -->    
+<script type="text/html" id="susceptibilities">
+    <!-- ko if: Susceptibilities && Susceptibilities.length --><b data-bind="text: Name"></b><!-- /ko -->
+    <!-- ko foreach: Susceptibilities -->
+        <!-- ko if: $data.Value --><span data-bind="text: ' ' + $data.Value"></span><!-- /ko -->
+        <!-- ko if: $data.Name --><span data-bind="text: ' ' + $data.Name"></span><!-- /ko -->
+        <!-- ko if: $data.Details --><span data-bind="text: ' ' + $data.Details"></span><!-- /ko -->
+    <!-- /ko -->
 </script>
 </body>
 </html>

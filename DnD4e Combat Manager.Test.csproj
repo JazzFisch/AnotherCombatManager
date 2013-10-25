@@ -86,17 +86,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="HtmlContent\Copy of statblockMonster.html" />
+    <Content Include="HtmlContent\bindingHandlers.js" />
+    <Content Include="HtmlContent\Copy of statblockMonster.html">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="HtmlContent\Copy of statblock.css" />
-    <Content Include="HtmlContent\jquery-1.10.2.js" />
-    <Content Include="HtmlContent\json2.js" />
     <Content Include="HtmlContent\knockout-2.2.1.debug.js" />
     <Content Include="HtmlContent\knockout.mapping-latest.debug.js" />
     <Content Include="HtmlContent\modernizr-2.6.2.js" />
+    <Content Include="HtmlContent\monsterStatblock.html" />
+    <Content Include="HtmlContent\monsterStatblock.js" />
     <Content Include="HtmlContent\normalize.css" />
     <Content Include="HtmlContent\statblock.css" />
-    <Content Include="HtmlContent\statblockMonster.html" />
-    <Content Include="HtmlContent\statblockMonster.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

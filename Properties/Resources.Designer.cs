@@ -61,59 +61,23 @@ namespace DnD4e.CombatManager.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /*!
-        /// * jQuery JavaScript Library v1.10.2
-        /// * http://jquery.com/
-        /// *
-        /// * Includes Sizzle.js
-        /// * http://sizzlejs.com/
-        /// *
-        /// * Copyright 2005, 2013 jQuery Foundation, Inc. and other contributors
-        /// * Released under the MIT license
-        /// * http://jquery.org/license
-        /// *
-        /// * Date: 2013-07-03T13:48Z
-        /// */
-        ///(function( window, undefined ) {
+        ///   Looks up a localized string similar to ko.bindingHandlers.abilityScore = {
+        ///    update: function (element, valueAccessor) {
+        ///        var value = valueAccessor(),
+        ///            bonus = Math.floor(value / 2) - 5,
+        ///            sign = bonus &gt; 0 ? &apos;+&apos; : &apos;&apos;,
+        ///            text = value + &apos; (&apos; + sign + bonus + &apos;)&apos;;
+        ///        ko.bindingHandlers.text.update(element, function() { return text; })
+        ///    }
+        ///};
         ///
-        ///// Can&apos;t do this because several apps including ASP.NET trace
-        ///// the stack via arguments.caller.callee and Firefox dies if
-        ///// you try to trace through &quot;use strict&quot; call chains. (#13335)
-        ///// Suppor [rest of string was truncated]&quot;;.
+        ///ko.bindingHandlers.stringArray = {
+        ///    update: function (element, valueAccessor, allBindingsAccessor) {
+        ///        var list = ko.utils.unwrapObservable(v [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string jquery_1_10_2_js {
+        internal static string bindingHandlers_js {
             get {
-                return ResourceManager.GetString("jquery_1_10_2_js", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /*
-        ///    json2.js
-        ///    2013-05-26
-        ///
-        ///    Public Domain.
-        ///
-        ///    NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
-        ///
-        ///    See http://www.JSON.org/js.html
-        ///
-        ///
-        ///    This code should be minified before deployment.
-        ///    See http://javascript.crockford.com/jsmin.html
-        ///
-        ///    USE YOUR OWN COPY. IT IS EXTREMELY UNWISE TO LOAD CODE FROM SERVERS YOU DO
-        ///    NOT CONTROL.
-        ///
-        ///
-        ///    This file creates a global JSON object containing two methods: stringify
-        ///    and parse.
-        ///
-        ///        JSON.stringify(value, replacer, space [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string json2_js {
-            get {
-                return ResourceManager.GetString("json2_js", resourceCulture);
+                return ResourceManager.GetString("bindingHandlers_js", resourceCulture);
             }
         }
         
@@ -179,6 +143,32 @@ namespace DnD4e.CombatManager.Test.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;title data-bind=&quot;text: Monster().Name&quot;&gt;&lt;/title&gt;
+        ///    &lt;meta name=&quot;description&quot; content=&quot;D&amp;amp;D 4E Stat Block display&quot; /&gt;
+        ///    &lt;meta name=&quot;author&quot; content=&quot;Jason Fischer&quot; /&gt;
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js&apos;&gt;&lt;/script&gt;
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;http://cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-debug.js&apos;&gt;&lt;/script&gt;
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;bindingHandlers.js&apos;&gt;&lt;/s [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string monsterStatblock_html {
+            get {
+                return ResourceManager.GetString("monsterStatblock_html", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to var debugJson = &apos;{&quot;CompendiumUrl&quot;:&quot;http://www.wizards.com/dndinsider/compendium/monster.aspx?id=4578&quot;,&quot;Description&quot;:&quot;&quot;,&quot;GroupRole&quot;:&quot;Standard&quot;,&quot;IsLeader&quot;:false,&quot;Keywords&quot;:[],&quot;Immunities&quot;:[],&quot;Origin&quot;:&quot;Immortal&quot;,&quot;Phasing&quot;:false,&quot;Regeneration&quot;:0,&quot;Resistances&quot;:[],&quot;Role&quot;:&quot;Soldier&quot;,&quot;SavingThrows&quot;:0,&quot;SourceBook&quot;:&quot;Plane Above&quot;,&quot;SourceBooks&quot;:null,&quot;Tactics&quot;:null,&quot;Type&quot;:&quot;Humanoid&quot;,&quot;Weaknesses&quot;:[{&quot;Name&quot;:&quot;Acid&quot;,&quot;Details&quot;:&quot;or fire (if the battlesworn war troll defender takes acid or fire damage&quot;,&quot;Value&quot;:0},{&quot;Name&quot;:&quot;its&quot;,&quot; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string monsterStatblock_js {
+            get {
+                return ResourceManager.GetString("monsterStatblock_js", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /*! normalize.css v2.1.2 | MIT License | git.io/normalize */
         ///
         ////* ==========================================================================
@@ -230,35 +220,6 @@ namespace DnD4e.CombatManager.Test.Properties {
         internal static string statblock_css {
             get {
                 return ResourceManager.GetString("statblock_css", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///&lt;html lang=&quot;en&quot;&gt;
-        ///    &lt;head&gt;
-        ///        &lt;title&gt;CombatManager&lt;/title&gt;
-        ///        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
-        ///        &lt;meta name=&quot;description&quot; content=&quot;D&amp;amp;D 4E Stat Block display&quot; /&gt;
-        ///        &lt;meta name=&quot;author&quot; content=&quot;Jason Fischer&quot; /&gt;
-        ///    &lt;/head&gt;
-        ///    &lt;body&gt;
-        ///        &lt;div class=&quot;ggdark&quot;&gt;
-        ///            &lt;div class=&quot;mbheadleft&quot;&gt;&lt;span data-bind=&quot;text: Name()&quot;&gt;Ghost Beholder&lt;/span&gt;&lt;/div&gt;
-        ///            &lt;div class=&quot;mbheadright&quot;&gt;&lt;span data-bind=&quot;text: L [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string statblockMonster_html {
-            get {
-                return ResourceManager.GetString("statblockMonster_html", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to //var text = &apos;{&quot;Type&quot;:&quot;Monster&quot;,&quot;Monster&quot;:{&quot;AbilityScores&quot;:{&quot;Strength&quot;:12,&quot;Constitution&quot;:19,&quot;Dexterity&quot;:25,&quot;Intelligence&quot;:22,&quot;Wisdom&quot;:16,&quot;Charisma&quot;:25},&quot;ActionPoints&quot;:1,&quot;Alignment&quot;:&quot;Evil&quot;,&quot;CompendiumUrl&quot;:&quot;http://www.wizards.com/dndinsider/compendium/monster.aspx?id=4808&quot;,&quot;Defenses&quot;:{&quot;AC&quot;:30,&quot;Fortitude&quot;:29,&quot;Reflex&quot;:30,&quot;Will&quot;:30},&quot;Description&quot;:&quot;Death need not be an end to avarice and ambition. As living creatures, beholders must eventually fall from the air to rot on the hated earth. Yet some have the willpow [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string statblockMonster_js {
-            get {
-                return ResourceManager.GetString("statblockMonster_js", resourceCulture);
             }
         }
     }
