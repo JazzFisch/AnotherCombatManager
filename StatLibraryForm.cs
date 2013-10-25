@@ -104,12 +104,12 @@ namespace DnD4e.CombatManager.Test {
 
             // load our css in
             this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.normalize_css);
-            this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.statblock_css);
+            //this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.statblock_css);
 
             // load our javascript in
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.modernizr_2_6_2_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.json2_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.jquery_1_10_2_js);
+            //this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.json2_js);
+            //this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.jquery_1_10_2_js);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_2_2_1_debug_js);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_mapping_latest_debug_js);
             

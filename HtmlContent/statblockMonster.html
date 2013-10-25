@@ -1,161 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title data-bind="text: Monster().Name"></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="D&amp;D 4E Stat Block display" />
-        <meta name="author" content="Jason Fischer" />
-    </head>
-    <body>
-        <div class="ggdark">
-            <div class="mbheadleft">
-                <span data-bind="text: Monster().Name"></span>
-            </div>
-            <div class="mbheadright">
-                <span data-bind="text: LevelString()"></span>
-            </div>
-        </div>
-        <div class="ggdark">
-            <div class="mbsubleft"><span data-bind="text: TraitsString()"></span></div>
-            <div class="mbsubright">XP&nbsp;<span data-bind="text: addCommas(Monster().Experience)"></span></div>
-        </div>
-        <table>
+<html>
+<head>
+    <title data-bind="text: Monster().Name"></title>
+    <meta name="description" content="D&amp;D 4E Stat Block display" />
+    <meta name="author" content="Jason Fischer" />
+    <script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js'></script>
+    <script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-debug.js'></script>
+    <script type='text/javascript' src='statblockMonster.js'></script>
+</head>
+<body>
+    <div id="detail">
+        <h1 class="monster" data-bind="text: Monster().Name"></h1>
+        <span class="type" data-bind="text: TraitsString()"></span>
+        <span class="level" data-bind="text: LevelString()"></span>
+        <span class="xp" data-bind="text: 'XP ' + addCommas(Monster().Experience)"></span>
+        <table class="bodytable">
             <tr>
-                <td class="indlt">
-                    <strong>HP&nbsp;</strong><span data-bind="text: addCommas(Monster().HitPoints)"></span>;&nbsp;<strong>Bloodied</strong>&nbsp;<span data-bind="text: addCommas(Bloodied())"></span><br/>
-                    <strong>AC&nbsp;</strong>30, <strong>Fortitude</strong> 29, <strong>Reflex</strong> 30, <strong>Will</strong> 30<br/>
-                    <strong>Speed</strong> 0, Fly 6 (hover)<br/>
-
-                    <strong>Saving Throws</strong><span data-bind="text: Monster().SavingThrows"></span>;&nbsp;<strong>Action Points</strong>&nbsp;<span data-bind="text: Monster().ActionPoints"></span>
+                <td><b>HP</b><span data-bind="text: ' ' + addCommas(Monster().HitPoints) + '; '"></span><b>Bloodied</b><span data-bind="text: ' ' + addCommas(Bloodied())"></span></td>
+                <td class="rightalign"><b>Initiative</b><span data-bind="text: ' ' + addSign(Monster().Initiative)"></span></td>
+            </tr>
+            <tr>
+                <td>
+                    <b>AC</b> 30, <b>Fortitude</b> 29, <b>Reflex</b> 30, <b>Will</b> 30
+                    </td>
+                <td class="rightalign">
+                    <b>Perception</b>+17
+                    </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Speed</b> 0, fly 6 (hover); phasing
+                    </td>
+                <td class="rightalign">Darkvision</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <b data-bind="visible: Monster().Immunities.length">Immune</b><span data-bind="text: ' ' + combineArray(Monster().Immunities) + ' '"></span>
+                    <b data-bind="visible: Monster().Resistances.length">Resist</b><span data-bind="template: { name: 'susceptibility', foreach: Monster().Resistances }"></span>
+                    <b data-bind="visible: Monster().Weaknesses.length">Vulnerability </b><span data-bind="template: { name: 'susceptibility', foreach: Monster().Weaknesses }"></span>
                 </td>
-                <td class="indlt" align="right">
-                    <strong>Initiative</strong>&nbsp;<span data-bind="text: addSign(Monster().Initiative)"></span><br/>
-                    <strong>Perception</strong>&nbsp;+17<br/>
-                    <strong>Insight </strong> 0<br/>Darkvision
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <b>Saving Throws</b><span data-bind="text: ' ' + addSign(Monster().SavingThrows) + '; '"></span>
+                    <b>Action Points</b><span data-bind="text: ' ' + Monster().ActionPoints"></span>
                 </td>
             </tr>
         </table>
-        <div class="ggtype">
-            <div class="mbsubleft">
-                <strong>Traits</strong>
-            </div>
-        </div>
-        <div class="ggmed">
-            <strong>All-Around Vision</strong>
-        </div>
-        <div class="gglt">
-            <div class="ggindent">Enemies can't gain combat advantage by flanking the ghost beholder.</div>
-        </div>
-
-        <div class="ggtype">
-            <div class="mbsubleft">
-                <strong>Standard Actions</strong>
-            </div>
-        </div>
-        <div class="ggmed">
-            <font face="4etools symbols">m</font>
-            <strong>Bite</strong>
-            <strong>&bull; At-Will</strong>
-        </div>
-        <div class="gglt">
-            <div class="ggindent">
-                Attack: Melee 1 (one creature); +21 vs. Reflex<br/>
-                Hit: 3d8 + 13 necrotic damage.<br/>
-            </div>
-        </div>
-
-        <div class="ggmed">
-            <font face="4etools symbols">R</font>
-            <strong>Eye Ray</strong>
-            <strong>&bull; At-Will</strong>
-        </div>
-        <div class="gglt">
-            <div class="ggindent">
-                Effect: The beholder uses one of the following eye rays without provoking an opportunity attack.<br/>
-                Attack: Ranged 10 (one creature); +21 vs. Fortitude<br/>
-                Hit: 4d8 + 8 cold and necrotic damage, and the target is slowed (save ends).<br/>
-                First Failed Saving Throw:  The target is immobilized instead of slowed (save ends).<br/>
-                Attack: Ranged 10 (one creature); +21 vs. Will<br/>
-                Hit: Ongoing 15 psychic damage (save ends).<br/>
-                First Failed Saving Throw:  In addition to the ongoing damage, the target is dazed (save ends both).<br/>
-                Second Failed Saving Throw:  The target is dominated instead of dazed and continues to take the ongoing damage (save ends both). The beholder is removed from play until the effect ends. When the effect ends, the beholder reappears in an unoccupied space within 10 squares of the target. The beholder can end the effect as a free action.<br/>
-                Attack: Ranged 10 (one creature); +21 vs. Will<br/>
-                Hit: 1d8 + 9 psychic damage, and the target makes a melee basic attack against itself as a free action. If the target is not wielding a melee weapon, it drops a held item and draws a melee weapon as a free action and then makes the attack.<br/>
-            </div>
-        </div>
-
-        <div class="ggtype">
-            <div class="mbsubleft">
-                <strong>Minor Actions</strong>
-            </div>
-        </div>
-        <div class="ggmed">
-            <font face="4etools symbols">r</font> <strong>Central Eye</strong> (Fear) <strong>&bull; At-Will</strong> 1/round
-        </div>
-        <div class="gglt">
-            <div class="ggindent">
-                Attack: Ranged 10 (one creature); +21 vs. Will<br/>
-                Hit: The beholder slides the target 5 squares, and the target gains vulnerable 5 necrotic and vulnerable 5 psychic until the start of the beholder's next turn.<br/>
-            </div>
-        </div>
-
-        <div class="ggtype">
-            <div class="mbsubleft">
-                <strong>Triggered Actions</strong>
-            </div>
-        </div>
-        <div class="ggmed">
-            <font face="4etools symbols">R</font>
-            <strong>Eyes of the Beholder</strong>
-            <strong>&bull; At-Will</strong>
-        </div>
-        <div class="gglt">
-            <div class="ggindent">
-                Trigger: An enemy starts its turn within 5 squares of the beholder.<br/>
-                Effect (Free Action): The beholder uses eye ray against the triggering enemy. Determine which ray it uses by rolling a d4, rerolling the die on a result of 4.<br/>
-            </div>
-        </div>
-
-        <div class="ggmed">
-            <table>
-                <tr>
-                    <td colspan="3" class="indmed">
-                        <strong>Skills</strong> Perception +17
-                    </td>
-                </tr>
-                <tr>
-                    <td class="indmed">
-                        <strong>Str</strong>&nbsp;<span data-bind="text: AbilityScore('Strength')"></span>
-                    </td>
-                    <td class="indmed">
-                        <strong>Dex</strong>&nbsp;<span data-bind="text: AbilityScore('Dexterity')"></span>
-                    </td>
-                    <td class="indmed">
-                        <strong>Wis</strong>&nbsp;<span data-bind="text: AbilityScore('Wisdom')"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="indmed">
-                        <strong>Con</strong>&nbsp;<span data-bind="text: AbilityScore('Constitution')"></span>
-                    </td>
-                    <td class="indmed">
-                        <strong>Int</strong>&nbsp;<span data-bind="text: AbilityScore('Intelligence')"></span>
-                    </td>
-                    <td class="indmed">
-                        <strong>Cha</strong>&nbsp;<span data-bind="text: AbilityScore('Charisma')"></span>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="gglt">
-            <strong>Alignment</strong>&nbsp;<span data-bind="text: Monster().Alignment"></span>&nbsp;<strong>Languages</strong>&nbsp;<span data-bind="text: combineArray(Monster().Languages)"></span><br/>
-            <strong>Source</strong>&nbsp;<a data-bind="attr: { href: Monster().CompendiumUrl }, text: Monster().SourceBook"></a><br/>
-        </div>
-    </body>
+        <h2>Traits</h2>
+        <p class="flavor alt">
+            <b>All-Around Vision</b>
+            <b></b>
+        </p>
+        <p class="flavorIndent">Enemies can’t gain combat advantage by flanking the ghost beholder.</p>
+        <h2>Standard Actions</h2>
+        <p class="flavor alt">
+            <img src="http://www.wizards.com/dnd/images/symbol/S2.gif" />
+            <b>Bite</b>
+            <img src="http://www.wizards.com/dnd/images/symbol/x.gif" />
+            <b>At-Will</b>
+        </p>
+        <p class="flavorIndent">
+            <i>Attack:</i> Melee 1 (one creature); +21 vs. Reflex
+           
+        </p>
+        <p class="flavorIndent">
+            <i>Hit:</i> 3d8 + 13 necrotic damage.
+           
+        </p>
+        <p class="flavor alt">
+            <img src="http://www.wizards.com/dnd/images/symbol/Z3a.gif" />
+            <b>Eye Ray</b>
+            <img src="http://www.wizards.com/dnd/images/symbol/x.gif" />
+            <b>At-Will</b>
+        </p>
+        <p class="flavorIndent">
+            <i>Effect:</i> The beholder uses one of the following eye rays without provoking an opportunity attack.
+           
+        </p>
+        <p class="flavorIndent">
+            <b>1. Chill of the Grave</b> (cold, necrotic) <b></b>
+        </p>
+        <p class="flavorIndent">
+            <i>Attack:</i>  Ranged 10 (one creature); +21 vs. Fortitude
+           
+        </p>
+        <p class="flavorIndent">
+            <i>Hit:</i> 4d8 + 8 cold and necrotic damage, and the target is slowed (save ends).
+           
+        </p>
+        <p class="flavorIndent">
+            &nbsp;&nbsp;&nbsp;&nbsp;<i>First Failed Saving Throw:</i> The target is immobilized instead of slowed (save ends).
+           
+        </p>
+        <p class="flavorIndent">
+            <b>2. Ghostly Possession</b> (psychic) <b></b>
+        </p>
+        <p class="flavorIndent">
+            <i>Attack:</i>  Ranged 10 (one creature); +21 vs. Will
+           
+        </p>
+        <p class="flavorIndent">
+            <i>Hit:</i> Ongoing 15 psychic damage (save ends).
+           
+        </p>
+        <p class="flavorIndent">
+            &nbsp;&nbsp;&nbsp;&nbsp;<i>First Failed Saving Throw:</i> In addition to the ongoing damage, the target is dazed (save ends both).
+           
+        </p>
+        <p class="flavorIndent">
+            &nbsp;&nbsp;&nbsp;&nbsp;<i>Second Failed Saving Throw:</i> The target is dominated instead of dazed and continues to take the ongoing damage (save ends both). The beholder is removed from play until the effect ends. When the effect ends, the beholder reappears in an unoccupied space within 10 squares of the target. The beholder can end the effect as a free action.
+           
+        </p>
+        <p class="flavorIndent">
+            <b>3. Killing Thought</b> (psychic) <b></b>
+        </p>
+        <p class="flavorIndent">
+            <i>Attack:</i>  Ranged 10 (one creature); +21 vs. Will
+           
+        </p>
+        <p class="flavorIndent">
+            <i>Hit:</i> 1d8 + 9 psychic damage, and the target makes a melee basic attack against itself as a free action. If the target is not wielding a melee weapon, it drops a held item and draws a melee weapon as a free action and then makes the attack.
+           
+        </p>
+        <h2>Minor Actions</h2>
+        <p class="flavor alt">
+            <img src="http://www.wizards.com/dnd/images/symbol/S3.gif" />
+            <b>Central Eye</b> (fear)
+            <img src="http://www.wizards.com/dnd/images/symbol/x.gif" />
+            <b>At-Will</b> 1/round
+           
+        </p>
+        <p class="flavorIndent">
+            <i>Attack:</i> Ranged 10 (one creature); +21 vs. Will
+           
+        </p>
+        <p class="flavorIndent">
+            <i>Hit:</i> The beholder slides the target 5 squares, and the target gains vulnerable 5 necrotic and vulnerable 5 psychic until the start of the beholder’s next turn.
+           
+        </p>
+        <h2>Triggered Actions</h2>
+        <p class="flavor alt">
+            <img src="http://www.wizards.com/dnd/images/symbol/Z3a.gif" />
+            <b>Eyes of the Beholder</b>
+            <img src="http://www.wizards.com/dnd/images/symbol/x.gif" />
+            <b>At-Will</b>
+        </p>
+        <p class="flavorIndent">
+            <i>Trigger:</i> An enemy starts its turn within 5 squares of the beholder.
+           
+        </p>
+        <p class="flavorIndent">
+            <i>Effect (Free Action):</i> The beholder uses eye ray against the triggering enemy. Determine which ray it uses by rolling a d4, rerolling the die on a result of 4.
+           
+        </p>
+        <p class="flavor alt">
+            <b>Str</b> 12 (+10)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Dex</b> 25 (+16)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Wis</b> 16 (+12)<br />
+            <b>Con</b> 19 (+13)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Int</b> 22 (+15)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Cha</b> 25 (+16)
+           
+        </p>
+        <p class="flavor">
+            <b>Alignment</b> Evil&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b> Languages</b>
+        Deep Speech<p class="publishedIn">
+            Published in <a href="http://www.wizards.com/dnd/Product.aspx?x=dnd/products/dndacc/253840000" target="_new">Monster Manual 3</a>, page(s) 23.
+               
+        </p>
+    </div>
+</body>
 </html>
 
-<script type="text/html" id="test">
-    <strong data-bind="visible: Monster().Immunities.length">Immune&nbsp;</strong><span data-bind="text: combineArray(Monster().Immunities) + ' '"></span>
-    <strong data-bind="visible: Monster().Resistances.length">Resist&nbsp;</strong>
-    <strong>Vulnerability&nbsp;</strong><br/>
+<script type="text/html" id="susceptibility">
+    <!-- ko if: Value --><span data-bind="text: ' ' + Value"></span><!-- /ko -->
+    <!-- ko if: Name --><span data-bind="text: ' ' + Name"></span><!-- /ko -->
+    <!-- ko if: Details --><span data-bind="text: ' ' + Details"></span><!-- /ko -->    
 </script>
