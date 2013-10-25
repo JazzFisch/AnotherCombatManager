@@ -6,8 +6,9 @@ var debugJson = '{"CompendiumUrl":"http://www.wizards.com/dndinsider/compendium/
 function ViewModel() {
     var self = this;
 
-    this.combineArray = function (list) {
-        return list && list.join(', ') || '';
+    this.combineArray = function (list, emptyVal) {
+		var emptyVal = emptyVal || ''
+        return list && list.join(', ') || emptyVal;
     };
 
     this.addCommas = function (num) {
@@ -52,6 +53,9 @@ function ViewModel() {
         return prefix + keywords;
     };
 }
+
+
+
 
 // transform the ViewModel so that we can map our data to
 // it each time renderStatBlock is called

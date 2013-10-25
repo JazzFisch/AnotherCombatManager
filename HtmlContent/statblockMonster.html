@@ -154,23 +154,48 @@
             <i>Effect (Free Action):</i> The beholder uses eye ray against the triggering enemy. Determine which ray it uses by rolling a d4, rerolling the die on a result of 4.
            
         </p>
-        <p class="flavor alt">
+        <!--<p class="flavor alt">
             <b>Str</b> 12 (+10)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Dex</b> 25 (+16)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Wis</b> 16 (+12)<br />
             <b>Con</b> 19 (+13)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Int</b> 22 (+15)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Cha</b> 25 (+16)
            
-        </p>
+        </p>-->
+		<table>
+			<tr>
+				<td class="indmed"> <!-- TODO: use custom bindings http://knockoutjs.com/documentation/custom-bindings.html -->
+					<b>Str</b><span data-bind="text: ' ' + AbilityScore('Strength')"></span>
+				</td>
+				<td class="indmed">
+					<b>Dex</b><span data-bind="text: ' ' + AbilityScore('Dexterity')"></span>
+				</td>
+				<td class="indmed">
+					<b>Wis</b><span data-bind="text: ' ' + AbilityScore('Wisdom')"></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="indmed">
+					<b>Con</b><span data-bind="text: ' ' + AbilityScore('Constitution')"></span>
+				</td>
+				<td class="indmed">
+					<b>Int</b><span data-bind="text: ' ' + AbilityScore('Intelligence')"></span>
+				</td>
+				<td class="indmed">
+					<b>Cha</b><span data-bind="text: ' ' + AbilityScore('Charisma')"></span>
+				</td>
+			</tr>
+		</table>
         <p class="flavor">
-            <b>Alignment</b> Evil&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b> Languages</b>
-        Deep Speech<p class="publishedIn">
-            Published in <a href="http://www.wizards.com/dnd/Product.aspx?x=dnd/products/dndacc/253840000" target="_new">Monster Manual 3</a>, page(s) 23.
-               
+            <b>Alignment</b><span data-bind="text: ' ' + Monster().Alignment"></span>
+			<b>Languages</b><span data-bind="text: ' ' + combineArray(Monster().Languages, '-')"></span><br/>
+            <b>Source</b>&nbsp;<a data-bind="attr: { href: Monster().CompendiumUrl }, text: Monster().SourceBook"></a><br/>               
         </p>
     </div>
-</body>
-</html>
-
 <script type="text/html" id="susceptibility">
+    <b data-bind="text: Value"></b>
+    <!-- ko if: ($index && Value) -->;&nbsp;<!-- /ko -->
     <!-- ko if: Value --><span data-bind="text: ' ' + Value"></span><!-- /ko -->
     <!-- ko if: Name --><span data-bind="text: ' ' + Name"></span><!-- /ko -->
     <!-- ko if: Details --><span data-bind="text: ' ' + Details"></span><!-- /ko -->    
 </script>
+</body>
+</html>
+
