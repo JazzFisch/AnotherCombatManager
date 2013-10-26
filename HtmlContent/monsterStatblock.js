@@ -37,5 +37,5 @@ function renderStatBlock(json) {
 }
 
 //$(document).ready(function () {
-//    renderStatBlock(debugJson);
+//   renderStatBlock(debugJson);
 //});

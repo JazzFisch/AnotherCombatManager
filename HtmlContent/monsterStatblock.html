@@ -4,8 +4,9 @@
     <title data-bind="text: Monster().Name"></title>
     <meta name="description" content="D&amp;D 4E Stat Block display" />
     <meta name="author" content="Jason Fischer" />
-    <!--<script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js'></script>
-    <script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-debug.js'></script>
+    <!--<script type='text/javascript' src='underscore.js'></script>
+    <script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js'></script>
+    <script type='text/javascript' src='knockout-2.2.1.debug.js'></script>
     <script type='text/javascript' src='bindingHandlers.js'></script>
     <script type='text/javascript' src='monsterStatblock.js'></script>-->
 </head>
@@ -28,7 +29,7 @@
                     <b>Will</b><span data-bind="text: ' '+ Monster().Defenses.Will"></span>
                 </td>
                 <td class="rightalign">
-                    <b>Perception</b>+17
+                    <span data-bind="template: { name: 'skills', data: { name: '', skills: _.pick(Monster().Skills, 'Perception', 'Insight'), boldSkill: true } }"></span>
                 </td>
             </tr>
             <tr>
@@ -40,8 +41,8 @@
             <tr>
                 <td colspan="2">
                     <b data-bind="visible: Monster().Immunities.length">Immune</b>&nbsp;<span data-bind="stringArray: Monster().Immunities, prefix: ' '"></span>
-                    <span data-bind="template: { name: 'susceptibilities', data: { Name: 'Resist', Susceptibilities: Monster().Resistances } }"></span>
-                    <span data-bind="template: { name: 'susceptibilities', data: { Name: 'Vulnerability', Susceptibilities: Monster().Weaknesses } }"></span>
+                    <span data-bind="template: { name: 'susceptibilities', data: { Name: 'Resist', Items: Monster().Resistances } }"></span>
+                    <span data-bind="template: { name: 'susceptibilities', data: { Name: 'Vulnerability', Items: Monster().Weaknesses } }"></span>
                 </td>
             </tr>
             <tr>
@@ -184,16 +185,27 @@
         <p class="flavor">
             <b>Alignment</b>&nbsp;<span data-bind="text: Monster().Alignment"></span>
 			<b>Languages</b>&nbsp;<span data-bind="stringArray: Monster().Languages, fallback: '-'"></span><br/>
+            <span data-bind="template: { name: 'skills', data: { name: 'Skills', skills: _.omit(Monster().Skills, 'Perception', 'Insight') } }"></span><br/>
+            <span data-bind="template: { name: 'items', data: Monster().Items }"></span>
             <b>Source</b>&nbsp;<a data-bind="attr: { href: Monster().CompendiumUrl }, text: Monster().SourceBook"></a><br/>               
         </p>
     </div>
 <script type="text/html" id="susceptibilities">
-    <!-- ko if: Susceptibilities && Susceptibilities.length --><b data-bind="text: Name"></b><!-- /ko -->
-    <!-- ko foreach: Susceptibilities -->
+    <!-- ko if: Items && Items.length --><b data-bind="text: Name"></b><!-- /ko -->
+    <!-- ko foreach: Items -->
         <!-- ko if: $data.Value --><span data-bind="text: ' ' + $data.Value"></span><!-- /ko -->
         <!-- ko if: $data.Name --><span data-bind="text: ' ' + $data.Name"></span><!-- /ko -->
         <!-- ko if: $data.Details --><span data-bind="text: ' ' + $data.Details"></span><!-- /ko -->
     <!-- /ko -->
+</script>
+<script type="text/html" id="skills">
+    <!-- ko if: !_.isEmpty(skills) && name --><b data-bind="text: name"></b><!-- /ko -->
+    <!-- ko foreach: _.pairs(skills) -->
+        <!-- ko if: $parent.boldSkill --><b data-bind="text: $data[0]"></b><!-- /ko -->
+        <!-- ko if: !$parent.boldSkill --><span data-bind="text: $data[0]"></span><!-- /ko -->
+        <span data-bind="commaNum: $data[1], signed: true"></span><!-- ko if: $index()+1 < _.keys($parent.skills).length -->, <!-- /ko -->
+    <!-- /ko -->
+</script><script type="text/html" id="items">
 </script>
 </body>
 </html>
