@@ -67,13 +67,13 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///            bonus = Math.floor(value / 2) - 5,
         ///            sign = bonus &gt; 0 ? &apos;+&apos; : &apos;&apos;,
         ///            text = value + &apos; (&apos; + sign + bonus + &apos;)&apos;;
-        ///        ko.bindingHandlers.text.update(element, function() { return text; })
+        ///        ko.bindingHandlers.text.update(element, function() { return text; });
         ///    }
         ///};
         ///
         ///ko.bindingHandlers.stringArray = {
         ///    update: function (element, valueAccessor, allBindingsAccessor) {
-        ///        var list = ko.utils.unwrapObservable(v [rest of string was truncated]&quot;;.
+        ///        var list = ko.utils.unwrapObservable( [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string bindingHandlers_js {
             get {
@@ -82,41 +82,43 @@ namespace DnD4e.CombatManager.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to // Knockout JavaScript library v2.2.1
+        ///   Looks up a localized string similar to // Knockout JavaScript library v3.0.0
         ///// (c) Steven Sanderson - http://knockoutjs.com/
         ///// License: MIT (http://www.opensource.org/licenses/mit-license.php)
         ///
         ///(function(){
         ///var DEBUG=true;
-        ///(function(window,document,navigator,jQuery,undefined){
-        ///!function(factory) {
-        ///    // Support three module loading scenarios
-        ///    if (typeof require === &apos;function&apos; &amp;&amp; typeof exports === &apos;object&apos; &amp;&amp; typeof module === &apos;object&apos;) {
-        ///        // [1] CommonJS/Node.js
-        ///        var target = module[&apos;exports&apos;] || exports; // module.exports i [rest of string was truncated]&quot;;.
+        ///(function(undefined){
+        ///    // (0, eval)(&apos;this&apos;) is a robust way of getting a reference to the global object
+        ///    // For details, see http://stackoverflow.com/questions/14119988/return-this-0-evalthis/14120023#14120023
+        ///    var window = this || (0, eval)(&apos;this&apos;),
+        ///        document = window[&apos;document&apos;],
+        ///        navigator = window[ [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string knockout_2_2_1_debug_js {
+        internal static string knockout_3_0_0_debug_js {
             get {
-                return ResourceManager.GetString("knockout_2_2_1_debug_js", resourceCulture);
+                return ResourceManager.GetString("knockout_3_0_0_debug_js", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /// Knockout Mapping plugin v2.4.0
-        ////// (c) 2013 Steven Sanderson, Roy Jacobs - http://knockoutjs.com/
-        ////// License: MIT (http://www.opensource.org/licenses/mit-license.php)
-        ///(function (factory) {
-        ///	// Module systems magic dance.
+        ///   Looks up a localized string similar to /* --- String interpolating binding provider ---
+        ///   Allows {{ expr }} syntax in DOM. Could be an official KO plugin
+        ///   loaded from a separate file. Note that preprocessNode is a fairly
+        ///   low-level API that developers are not often expected to use directly.
+        ///*/
         ///
-        ///	if (typeof require === &quot;function&quot; &amp;&amp; typeof exports === &quot;object&quot; &amp;&amp; typeof module === &quot;object&quot;) {
-        ///		// CommonJS or Node: hard-coded dependency on &quot;knockout&quot;
-        ///		factory(require(&quot;knockout&quot;), exports);
-        ///	} else if (typeof define === &quot;function&quot; &amp;&amp; define[&quot;amd&quot;]) {
-        ///		// AMD anonymous [rest of string was truncated]&quot;;.
+        ///var StringInterpolatingBindingProvider = function() {
+        ///    this.constructor = StringInterpolatingBindingProvider;
+        ///
+        ///    var expressionRegex = /{{([\s\S]+?)}}/g;
+        ///
+        ///    this.preprocessNode = function(node) {
+        ///        if (node.nodeType === 3 &amp;&amp; node.nodeVal [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string knockout_mapping_latest_debug_js {
+        internal static string knockout_StringInterpolatingBindingProvider_js {
             get {
-                return ResourceManager.GetString("knockout_mapping_latest_debug_js", resourceCulture);
+                return ResourceManager.GetString("knockout_StringInterpolatingBindingProvider_js", resourceCulture);
             }
         }
         
@@ -149,9 +151,10 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///    &lt;title data-bind=&quot;text: Monster().Name&quot;&gt;&lt;/title&gt;
         ///    &lt;meta name=&quot;description&quot; content=&quot;D&amp;amp;D 4E Stat Block display&quot; /&gt;
         ///    &lt;meta name=&quot;author&quot; content=&quot;Jason Fischer&quot; /&gt;
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;underscore.js&apos;&gt;&lt;/script&gt;
         ///    &lt;script type=&apos;text/javascript&apos; src=&apos;http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js&apos;&gt;&lt;/script&gt;
-        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;http://cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-debug.js&apos;&gt;&lt;/script&gt;
-        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;bindingHandlers.js&apos;&gt;&lt;/s [rest of string was truncated]&quot;;.
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;knockout-2.2.1.debug.js&apos;&gt;&lt;/script&gt;
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;bind [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string monsterStatblock_html {
             get {
@@ -160,7 +163,7 @@ namespace DnD4e.CombatManager.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to var debugJson = &apos;{&quot;CompendiumUrl&quot;:&quot;http://www.wizards.com/dndinsider/compendium/monster.aspx?id=4578&quot;,&quot;Description&quot;:&quot;&quot;,&quot;GroupRole&quot;:&quot;Standard&quot;,&quot;IsLeader&quot;:false,&quot;Keywords&quot;:[],&quot;Immunities&quot;:[],&quot;Origin&quot;:&quot;Immortal&quot;,&quot;Phasing&quot;:false,&quot;Regeneration&quot;:0,&quot;Resistances&quot;:[],&quot;Role&quot;:&quot;Soldier&quot;,&quot;SavingThrows&quot;:0,&quot;SourceBook&quot;:&quot;Plane Above&quot;,&quot;SourceBooks&quot;:null,&quot;Tactics&quot;:null,&quot;Type&quot;:&quot;Humanoid&quot;,&quot;Weaknesses&quot;:[{&quot;Name&quot;:&quot;Acid&quot;,&quot;Details&quot;:&quot;or fire (if the battlesworn war troll defender takes acid or fire damage&quot;,&quot;Value&quot;:0},{&quot;Name&quot;:&quot;its&quot;,&quot; [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to //var debugJson = &apos;{&quot;CompendiumUrl&quot;:&quot;http://www.wizards.com/dndinsider/compendium/monster.aspx?id=4578&quot;,&quot;Description&quot;:&quot;&quot;,&quot;GroupRole&quot;:&quot;Standard&quot;,&quot;IsLeader&quot;:false,&quot;Keywords&quot;:[],&quot;Immunities&quot;:[],&quot;Origin&quot;:&quot;Immortal&quot;,&quot;Phasing&quot;:false,&quot;Regeneration&quot;:0,&quot;Resistances&quot;:[],&quot;Role&quot;:&quot;Soldier&quot;,&quot;SavingThrows&quot;:0,&quot;SourceBook&quot;:&quot;Plane Above&quot;,&quot;SourceBooks&quot;:null,&quot;Tactics&quot;:null,&quot;Type&quot;:&quot;Humanoid&quot;,&quot;Weaknesses&quot;:[{&quot;Name&quot;:&quot;Acid&quot;,&quot;Details&quot;:&quot;or fire (if the battlesworn war troll defender takes acid or fire damage&quot;,&quot;Value&quot;:0},{&quot;Name&quot;:&quot;its&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string monsterStatblock_js {
             get {
@@ -220,6 +223,31 @@ namespace DnD4e.CombatManager.Test.Properties {
         internal static string statblock_css {
             get {
                 return ResourceManager.GetString("statblock_css", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to //     Underscore.js 1.5.2
+        /////     http://underscorejs.org
+        /////     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters &amp; Editors
+        /////     Underscore may be freely distributed under the MIT license.
+        ///
+        ///(function() {
+        ///
+        ///  // Baseline setup
+        ///  // --------------
+        ///
+        ///  // Establish the root object, `window` in the browser, or `exports` on the server.
+        ///  var root = this;
+        ///
+        ///  // Save the previous value of the `_` variable.
+        ///  var previousUnderscore = root._;
+        ///
+        ///  // Establish the object that ge [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string underscore_js {
+            get {
+                return ResourceManager.GetString("underscore_js", resourceCulture);
             }
         }
     }

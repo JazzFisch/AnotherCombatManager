@@ -110,8 +110,9 @@ namespace DnD4e.CombatManager.Test {
 
             // load our javascript in
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.modernizr_2_6_2_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_2_2_1_debug_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_mapping_latest_debug_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.underscore_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_3_0_0_debug_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_StringInterpolatingBindingProvider_js);
             
             // TODO: flip based upon type of combatant being viewed
             // ordering of the following is IMPORTANT
