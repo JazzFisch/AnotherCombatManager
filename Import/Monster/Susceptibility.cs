@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
+using DnD4e.LibraryHelper.ExtensionMethods;
 using DnD4e.LibraryHelper.Import.Common;
 
 namespace DnD4e.LibraryHelper.Import.Monster {
@@ -12,18 +14,17 @@ namespace DnD4e.LibraryHelper.Import.Monster {
         public string Details { get; set; }
 
         public override string ToString () {
-            var sb = new StringBuilder();
+            List<string> strings = new List<string>();
             if (this.Amount.Value > 0) {
-                sb.AppendFormat("{0} ", this.Amount.Value);
+                strings.Add(this.Amount.Value.ToString());
             }
-
-            if (String.IsNullOrWhiteSpace(this.Details)) {
-                sb.Append(this.Name);
+            if (!String.IsNullOrWhiteSpace(this.Name)) {
+                strings.Add(this.Name);
             }
-            else {
-                sb.AppendFormat("{0} {1}", this.Name, this.Details);
+            if (!String.IsNullOrWhiteSpace(this.Details)) {
+                strings.Add(this.Details);
             }
-            return sb.ToString();
+            return String.Join(" ", strings);
         }
     }
 }

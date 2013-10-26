@@ -22,7 +22,7 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public bool IsLeader { get; set; }
 
-        //public List<ItemAndQuantity> Items { get; set; }
+        public List<KeyValuePair<string, int>> Items { get; set; }
 
         public List<string> Keywords { get; set; }
 
@@ -30,19 +30,21 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public string Origin { get; set; }
 
+        public List<string> OtherSpeeds { get; set; }
+
         public bool Phasing { get; set; }
 
         //public Powers PowerReferences { get; set; }
 
         public int Regeneration { get; set; }
 
-        public List<Susceptibility> Resistances { get; set; }
+        public List<string> Resistances { get; set; }
 
         public string Role { get; set; }
 
         public int SavingThrows { get; set; }
 
-        //public List<SenseReference> Senses { get; set; }
+        public List<KeyValuePair<string, int>> Senses { get; set; }
 
         //public List<Speed> Speeds { get; set; }
 
@@ -54,10 +56,17 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public string Type { get; set; }
 
-        public List<Susceptibility> Weaknesses { get; set; }
+        public List<string> Weaknesses { get; set; }
 
         public Monster () {
-            // TODO: construct all wrapped objects
+            // TODO: construct all collections
+            this.Items = new List<KeyValuePair<string, int>>();
+            this.Keywords = new List<string>();
+            this.Immunities = new List<string>();
+            this.OtherSpeeds = new List<string>();
+            this.Resistances = new List<string>();
+            this.Senses = new List<KeyValuePair<string, int>>();
+            this.Weaknesses = new List<string>();
         }
 
         public static bool TryCreateFromFile (string filename, out Monster monster) {

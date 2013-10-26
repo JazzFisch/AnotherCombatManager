@@ -21,7 +21,7 @@ namespace DnD4e.LibraryHelper.Common {
 
         public int Initiative { get; set; }
 
-        public int LandSpeed { get; set; }
+        public int Speed { get; set; }
 
         public List<string> Languages { get; set; }
 
@@ -35,8 +35,15 @@ namespace DnD4e.LibraryHelper.Common {
 
         public string Size { get; set; }
 
+        public Combatant () {
+            // TODO: construct all collections
+            this.AbilityScores = new Dictionary<AbilityScore, int>();
+            this.Defenses = new Dictionary<Defense, int>();
+            this.Skills = new Dictionary<Skill, int>();
+        }
+
         public virtual string ToJson () {
-#if DEBUG
+#if !DEBUG
             Formatting formatting = Formatting.Indented;
 #else
             Formatting formatting = Formatting.None;
