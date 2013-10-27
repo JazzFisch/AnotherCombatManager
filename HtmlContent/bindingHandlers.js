@@ -8,6 +8,61 @@
     }
 };
 
+ko.bindingHandlers.powerFont = {
+    update: function (element, valueAccessor) {
+        var value = valueAccessor(),
+            power = _.isObject(value) && value || _.isString(value) && { Type: value, IsBasic: false } || {},
+            text;
+
+        if (!_.size(power)) {
+            return;
+        }
+
+        switch (power.Type.toLowerCase()) {
+            case 'melee':
+                text = power.IsBasic ? 'm' : 'M';
+                break;
+
+            case 'ranged':
+                text = power.IsBasic ? 'r' : 'R';
+                break;
+
+            case 'close burst':
+            case 'close blast':
+                text = power.IsBasic ? 'c' : 'C';
+                break;
+
+            case 'area':
+                text = power.IsBasic ? 'a' : 'A';
+                break;
+
+            default:
+                return;
+        }
+
+        ko.bindingHandlers.text.update(element, function() { return text; });
+    }
+};
+
+ko.bindingHandlers.rechargeFont = {
+    update: function (element, valueAccessor) {
+        var value = valueAccessor(),
+            power = _.isObject(value) && value || _.isString(value) && { Usage: 'Recharge', UsageDetails: value } || {},
+            recharge = power.Usage.toLowerCase() === 'recharge' && parseInt(power.UsageDetails, 10),
+            text = '', i;
+
+        if (!_.size(power) || !recharge || !(recharge >= 2 && recharge <= 6)) {
+            return;
+        }
+
+        for (i = recharge; i <= 6; ++i) {
+            text += i + ' ';
+        }
+
+        ko.bindingHandlers.text.update(element, function() { return text; });
+    }
+};
+
 ko.bindingHandlers.stringArray = {
     update: function (element, valueAccessor, allBindingsAccessor) {
         var list = ko.utils.unwrapObservable(valueAccessor()),

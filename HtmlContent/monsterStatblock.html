@@ -2,7 +2,7 @@
 <html>
 <head>
     <title data-bind="text: Monster().Name"></title>
-    <meta name="description" content="D&amp;D 4E Stat Block display" />
+    <meta name="description" content="D&amp;D 4E Monster StatBlock display" />
     <meta name="author" content="Jason Fischer" />
     <!--<script type='text/javascript' src='underscore.js'></script>
     <script type='text/javascript' src='jquery-1.10.2.js'></script>
@@ -51,12 +51,64 @@
                 </td>
             </tr>
         </table>
-        <!--<h2>Traits</h2>
-        <p class="flavor alt">
-            <b>All-Around Vision</b>
-            <b></b>
-        </p>
-        <p class="flavorIndent">Enemies can't gain combat advantage by flanking the ghost beholder.</p>
+        <!-- ko if: _.size(Monster().Traits) -->
+            <h2>Traits</h2>
+            <!-- ko foreach: Monster().Traits -->
+                <p class="flavor alt">
+                    <!-- TODO: go about finding an aura icon / font -->
+                    <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)">&nbsp;({{ Keywords.join(', ') }})&nbsp;</span>
+                    <!-- ko if: Range --><b>&bull; Aura</b>&nbsp;<span data-bind="text: Range"></span><!-- /ko -->
+                </p>
+                <p class="flavorIndent" data-bind="text: Details"></p>
+            <!-- /ko -->
+        <!-- /ko -->
+        
+        <!-- ko if: _.findWhere(Monster().Powers, { Action: 'Standard' }) -->
+            <h2>Standard Actions</h2>
+            <!-- ko foreach: _.where(Monster().Powers, { Action: 'Standard' }) -->
+                <p class="flavor alt">
+                    <font face="4etools symbols" data-bind="powerFont: $data"></font>
+                    <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)">&nbsp;({{ Keywords.join(', ') }})&nbsp;</span>
+                    <b data-bind="text: '&bull; ' + Usage"></b>&nbsp;<font face="4etools symbols" data-bind="rechargeFont: $data"></font>
+                </p>
+            <!-- /ko -->
+        <!-- /ko -->
+
+        <!-- ko if: _.findWhere(Monster().Powers, { Action: 'Move' }) -->
+            <h2>Move Actions</h2>
+            <!-- ko foreach: _.where(Monster().Powers, { Action: 'Move' }) -->
+                <p class="flavor alt">
+                    <font face="4etools symbols" data-bind="powerFont: $data"></font>
+                    <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)">&nbsp;({{ Keywords.join(', ') }})&nbsp;</span>
+                    <b data-bind="text: '&bull; ' + Usage"></b>&nbsp;<font face="4etools symbols" data-bind="rechargeFont: $data"></font>
+                </p>
+            <!-- /ko -->
+        <!-- /ko -->
+
+        <!-- ko if: _.findWhere(Monster().Powers, { Action: 'Minor' }) -->
+            <h2>Minor Actions</h2>
+            <!-- ko foreach: _.where(Monster().Powers, { Action: 'Minor' }) -->
+                <p class="flavor alt">
+                    <font face="4etools symbols" data-bind="powerFont: $data"></font>
+                    <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)">&nbsp;({{ Keywords.join(', ') }})&nbsp;</span>
+                    <b data-bind="text: '&bull; ' + Usage"></b>&nbsp;<font face="4etools symbols" data-bind="rechargeFont: $data"></font>
+                </p>
+            <!-- /ko -->
+        <!-- /ko -->
+
+        <!-- ko if: _.find(Monster().Powers, function(power) { return !_.isEmpty(power.Trigger) }) -->
+            <h2>Triggered Actions</h2>
+            <!-- ko foreach: _.filter(Monster().Powers, function(power) { return !_.isEmpty(power.Trigger) }) -->
+                <p class="flavor alt">
+                    <font face="4etools symbols" data-bind="powerFont: $data"></font>
+                    <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)">&nbsp;({{ Keywords.join(', ') }})&nbsp;</span>
+                    <b data-bind="text: '&bull; ' + Usage"></b>&nbsp;<font face="4etools symbols" data-bind="rechargeFont: $data"></font>
+                </p>
+                <p class="flavorIndent"><i>Trigger:</i>&nbsp;<span data-bind="text: Trigger"></span></p>
+            <!-- /ko -->
+        <!-- /ko -->
+        
+        <!--
         <h2>Standard Actions</h2>
         <p class="flavor alt">
             <img src="http://www.wizards.com/dnd/images/symbol/S2.gif" />
@@ -156,7 +208,11 @@
         </p>
         <p class="flavorIndent">
             <i>Effect (Free Action):</i> The beholder uses eye ray against the triggering enemy. Determine which ray it uses by rolling a d4, rerolling the die on a result of 4.           
-        </p>-->
+        </p>
+        -->
+        
+        
+        
 		<table class="flavor alt">
 			<tr>
 				<td class="indmed">
@@ -184,7 +240,7 @@
         <p class="flavor alt">
             <b>Alignment</b>&nbsp;<span data-bind="text: Monster().Alignment"></span>
 			<b>Languages</b>&nbsp;<span data-bind="stringArray: Monster().Languages, fallback: '-'"></span><br/>
-            <!-- ko if _.size(_.omit(Monster().Skills, 'Perception')) --><b>Skills</b>&nbsp;<span data-bind="template: { name: 'skills', data: { name: 'Skills', data: _.omit(Monster().Skills, 'Perception') } }"></span><br/><!-- /ko -->
+            <!-- ko if _.omit(Monster().Skills, 'Perception') --><b>Skills</b>&nbsp;<span data-bind="template: { name: 'skills', data: { name: 'Skills', data: _.omit(Monster().Skills, 'Perception') } }"></span><br/><!-- /ko -->
             <!-- ko if: _.size(Monster().Items) --><b>Equipment</b>&nbsp;<span data-bind="kvpArray: Monster().Items, min: 2, valuePrefix: ' x '"></span><br /><!-- /ko -->
             <b>Source</b>&nbsp;<a data-bind="attr: { href: Monster().CompendiumUrl }">{{ Monster().SourceBook }}</a><br/>               
         </p>
