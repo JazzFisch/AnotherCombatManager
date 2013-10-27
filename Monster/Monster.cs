@@ -6,7 +6,6 @@ using System.Xml;
 using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.Import.ExtensionMethods;
-using DnD4e.LibraryHelper.Import.Monster;
 using Newtonsoft.Json;
 using ImportMonster = DnD4e.LibraryHelper.Import.Monster.Monster;
 

@@ -6,6 +6,8 @@ using DnD4e.LibraryHelper.Import.Common;
 using DnD4e.LibraryHelper.Import.Monster;
 using ExportMonster = DnD4e.LibraryHelper.Monster.Monster;
 using ImportMonster = DnD4e.LibraryHelper.Import.Monster.Monster;
+using ExportAttack = DnD4e.LibraryHelper.Monster.Attack;
+using ExportAttackType = DnD4e.LibraryHelper.Monster.AttackType;
 using ExportPower = DnD4e.LibraryHelper.Monster.Power;
 using ExportTrait = DnD4e.LibraryHelper.Monster.Trait;
 using System.Globalization;
@@ -37,7 +39,7 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 Name = import.Name,
                 Origin = import.Origin.Name,
                 Phasing = import.Phasing,
-                Powers = import.Powers.ToExportList(),
+                Powers = import.Powers.Select(p => p.ToExportPower()).ToList(),
                 Race = import.Race.Name,
                 Resistances = import.Resistances.Select(r => r.ToString()).ToList(),
                 Role = import.Role.Name,
@@ -84,24 +86,45 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
             return handle.ToString();
         }
 
-        public static List<ExportPower> ToExportList (this List<MonsterPower> import) {
-            List<ExportPower> exports = new List<ExportPower>();
-            foreach (var power in import) {
-                var export = new ExportPower() {
-                    Action = Culture.TextInfo.ToTitleCase(power.Action ?? String.Empty),
-                    Flavor = power.Flavor,
-                    IsBasic = power.IsBasic,
-                    Keywords = power.Keywords.Select(k => k.Name).ToList(),
-                    Name = power.Name,
-                    Requirements = power.Requirements,
-                    Trigger = power.Trigger,
-                    Type = Culture.TextInfo.ToTitleCase(power.Type ?? String.Empty),
-                    Usage = Culture.TextInfo.ToTitleCase(power.Usage ?? String.Empty),
-                    UsageDetails = power.UsageDetails
-                };
-                exports.Add(export);
-            }
-            return exports;
+        public static ExportPower ToExportPower (this MonsterPower monsterPower) {
+            return new ExportPower() {
+                Action = Culture.TextInfo.ToTitleCase(monsterPower.Action ?? String.Empty),
+                Attacks = monsterPower.Attacks.Select(a => a.ToExportAttack()).ToList(),
+                Flavor = monsterPower.Flavor,
+                IsBasic = monsterPower.IsBasic,
+                Keywords = monsterPower.Keywords.Select(k => k.Name).ToList(),
+                Name = monsterPower.Name,
+                Requirements = monsterPower.Requirements,
+                Trigger = monsterPower.Trigger,
+                Type = Culture.TextInfo.ToTitleCase(monsterPower.Type ?? String.Empty),
+                Usage = Culture.TextInfo.ToTitleCase(monsterPower.Usage ?? String.Empty),
+                UsageDetails = monsterPower.UsageDetails
+            };
+        }
+
+        public static ExportAttack ToExportAttack (this Attack monsterAttack) {
+            return new ExportAttack() {
+                AttackBonuses = monsterAttack.AttackBonuses.ToDictionary(ab => ab.Defense.Defense, ab => ab.Bonus),
+                Effect = monsterAttack.Effect.ToExportAttackType(),
+                Hit = monsterAttack.Hit.ToExportAttackType(),
+                Miss = monsterAttack.Miss.ToExportAttackType(),
+                Range = monsterAttack.RangeString,
+                Targets = monsterAttack.Targets
+            };
+        }
+
+        public static ExportAttackType ToExportAttackType (this AttackType monsterAttackType) {
+            return new ExportAttackType() {
+                Action = monsterAttackType.Action,
+                AfterEffects = monsterAttackType.AfterEffects.Select(ae => ae.ToExportAttackType()).ToList(),
+                Attacks = monsterAttackType.Attacks.Select(a => a.ToExportAttack()).ToList(),
+                Damage = monsterAttackType.Damage.Expression,
+                Description = monsterAttackType.Description,
+                FailedSavingThrows = monsterAttackType.FailedSavingThrows.Select(fst => fst.ToExportAttackType()).ToList(),
+                IsEmpty = monsterAttackType.IsEmpty,
+                Name = monsterAttackType.Name,
+                Sustains = monsterAttackType.Sustains.Select(s => s.ToExportAttackType()).ToList()
+            };
         }
 
         public static List<ExportTrait> ToExportList (this List<MonsterTrait> import) {

@@ -95,6 +95,8 @@
     <Compile Include="Import\Monster\Speed.cs" />
     <Compile Include="Import\Monster\Susceptibility.cs" />
     <Compile Include="Import\Monster\Trait.cs" />
+    <Compile Include="Monster\Attack.cs" />
+    <Compile Include="Monster\AttackType.cs" />
     <Compile Include="Monster\Monster.cs" />
     <Compile Include="Monster\Power.cs" />
     <Compile Include="Monster\Trait.cs" />
