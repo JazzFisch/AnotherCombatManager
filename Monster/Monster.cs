@@ -6,14 +6,13 @@ using System.Xml;
 using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.Import.ExtensionMethods;
+using DnD4e.LibraryHelper.Import.Monster;
 using Newtonsoft.Json;
 using ImportMonster = DnD4e.LibraryHelper.Import.Monster.Monster;
 
 namespace DnD4e.LibraryHelper.Monster {
     [JsonObject]
     public class Monster : Combatant {
-        //public ValueList<CalculatedNumber> AttackBonuses { get; set; }
-
         public string CompendiumUrl { get; set; }
 
         public string Description { get; set; }
@@ -34,7 +33,7 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public bool Phasing { get; set; }
 
-        //public Powers PowerReferences { get; set; }
+        public List<Power> Powers { get; set; }
 
         public int Regeneration { get; set; }
 
@@ -46,13 +45,13 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public List<KeyValuePair<string, int>> Senses { get; set; }
 
-        //public List<Speed> Speeds { get; set; }
-
         public string SourceBook { get; set; }
 
         public List<string> SourceBooks { get; set; }
 
         public string Tactics { get; set; }
+
+        public List<Trait> Traits { get; set; }
 
         public string Type { get; set; }
 
@@ -64,8 +63,10 @@ namespace DnD4e.LibraryHelper.Monster {
             this.Keywords = new List<string>();
             this.Immunities = new List<string>();
             this.OtherSpeeds = new List<string>();
+            this.Powers = new List<Power>();
             this.Resistances = new List<string>();
             this.Senses = new List<KeyValuePair<string, int>>();
+            this.Traits = new List<Trait>();
             this.Weaknesses = new List<string>();
         }
 

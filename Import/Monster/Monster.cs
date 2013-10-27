@@ -139,5 +139,21 @@ namespace DnD4e.LibraryHelper.Import.Monster {
         public override string ToString () {
             return this.Name;
         }
+
+        public static bool TryCreateFromFile (string path, out Monster monster) {
+            using (var fs = new FileStream(path, FileMode.Open)) {
+                using (var xml = new XmlTextReader(fs)) {
+                    XmlSerializer serializer = new XmlSerializer(typeof(Monster));
+                    if (serializer.CanDeserialize(xml)) {
+                        monster = serializer.Deserialize(xml) as Monster;
+                        return true;
+                    }
+                    else {
+                        monster = null;
+                        return false;
+                    }
+                }
+            }
+        }
     }
 }

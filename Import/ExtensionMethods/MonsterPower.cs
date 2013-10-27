@@ -9,7 +9,7 @@ using ActionTypeEnum = DnD4e.LibraryHelper.Common.ActionType;
 using PowerUsageEnum = DnD4e.LibraryHelper.Common.PowerUsage;
 
 namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
-    internal static class MonsterPowerMethods {
+    public static class MonsterPowerMethods {
         public static string ToText (this MonsterPower power, string delimeter) {
             //attack.text_out(tempPow, "###")
             var sb = new StringBuilder();

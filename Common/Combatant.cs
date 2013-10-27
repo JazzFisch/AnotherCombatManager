@@ -43,7 +43,7 @@ namespace DnD4e.LibraryHelper.Common {
         }
 
         public virtual string ToJson () {
-#if !DEBUG
+#if DEBUG
             Formatting formatting = Formatting.Indented;
 #else
             Formatting formatting = Formatting.None;

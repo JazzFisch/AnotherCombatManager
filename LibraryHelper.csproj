@@ -48,7 +48,6 @@
     <Compile Include="Character\Character.cs" />
     <Compile Include="Common\Combatant.cs" />
     <Compile Include="Common\Enums.cs" />
-    <Compile Include="Common\Power.cs" />
     <Compile Include="ExtensionMethods\Integer.cs" />
     <Compile Include="ExtensionMethods\StringBuilder.cs" />
     <Compile Include="Import\Character\AbilityScores.cs" />
@@ -97,7 +96,8 @@
     <Compile Include="Import\Monster\Susceptibility.cs" />
     <Compile Include="Import\Monster\Trait.cs" />
     <Compile Include="Monster\Monster.cs" />
-    <Compile Include="Monster\Susceptibility.cs" />
+    <Compile Include="Monster\Power.cs" />
+    <Compile Include="Monster\Trait.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,21 @@ using ImportCharacter = DnD4e.LibraryHelper.Import.Character.Character;
 
 namespace DnD4e.LibraryHelper.Character {
     public class Character : Combatant {
+        /////////////////////////////////////////////////////////////////////
+        // character details
+        //public int HealingSurges { get { return this.sheet.Stats["Healing Surges"]; } }
+
+        //public List<Item> Items { get { return this.sheet.Items; } }
+
+        //public int PassiveInsight { get; set; }
+
+        //public int PassivePerception { get; set; }
+
+        //public List<Power> Powers { get { return this.sheet.Powers; } }
+
+        public Character () {
+            // TODO: construct all collections
+        }
 
         public static bool TryCreateFromFile (string filename, out Character character) {
             character = null;
