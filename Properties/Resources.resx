@@ -121,6 +121,9 @@
   <data name="bindingHandlers_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\htmlcontent\bindinghandlers.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="jquery_1_10_2_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\htmlcontent\jquery-1.10.2.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="knockout_3_0_0_debug_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\htmlcontent\knockout-3.0.0.debug.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

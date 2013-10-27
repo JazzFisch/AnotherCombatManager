@@ -71,13 +71,41 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///    }
         ///};
         ///
-        ///ko.bindingHandlers.stringArray = {
-        ///    update: function (element, valueAccessor, allBindingsAccessor) {
-        ///        var list = ko.utils.unwrapObservable( [rest of string was truncated]&quot;;.
+        ///ko.bindingHandlers.powerFont = {
+        ///    update: function (element, valueAccessor) {
+        ///        var value = valueAccessor(),
+        ///            power = _.isObject [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string bindingHandlers_js {
             get {
                 return ResourceManager.GetString("bindingHandlers_js", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*!
+        /// * jQuery JavaScript Library v1.10.2
+        /// * http://jquery.com/
+        /// *
+        /// * Includes Sizzle.js
+        /// * http://sizzlejs.com/
+        /// *
+        /// * Copyright 2005, 2013 jQuery Foundation, Inc. and other contributors
+        /// * Released under the MIT license
+        /// * http://jquery.org/license
+        /// *
+        /// * Date: 2013-07-03T13:48Z
+        /// */
+        ///(function( window, undefined ) {
+        ///
+        ///// Can&apos;t do this because several apps including ASP.NET trace
+        ///// the stack via arguments.caller.callee and Firefox dies if
+        ///// you try to trace through &quot;use strict&quot; call chains. (#13335)
+        ///// Suppor [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jquery_1_10_2_js {
+            get {
+                return ResourceManager.GetString("jquery_1_10_2_js", resourceCulture);
             }
         }
         
@@ -149,12 +177,14 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///    &lt;title data-bind=&quot;text: Monster().Name&quot;&gt;&lt;/title&gt;
-        ///    &lt;meta name=&quot;description&quot; content=&quot;D&amp;amp;D 4E Stat Block display&quot; /&gt;
+        ///    &lt;meta name=&quot;description&quot; content=&quot;D&amp;amp;D 4E Monster StatBlock display&quot; /&gt;
         ///    &lt;meta name=&quot;author&quot; content=&quot;Jason Fischer&quot; /&gt;
+        ///
+        ///    &lt;link type=&quot;text/css&quot; href=&quot;knockthrough.css&quot; media=&quot;all&quot; rel=&quot;stylesheet&quot; /&gt;
+        ///
         ///    &lt;script type=&apos;text/javascript&apos; src=&apos;underscore.js&apos;&gt;&lt;/script&gt;
-        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js&apos;&gt;&lt;/script&gt;
-        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;knockout-2.2.1.debug.js&apos;&gt;&lt;/script&gt;
-        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;bind [rest of string was truncated]&quot;;.
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;jquery-1.10.2.js&apos;&gt;&lt;/script&gt;
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;knockout-3.0.0.debug.js&apos;&gt;&lt;/scri [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string monsterStatblock_html {
             get {
@@ -163,7 +193,7 @@ namespace DnD4e.CombatManager.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to //var debugJson = &apos;{&quot;CompendiumUrl&quot;:&quot;http://www.wizards.com/dndinsider/compendium/monster.aspx?id=4578&quot;,&quot;Description&quot;:&quot;&quot;,&quot;GroupRole&quot;:&quot;Standard&quot;,&quot;IsLeader&quot;:false,&quot;Keywords&quot;:[],&quot;Immunities&quot;:[],&quot;Origin&quot;:&quot;Immortal&quot;,&quot;Phasing&quot;:false,&quot;Regeneration&quot;:0,&quot;Resistances&quot;:[],&quot;Role&quot;:&quot;Soldier&quot;,&quot;SavingThrows&quot;:0,&quot;SourceBook&quot;:&quot;Plane Above&quot;,&quot;SourceBooks&quot;:null,&quot;Tactics&quot;:null,&quot;Type&quot;:&quot;Humanoid&quot;,&quot;Weaknesses&quot;:[{&quot;Name&quot;:&quot;Acid&quot;,&quot;Details&quot;:&quot;or fire (if the battlesworn war troll defender takes acid or fire damage&quot;,&quot;Value&quot;:0},{&quot;Name&quot;:&quot;its&quot; [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to var debugJson = &apos;{&quot;CompendiumUrl&quot;:&quot;http://www.wizards.com/dndinsider/compendium/monster.aspx?id=363&quot;,&quot;Description&quot;:&quot;&quot;,&quot;GroupRole&quot;:&quot;Solo&quot;,&quot;IsLeader&quot;:true,&quot;Items&quot;:[{&quot;Key&quot;:&quot;Wand of Orcus&quot;,&quot;Value&quot;:1}],&quot;Keywords&quot;:[&quot;Demon&quot;],&quot;Immunities&quot;:[&quot;Disease&quot;,&quot;Poison&quot;,&quot;Necrotic&quot;],&quot;Origin&quot;:&quot;Elemental&quot;,&quot;OtherSpeeds&quot;:[&quot;Fly 10 (clumsy)&quot;,&quot;Teleport 6&quot;],&quot;Phasing&quot;:false,&quot;Powers&quot;:[{&quot;Action&quot;:&quot;Standard&quot;,&quot;Flavor&quot;:null,&quot;IsBasic&quot;:true,&quot;Keywords&quot;:[&quot;Necrotic&quot;,&quot;Weapon&quot;],&quot;Name&quot;:&quot;Wand of Orcus&quot;,&quot;Requirements&quot;:null,&quot;Trigger&quot;:null,&quot;Type&quot;:&quot;Melee&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string monsterStatblock_js {
             get {

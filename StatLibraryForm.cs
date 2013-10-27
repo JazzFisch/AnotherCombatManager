@@ -101,6 +101,7 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private void statDetailsWebBrowser_DocumentCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
+            // ordering of the following is IMPORTANT
             // stop listening
             this.statDetailsWebBrowser.DocumentCompleted -= this.statDetailsWebBrowser_DocumentCompleted;
 
@@ -111,11 +112,11 @@ namespace DnD4e.CombatManager.Test {
             // load our javascript in
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.modernizr_2_6_2_js);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.underscore_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.jquery_1_10_2_js);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_3_0_0_debug_js);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_StringInterpolatingBindingProvider_js);
             
             // TODO: flip based upon type of combatant being viewed
-            // ordering of the following is IMPORTANT
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.bindingHandlers_js);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.monsterStatblock_js);
 

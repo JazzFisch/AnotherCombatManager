@@ -4,12 +4,12 @@
     <title data-bind="text: Monster().Name"></title>
     <meta name="description" content="D&amp;D 4E Monster StatBlock display" />
     <meta name="author" content="Jason Fischer" />
-    <!--<script type='text/javascript' src='underscore.js'></script>
+    <script type='text/javascript' src='underscore.js'></script>
     <script type='text/javascript' src='jquery-1.10.2.js'></script>
     <script type='text/javascript' src='knockout-3.0.0.debug.js'></script>
     <script type='text/javascript' src='knockout-StringInterpolatingBindingProvider.js'></script>
     <script type='text/javascript' src='bindingHandlers.js'></script>
-    <script type='text/javascript' src='monsterStatblock.js'></script>-->
+    <script type='text/javascript' src='monsterStatblock.js'></script>
 </head>
 <body>
     <div id="detail">
@@ -51,61 +51,30 @@
                 </td>
             </tr>
         </table>
+        
         <!-- ko if: _.size(Monster().Traits) -->
             <h2>Traits</h2>
-            <!-- ko foreach: Monster().Traits -->
-                <p class="flavor alt">
-                    <!-- TODO: go about finding an aura icon / font -->
-                    <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)">&nbsp;({{ Keywords.join(', ') }})&nbsp;</span>
-                    <!-- ko if: Range --><b>&bull; Aura</b>&nbsp;<span data-bind="text: Range"></span><!-- /ko -->
-                </p>
-                <p class="flavorIndent" data-bind="text: Details"></p>
-            <!-- /ko -->
+            <div data-bind="template: { name: 'trait', foreach: Monster().Traits }"></div>
         <!-- /ko -->
         
         <!-- ko if: _.findWhere(Monster().Powers, { Action: 'Standard' }) -->
             <h2>Standard Actions</h2>
-            <!-- ko foreach: _.where(Monster().Powers, { Action: 'Standard' }) -->
-                <p class="flavor alt">
-                    <font face="4etools symbols" data-bind="powerFont: $data"></font>
-                    <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)">&nbsp;({{ Keywords.join(', ') }})&nbsp;</span>
-                    <b data-bind="text: '&bull; ' + Usage"></b>&nbsp;<font face="4etools symbols" data-bind="rechargeFont: $data"></font>
-                </p>
-            <!-- /ko -->
+            <div data-bind="template: { name: 'power', foreach: _.where(Monster().Powers, { Action: 'Standard' }), as: 'power' }"></div>
         <!-- /ko -->
 
         <!-- ko if: _.findWhere(Monster().Powers, { Action: 'Move' }) -->
             <h2>Move Actions</h2>
-            <!-- ko foreach: _.where(Monster().Powers, { Action: 'Move' }) -->
-                <p class="flavor alt">
-                    <font face="4etools symbols" data-bind="powerFont: $data"></font>
-                    <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)">&nbsp;({{ Keywords.join(', ') }})&nbsp;</span>
-                    <b data-bind="text: '&bull; ' + Usage"></b>&nbsp;<font face="4etools symbols" data-bind="rechargeFont: $data"></font>
-                </p>
-            <!-- /ko -->
+            <div data-bind="template: { name: 'power', foreach: _.where(Monster().Powers, { Action: 'Move' }), as: 'power' }"></div>
         <!-- /ko -->
 
         <!-- ko if: _.findWhere(Monster().Powers, { Action: 'Minor' }) -->
             <h2>Minor Actions</h2>
-            <!-- ko foreach: _.where(Monster().Powers, { Action: 'Minor' }) -->
-                <p class="flavor alt">
-                    <font face="4etools symbols" data-bind="powerFont: $data"></font>
-                    <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)">&nbsp;({{ Keywords.join(', ') }})&nbsp;</span>
-                    <b data-bind="text: '&bull; ' + Usage"></b>&nbsp;<font face="4etools symbols" data-bind="rechargeFont: $data"></font>
-                </p>
-            <!-- /ko -->
+            <div data-bind="template: { name: 'power', foreach: _.where(Monster().Powers, { Action: 'Minor' }), as: 'power' }"></div>
         <!-- /ko -->
 
         <!-- ko if: _.find(Monster().Powers, function(power) { return !_.isEmpty(power.Trigger) }) -->
             <h2>Triggered Actions</h2>
-            <!-- ko foreach: _.filter(Monster().Powers, function(power) { return !_.isEmpty(power.Trigger) }) -->
-                <p class="flavor alt">
-                    <font face="4etools symbols" data-bind="powerFont: $data"></font>
-                    <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)">&nbsp;({{ Keywords.join(', ') }})&nbsp;</span>
-                    <b data-bind="text: '&bull; ' + Usage"></b>&nbsp;<font face="4etools symbols" data-bind="rechargeFont: $data"></font>
-                </p>
-                <p class="flavorIndent"><i>Trigger:</i>&nbsp;<span data-bind="text: Trigger"></span></p>
-            <!-- /ko -->
+            <div data-bind="template: { name: 'power', foreach: _.filter(Monster().Powers, function(power) { return !_.isEmpty(power.Trigger) }), as: 'power' }"></div>
         <!-- /ko -->
         
         <!--
@@ -211,8 +180,6 @@
         </p>
         -->
         
-        
-        
 		<table class="flavor alt">
 			<tr>
 				<td class="indmed">
@@ -250,6 +217,49 @@
         <span data-bind="text: $data[0]"></span>
         <span data-bind="commaNum: $data[1], signed: true"></span><!-- ko if: $index()+1 < _.size($parent.data) -->, <!-- /ko -->
     <!-- /ko -->
+</script>
+<script type="text/html" id="attackBonuses">
+<!-- ko foreach: _.pairs($data) -->{{($data[1] > 0 ? '+' : '') + $data[1]}} vs. {{$data[0]}}<!-- ko if: $index()+1 < _.size($parent.data) -->, <!-- /ko --><!-- /ko -->
+</script>
+<script type="text/html" id="power">
+    <p class="flavor alt">
+        <font face="4etools symbols" data-bind="powerFont: power"></font>
+        <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)">&nbsp;({{ Keywords.join(', ') }}) </span>
+        <b data-bind="text: '&bull; ' + Usage"></b>&nbsp;<font face="4etools symbols" data-bind="rechargeFont: power"></font>
+    </p>
+    <p class="flavorIndent" data-bind="if: Trigger"><i>Trigger:</i> {{Trigger}}</p>
+    <!-- ko foreach: Attacks -->
+        <p class="flavorIndent" data-bind="if: !Hit.IsEmpty">
+            <i>Attack<!-- ko if: $parent.Action === 'Immediate Interrupt' || $parent.Action === 'Immediate Reaction' --> ({{$parent.Action}})<!-- /ko -->: </i>
+            <span data-bind="if: Range">{{Range}}</span>
+            <!-- ko if: Targets -->&nbsp;({{Targets}})<!-- /ko --><!-- ko if: Range || Targets-->;<!-- /ko -->
+            <span data-bind="template: { name: 'attackBonuses', data: AttackBonuses }"></span>
+        </p>
+        <p class="flavorIndent" data-bind="if: !Hit.IsEmpty">
+            <i>Hit: </i>
+            <span data-bind="if: Hit.Damage">{{Hit.Damage}} </span>
+            <span data-bind="text: Hit.Description"></span>
+            <p data-bind="foreach: Hit.AfterEffects, as: 'aftereffect'">&nbsp;&nbsp;&nbsp;&nbsp;<i>Aftereffect: </i>{{Description}}</p>
+        </p>
+        <p class="flavorIndent" data-bind="if: !Miss.IsEmpty">
+            <i>Miss: </i>
+            <span data-bind="if: Miss.Damage">{{Miss.Damage}} </span>
+            <span data-bind="text: Miss.Description"></span>
+        </p>
+        <p class="flavorIndent" data-bind="if: !Effect.IsEmpty">
+            <i>Effect<!-- ko if: $parent.Action !== 'Standard' --> ({{$parent.Action}})<!-- /ko -->: </i>
+            <span data-bind="text: Effect.Description"></span>
+            <p data-bind="foreach: Effect.Sustains, as: 'sustain'">&nbsp;&nbsp;&nbsp;&nbsp;<i>Sustain {{Action}}: </i>{{Description}}</p>
+        </p>
+    <!-- /ko -->
+</script>
+<script type="text/html" id="trait">
+    <p class="flavor alt">
+        <!-- TODO: go about finding an aura icon / font -->
+        <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)"> ({{ Keywords.join(', ') }}) </span>
+        <!-- ko if: Range --><b>&bull; Aura </b><span data-bind="text: Range"></span><!-- /ko -->
+    </p>
+    <p class="flavorIndent" data-bind="text: Details"></p>
 </script>
 </body>
 </html>
