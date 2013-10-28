@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DnD4e.LibraryHelper.Monster {
     public class AttackType {
@@ -24,5 +21,8 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public List<AttackType> Sustains { get; set; }
 
+        public override string ToString () {
+            return this.Name;
+        }
     }
 }

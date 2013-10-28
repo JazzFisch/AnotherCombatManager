@@ -10,5 +10,9 @@ namespace DnD4e.LibraryHelper.Monster {
         public List<string> Keywords { get; set; }
 
         public int Range { get; set; }
+
+        public override string ToString () {
+            return this.Name;
+        }
     }
 }

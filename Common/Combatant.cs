@@ -42,12 +42,8 @@ namespace DnD4e.LibraryHelper.Common {
             this.Skills = new Dictionary<Skill, int>();
         }
 
-        public virtual string ToJson () {
-#if !DEBUG
-            Formatting formatting = Formatting.Indented;
-#else
-            Formatting formatting = Formatting.None;
-#endif
+        public virtual string ToJson (bool indent = false) {
+            Formatting formatting = indent ? Formatting.Indented : Formatting.None;
             var settings = new JsonSerializerSettings() {
                 Converters = new List<JsonConverter>() { new StringEnumConverter() }
             };

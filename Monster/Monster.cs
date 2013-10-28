@@ -89,5 +89,18 @@ namespace DnD4e.LibraryHelper.Monster {
 
             return false;
         }
+
+        public static bool TryCreateFromJson (string json, out Monster monster) {
+            monster = null;
+            try {
+                monster = JsonConvert.DeserializeObject<Monster>(json);
+                return true;
+            }
+            catch (System.Exception ex) {
+                Trace.WriteLine(ex);
+            }
+
+            return false;
+        }
     }
 }
