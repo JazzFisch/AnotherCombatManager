@@ -301,7 +301,6 @@
             // 
             this.statDetailsWebBrowser.AllowNavigation = false;
             this.statDetailsWebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statDetailsWebBrowser.IsWebBrowserContextMenuEnabled = false;
             this.statDetailsWebBrowser.Location = new System.Drawing.Point(0, 0);
             this.statDetailsWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.statDetailsWebBrowser.Name = "statDetailsWebBrowser";

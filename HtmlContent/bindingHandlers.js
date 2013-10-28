@@ -27,6 +27,7 @@ ko.bindingHandlers.powerFont = {
                 text = power.IsBasic ? 'r' : 'R';
                 break;
 
+            case 'close':
             case 'close burst':
             case 'close blast':
                 text = power.IsBasic ? 'c' : 'C';

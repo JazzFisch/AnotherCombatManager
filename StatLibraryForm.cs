@@ -171,6 +171,12 @@ namespace DnD4e.CombatManager.Test {
             try {
                 string json = combatant.ToJson();
 
+#if DEBUG
+                // round trip checking
+                Monster monster;
+                Debug.Assert(Monster.TryCreateFromJson(json, out monster));
+#endif
+
                 this.statDetailsWebBrowser.Document.InvokeScript(
                     "renderStatBlock",
                     new object[] { json }

@@ -4,12 +4,12 @@
     <title data-bind="text: Monster().Name"></title>
     <meta name="description" content="D&amp;D 4E Monster StatBlock display" />
     <meta name="author" content="Jason Fischer" />
-    <script type='text/javascript' src='underscore.js'></script>
+    <!--<script type='text/javascript' src='underscore.js'></script>
     <script type='text/javascript' src='jquery-1.10.2.js'></script>
     <script type='text/javascript' src='knockout-3.0.0.debug.js'></script>
     <script type='text/javascript' src='knockout-StringInterpolatingBindingProvider.js'></script>
     <script type='text/javascript' src='bindingHandlers.js'></script>
-    <script type='text/javascript' src='monsterStatblock.js'></script>
+    <script type='text/javascript' src='monsterStatblock.js'></script>-->
 </head>
 <body>
     <div id="detail">
@@ -76,110 +76,10 @@
             <h2>Triggered Actions</h2>
             <div data-bind="template: { name: 'power', foreach: _.filter(Monster().Powers, function(power) { return !_.isEmpty(power.Trigger) }), as: 'power' }"></div>
         <!-- /ko -->
-        
-        <!--
-        <h2>Standard Actions</h2>
+
         <p class="flavor alt">
-            <img src="http://www.wizards.com/dnd/images/symbol/S2.gif" />
-            <b>Bite</b>
-            <img src="http://www.wizards.com/dnd/images/symbol/x.gif" />
-            <b>At-Will</b>
+            <!-- ko if _.omit(Monster().Skills, 'Perception') --><b>Skills</b>&nbsp;<span data-bind="template: { name: 'skills', data: { name: 'Skills', data: _.omit(Monster().Skills, 'Perception') } }"></span><br/><!-- /ko -->
         </p>
-        <p class="flavorIndent">
-            <i>Attack:</i> Melee 1 (one creature); +21 vs. Reflex
-           
-        </p>
-        <p class="flavorIndent">
-            <i>Hit:</i> 3d8 + 13 necrotic damage.
-           
-        </p>
-        <p class="flavor alt">
-            <img src="http://www.wizards.com/dnd/images/symbol/Z3a.gif" />
-            <b>Eye Ray</b>
-            <img src="http://www.wizards.com/dnd/images/symbol/x.gif" />
-            <b>At-Will</b>
-        </p>
-        <p class="flavorIndent">
-            <i>Effect:</i> The beholder uses one of the following eye rays without provoking an opportunity attack.
-           
-        </p>
-        <p class="flavorIndent">
-            <b>1. Chill of the Grave</b> (cold, necrotic) <b></b>
-        </p>
-        <p class="flavorIndent">
-            <i>Attack:</i>  Ranged 10 (one creature); +21 vs. Fortitude
-           
-        </p>
-        <p class="flavorIndent">
-            <i>Hit:</i> 4d8 + 8 cold and necrotic damage, and the target is slowed (save ends).
-           
-        </p>
-        <p class="flavorIndent">
-            &nbsp;&nbsp;&nbsp;&nbsp;<i>First Failed Saving Throw:</i> The target is immobilized instead of slowed (save ends).
-           
-        </p>
-        <p class="flavorIndent">
-            <b>2. Ghostly Possession</b> (psychic) <b></b>
-        </p>
-        <p class="flavorIndent">
-            <i>Attack:</i>  Ranged 10 (one creature); +21 vs. Will
-           
-        </p>
-        <p class="flavorIndent">
-            <i>Hit:</i> Ongoing 15 psychic damage (save ends).
-           
-        </p>
-        <p class="flavorIndent">
-            &nbsp;&nbsp;&nbsp;&nbsp;<i>First Failed Saving Throw:</i> In addition to the ongoing damage, the target is dazed (save ends both).
-           
-        </p>
-        <p class="flavorIndent">
-            &nbsp;&nbsp;&nbsp;&nbsp;<i>Second Failed Saving Throw:</i> The target is dominated instead of dazed and continues to take the ongoing damage (save ends both). The beholder is removed from play until the effect ends. When the effect ends, the beholder reappears in an unoccupied space within 10 squares of the target. The beholder can end the effect as a free action.
-           
-        </p>
-        <p class="flavorIndent">
-            <b>3. Killing Thought</b> (psychic) <b></b>
-        </p>
-        <p class="flavorIndent">
-            <i>Attack:</i>  Ranged 10 (one creature); +21 vs. Will
-           
-        </p>
-        <p class="flavorIndent">
-            <i>Hit:</i> 1d8 + 9 psychic damage, and the target makes a melee basic attack against itself as a free action. If the target is not wielding a melee weapon, it drops a held item and draws a melee weapon as a free action and then makes the attack.
-           
-        </p>
-        <h2>Minor Actions</h2>
-        <p class="flavor alt">
-            <img src="http://www.wizards.com/dnd/images/symbol/S3.gif" />
-            <b>Central Eye</b> (fear)
-            <img src="http://www.wizards.com/dnd/images/symbol/x.gif" />
-            <b>At-Will</b> 1/round
-           
-        </p>
-        <p class="flavorIndent">
-            <i>Attack:</i> Ranged 10 (one creature); +21 vs. Will
-           
-        </p>
-        <p class="flavorIndent">
-            <i>Hit:</i> The beholder slides the target 5 squares, and the target gains vulnerable 5 necrotic and vulnerable 5 psychic until the start of the beholder’s next turn.
-           
-        </p>
-        <h2>Triggered Actions</h2>
-        <p class="flavor alt">
-            <img src="http://www.wizards.com/dnd/images/symbol/Z3a.gif" />
-            <b>Eyes of the Beholder</b>
-            <img src="http://www.wizards.com/dnd/images/symbol/x.gif" />
-            <b>At-Will</b>
-        </p>
-        <p class="flavorIndent">
-            <i>Trigger:</i> An enemy starts its turn within 5 squares of the beholder.
-           
-        </p>
-        <p class="flavorIndent">
-            <i>Effect (Free Action):</i> The beholder uses eye ray against the triggering enemy. Determine which ray it uses by rolling a d4, rerolling the die on a result of 4.           
-        </p>
-        -->
-        
 		<table class="flavor alt">
 			<tr>
 				<td class="indmed">
@@ -207,7 +107,6 @@
         <p class="flavor alt">
             <b>Alignment</b>&nbsp;<span data-bind="text: Monster().Alignment"></span>
 			<b>Languages</b>&nbsp;<span data-bind="stringArray: Monster().Languages, fallback: '-'"></span><br/>
-            <!-- ko if _.omit(Monster().Skills, 'Perception') --><b>Skills</b>&nbsp;<span data-bind="template: { name: 'skills', data: { name: 'Skills', data: _.omit(Monster().Skills, 'Perception') } }"></span><br/><!-- /ko -->
             <!-- ko if: _.size(Monster().Items) --><b>Equipment</b>&nbsp;<span data-bind="kvpArray: Monster().Items, min: 2, valuePrefix: ' x '"></span><br /><!-- /ko -->
             <b>Source</b>&nbsp;<a data-bind="attr: { href: Monster().CompendiumUrl }">{{ Monster().SourceBook }}</a><br/>               
         </p>
@@ -221,43 +120,49 @@
 <script type="text/html" id="attackBonuses">
 <!-- ko foreach: _.pairs($data) -->{{($data[1] > 0 ? '+' : '') + $data[1]}} vs. {{$data[0]}}<!-- ko if: $index()+1 < _.size($parent.data) -->, <!-- /ko --><!-- /ko -->
 </script>
-<script type="text/html" id="power">
-    <p class="flavor alt">
-        <font face="4etools symbols" data-bind="powerFont: power"></font>
-        <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)">&nbsp;({{ Keywords.join(', ') }}) </span>
-        <b data-bind="text: '&bull; ' + Usage"></b>&nbsp;<font face="4etools symbols" data-bind="rechargeFont: power"></font>
+<script type="text/html" id="attack">
+    <!-- check parent depth to figure out &nbsp; prefixing -->
+    <!-- bit of a hard coded hack sadly, if recursion depth changes you will-->
+    <!-- need to change from ($parents.length - 2) to whatever the correct depth is -->
+    <!-- uncomment following to figure out how much to subtract -->
+    <!--{{$parents.length}} {{$parentContext.$index}} {{$parents[$parents.length - 2].Action}}-->
+    <p class="flavorIndent" data-bind="if: !Hit.IsEmpty">
+        <i>Attack<!-- ko if: $parent.Action === 'Immediate Interrupt' || $parent.Action === 'Immediate Reaction' --> ({{$parent.Action}})<!-- /ko -->: </i>
+        <span data-bind="if: Range">{{Range}}</span>
+        <!-- ko if: Targets -->&nbsp;({{Targets}})<!-- /ko --><!-- ko if: Range || Targets-->;<!-- /ko -->
+        <span data-bind="template: { name: 'attackBonuses', data: AttackBonuses }"></span>
     </p>
+    <p class="flavorIndent" data-bind="if: !Hit.IsEmpty">
+        <i>Hit: </i>
+        <span data-bind="if: Hit.Damage">{{Hit.Damage}} </span>
+        <span data-bind="text: Hit.Description"></span>
+        <p data-bind="foreach: Hit.AfterEffects, as: 'aftereffect'">&nbsp;&nbsp;<i>Aftereffect: </i>{{Description}}</p>
+        <p data-bind="foreach: Hit.FailedSavingThrows, as: 'failed'">&nbsp;&nbsp;<i>{{$root.IterationString($index() + 1)}} Failed Saving Throw: </i>{{Description}}</p>
+        <p data-bind="if: _.size(Hit.Attacks) && !Hit.Attacks[0].Effect.IsEmpty">&nbsp;&nbsp;<i>Successful Saving Throw: </i>{{Hit.Attacks[0].Effect.Description}}</p>
+    </p>
+    <p class="flavorIndent" data-bind="if: !Miss.IsEmpty">
+        <i>Miss: </i>
+        <span data-bind="if: Miss.Damage">{{Miss.Damage}} </span>
+        <span data-bind="text: Miss.Description"></span>
+    </p>
+    <p class="flavorIndent" data-bind="if: !Effect.IsEmpty">
+        <i><!-- ko if: ($parents.length - 2) > 0-->{{($index() + 1)}}.&nbsp;<!-- /ko -->Effect<!-- ko if: $parents[$parents.length - 2].Action && $parents[$parents.length - 2].Action !== 'Standard' --> ({{$parents[$parents.length - 2].Action}})<!-- /ko -->: </i>
+        <span data-bind="text: Effect.Description"></span>
+        <p data-bind="foreach: Effect.Sustains, as: 'sustain'">&nbsp;&nbsp;<i>Sustain {{Action}}: </i>{{Description}}</p>
+    </p>
+    <!-- ko template: { name: 'attack', foreach: Effect.Attacks }--><!-- /ko -->
+</script>
+<script type="text/html" id="power">
+    <p class="flavor alt"><font face="4etools symbols" data-bind="powerFont: power"></font><b>&nbsp;{{Name}}&nbsp;</b><span data-bind="if: _.size(Keywords)">({{ Keywords.join(', ') }})&nbsp;</span><b>&bull; {{Usage}} </b><font face="4etools symbols" data-bind="rechargeFont: power"></font></p>
+    <p class="flavorIndent" data-bind="if: Requirements"><i>Requirement:</i> {{Requirements}}</p>
     <p class="flavorIndent" data-bind="if: Trigger"><i>Trigger:</i> {{Trigger}}</p>
-    <!-- ko foreach: Attacks -->
-        <p class="flavorIndent" data-bind="if: !Hit.IsEmpty">
-            <i>Attack<!-- ko if: $parent.Action === 'Immediate Interrupt' || $parent.Action === 'Immediate Reaction' --> ({{$parent.Action}})<!-- /ko -->: </i>
-            <span data-bind="if: Range">{{Range}}</span>
-            <!-- ko if: Targets -->&nbsp;({{Targets}})<!-- /ko --><!-- ko if: Range || Targets-->;<!-- /ko -->
-            <span data-bind="template: { name: 'attackBonuses', data: AttackBonuses }"></span>
-        </p>
-        <p class="flavorIndent" data-bind="if: !Hit.IsEmpty">
-            <i>Hit: </i>
-            <span data-bind="if: Hit.Damage">{{Hit.Damage}} </span>
-            <span data-bind="text: Hit.Description"></span>
-            <p data-bind="foreach: Hit.AfterEffects, as: 'aftereffect'">&nbsp;&nbsp;&nbsp;&nbsp;<i>Aftereffect: </i>{{Description}}</p>
-        </p>
-        <p class="flavorIndent" data-bind="if: !Miss.IsEmpty">
-            <i>Miss: </i>
-            <span data-bind="if: Miss.Damage">{{Miss.Damage}} </span>
-            <span data-bind="text: Miss.Description"></span>
-        </p>
-        <p class="flavorIndent" data-bind="if: !Effect.IsEmpty">
-            <i>Effect<!-- ko if: $parent.Action !== 'Standard' --> ({{$parent.Action}})<!-- /ko -->: </i>
-            <span data-bind="text: Effect.Description"></span>
-            <p data-bind="foreach: Effect.Sustains, as: 'sustain'">&nbsp;&nbsp;&nbsp;&nbsp;<i>Sustain {{Action}}: </i>{{Description}}</p>
-        </p>
-    <!-- /ko -->
+    <!-- ko template: { name: 'attack', foreach: Attacks }--><!-- /ko -->
 </script>
 <script type="text/html" id="trait">
     <p class="flavor alt">
         <!-- TODO: go about finding an aura icon / font -->
         <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)"> ({{ Keywords.join(', ') }}) </span>
-        <!-- ko if: Range --><b>&bull; Aura </b><span data-bind="text: Range"></span><!-- /ko -->
+        <!-- ko if: Range --><b>&nbsp;&bull;&nbsp;Aura&nbsp;</b>{{Range}}<!-- /ko -->
     </p>
     <p class="flavorIndent" data-bind="text: Details"></p>
 </script>
