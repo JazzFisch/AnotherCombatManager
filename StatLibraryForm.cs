@@ -107,7 +107,7 @@ namespace DnD4e.CombatManager.Test {
 
             // load our css in
             this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.normalize_css);
-            //this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.statblock_css);
+            this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.statblock_css);
 
             // load our javascript in
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.modernizr_2_6_2_js);

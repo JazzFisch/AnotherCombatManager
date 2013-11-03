@@ -87,7 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="HtmlContent\bindingHandlers.js" />
-    <Content Include="HtmlContent\Copy of statblock.css" />
     <Content Include="HtmlContent\jquery-1.10.2.js" />
     <Content Include="HtmlContent\knockout-3.0.0.debug.js" />
     <Content Include="HtmlContent\knockout-StringInterpolatingBindingProvider.js" />

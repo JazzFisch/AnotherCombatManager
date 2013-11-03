@@ -1,11 +1,92 @@
-﻿html {font-family: Arial, Sans-Serif; font-size: 9.5pt}  
-body {margin: 0px; padding: 0px; text-align:left; font-weight: normal;}
-table {border: 0px; cellpadding: 0px; cellspacing: 0px;}
-DIV.symbol {font-family: 4etools symbols} 
-DIV.mbheadleft {float: left;  align: left; color: #ffffff; font-size: 13px; font-weight: bold;}  
-DIV.mbheadright {float: right; align: right; color: #ffffff; font-size: 13px; font-weight: bold;}  
-DIV.mbsubleft {float: left; align: left; color: #ffffff;}  
-DIV.mbsubright {float: right; align: right; color: #ffffff;}  
+﻿html {
+    font-family: Arial, Sans-Serif; 
+    font-size: 9.5pt
+}  
+
+body {
+    font-weight: normal;
+    margin: 0px; 
+    padding: 0px; 
+    text-align:left; 
+}
+
+table {
+    border: 0px; 
+    cellpadding: 0px; 
+    cellspacing: 0px;
+    width: 100%;
+}
+
+div.monster {
+    padding: 2px 5px 2px 5px;
+    background-color: #374b27; 
+    color: #ffffff;
+    min-height: 14px;
+}
+
+div.monster .bold {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+div.monster .right {
+    float: right;
+    text-align: right;
+}
+
+table.monster {
+    padding: 2px 5px 2px 5px;
+    background-color: #374b27; 
+    color: #ffffff;
+    min-height: 14px;
+}
+
+table.monster .bold {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+table.monster .right {
+    float: right;
+    text-align: right;
+}
+
+h2 {
+    background-color: #727c55;
+    color: #ffffff;
+    font-size: 9.5pt;
+    font-weight: 700;
+    padding: 1px 5px 1px 5px;
+    margin: 0;
+}
+
+h3 {
+    background-color: #9fa48c;
+    font-size: 9.5pt;
+    font-weight: 500;
+    padding: 1px 5px 1px 15px;
+    margin: 0;
+}
+
+.flavor {
+    background-color: #e1e6c4;
+    padding: 1px 1px 0px 15px;
+    margin: 0;
+}
+
+table.abilityScores {
+    background-color: #9fa48c;
+    font-size: 9.5pt;
+    margin: 0;
+}
+
+p.skills {
+    background-color: #9fa48c;
+    font-size: 9.5pt;
+    margin: 0;
+}
+
+/*
 TD.indmed {padding-left: 4px; padding-right: 4px; font-size: 9.5pt; background-color: #9fa48c;}
 TD.indlt {padding-left: 4px; padding-right: 4px; font-size: 9.5pt; background-color: #e1e6c4;}
 
@@ -14,9 +95,9 @@ DIV.gglt {padding-left:5px; padding-right:5px; padding-top:1px; padding-bottom:1
 DIV.ggmed {padding-left:5px; padding-right:5px; padding-top:1px; padding-bottom:1px; background-color: #9fa48c; min-height: 14px; }  
 DIV.ggtype {padding-left:5px; padding-right:5px; padding-top:1px; padding-bottom:1px; background-color: #727c55; min-height: 14px; }  
 DIV.ggindent {padding-left:20px;} 
+*/
 
 /*
-table {width: 100%; border: 0px; cellpadding: 0px; cellspacing: 0px;}
 DIV.mbwrap {width: 100%; max-width: 570px;}
 DIV.ggdark {width: 100%; padding-left:5px; padding-right:5px; padding-top:2px; padding-bottom:2px; background-color: #374b27; min-height: 14px;}  
 DIV.gglt {width: 100%; padding-left:5px; padding-right:5px; padding-top:1px; padding-bottom:1px; background-color: #e1e6c4; min-height: 14px;}  
