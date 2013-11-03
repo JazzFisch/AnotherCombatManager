@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reactive.Linq;
+using System.Threading;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 using DnD4e.CombatManager.Test.ExtensionMethods;
 using DnD4e.LibraryHelper.Character;
 using DnD4e.LibraryHelper.Common;
@@ -17,51 +15,60 @@ using DnD4e.LibraryHelper.Monster;
 
 namespace DnD4e.CombatManager.Test {
     public partial class StatLibraryForm : Form {
+        #region Fields
+
+        private static readonly CultureInfo UICulture = Thread.CurrentThread.CurrentUICulture;
         private Dictionary<string, Combatant> combatants = new Dictionary<string, Combatant>();
         private CombatantType combatantType = CombatantType.Invalid;
         private Combatant combatantToView;
+        private int lowLevel = 1;
+        private int highLevel = 40;
+
+        #endregion
+
+        #region Constructors
 
         public StatLibraryForm () {
             InitializeComponent();
+            this.toolStripLowLevelTextBox.Text = lowLevel.ToString();
+            this.toolStripHighLevelTextBox.Text = highLevel.ToString();
+
+            var textChanged = Observable.FromEventPattern(this.toolStripNameTextBox, "TextChanged").Select(x => ((ToolStripTextBox)x.Sender).Text);
+            textChanged.Throttle(TimeSpan.FromMilliseconds(300))
+                       .ObserveOn(SynchronizationContext.Current)
+                       .Subscribe(text => {
+                           this.SetCombatants();
+                       });
         }
+
+        #endregion
 
         #region Event Handlers
 
         private void StatLibraryForm_Load (object sender, EventArgs e) {
         }
 
-        private void toolStripStatListLoadATButon_Click (object sender, EventArgs e) {
-            this.AddFilesToStatsList<Monster>("Monster Files|*.monster");
-        }
+        private void statDetailsWebBrowser_DocumentCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
+            // ordering of the following is IMPORTANT
+            // stop listening
+            this.statDetailsWebBrowser.DocumentCompleted -= this.statDetailsWebBrowser_DocumentCompleted;
 
-        private void toolStripStatListLoadCBButton_Click (object sender, EventArgs e) {
-            this.AddFilesToStatsList<Monster>("Character Files|*.dnd4e");
-        }
+            // load our css in
+            this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.normalize_css);
+            this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.statblock_css);
 
-        private void toolStripStatListDeleteButton_Click (object sender, EventArgs e) {
-            if (statsListBox.SelectedIndices.Count == 0) {
-                return;
-            }
+            // load our javascript in
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.modernizr_2_6_2_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.underscore_js);
+            //this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.jquery_1_10_2_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_3_0_0_debug_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_StringInterpolatingBindingProvider_js);
 
-            var selected = statsListBox.SelectedItems.OfType<Combatant>().ToList();
-            var prompt = String.Format(
-                "Are you sure you want to delete the\nfollowing entries from the Library?\n{0}",
-                String.Join("    \n", selected.Select(c => c.Handle))
-            );
+            // TODO: flip based upon type of combatant being viewed
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.bindingHandlers_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.monsterStatblock_js);
 
-            var result = MessageBox.Show(prompt, "Delete request", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (result != DialogResult.OK) {
-                return;
-            }
-
-            // TODO: update XP totals
-
-            // TODO: remove from "add to battle" pane
-
-            foreach (var combatant in selected) {
-                this.statsListBox.Items.Remove(combatant);
-                this.combatants.Remove(combatant.Handle);
-            }
+            this.RenderCombatantDetails(this.combatantToView);
         }
 
         private void statsListBox_KeyDown (object sender, KeyEventArgs e) {
@@ -100,32 +107,87 @@ namespace DnD4e.CombatManager.Test {
             //}
         }
 
-        private void statDetailsWebBrowser_DocumentCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
-            // ordering of the following is IMPORTANT
-            // stop listening
-            this.statDetailsWebBrowser.DocumentCompleted -= this.statDetailsWebBrowser_DocumentCompleted;
+        private void toolStripRoleComboBox_SelectedIndexChanged (object sender, EventArgs e) {
+            this.SetCombatants();
+        }
 
-            // load our css in
-            this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.normalize_css);
-            this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.statblock_css);
+        private void toolStripItemClearButton_Click (object sender, EventArgs e) {
+            this.toolStripNameTextBox.Clear();
+            this.toolStripRoleComboBox.SelectedIndex = 0;
+            this.lowLevel = 1;
+            this.highLevel = 40;
+            this.toolStripLowLevelTextBox.Text = this.lowLevel.ToString();
+            this.toolStripHighLevelTextBox.Text = this.highLevel.ToString();
+            this.SetCombatants();
+        }
 
-            // load our javascript in
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.modernizr_2_6_2_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.underscore_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.jquery_1_10_2_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_3_0_0_debug_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_StringInterpolatingBindingProvider_js);
-            
-            // TODO: flip based upon type of combatant being viewed
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.bindingHandlers_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.monsterStatblock_js);
+        private void toolStripStatListLoadATButon_Click (object sender, EventArgs e) {
+            int? index = this.AddFilesToStatsList<Monster>("Monster Files|*.monster");
+            if (index.HasValue) {
+                this.statsListBox.ClearSelected();
+                this.statsListBox.SelectedIndex = index.Value;
+            }
+        }
 
-            this.RenderCombatantDetails(this.combatantToView);
+        private void toolStripStatListLoadCBButton_Click (object sender, EventArgs e) {
+            int? index = this.AddFilesToStatsList<Character>("Character Files|*.dnd4e");
+            if (index.HasValue) {
+                this.statsListBox.ClearSelected();
+                this.statsListBox.SelectedIndex = index.Value;
+            }
+        }
+
+        private void toolStripStatListDeleteButton_Click (object sender, EventArgs e) {
+            if (statsListBox.SelectedIndices.Count == 0) {
+                return;
+            }
+
+            var selected = statsListBox.SelectedItems.OfType<Combatant>().ToList();
+            var prompt = String.Format(
+                "Are you sure you want to delete the\nfollowing entries from the Library?\n{0}",
+                String.Join("    \n", selected.Select(c => c.Handle))
+            );
+
+            var result = MessageBox.Show(prompt, "Delete request", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (result != DialogResult.OK) {
+                return;
+            }
+
+            // TODO: update XP totals
+
+            // TODO: remove from "add to battle" pane
+
+            foreach (var combatant in selected) {
+                this.statsListBox.Items.Remove(combatant);
+                this.combatants.Remove(combatant.Handle);
+            }
+        }
+
+        private void toolStripHighLevelTextBox_Validating (object sender, CancelEventArgs e) {
+            int num;
+            if (!int.TryParse(this.toolStripHighLevelTextBox.Text, out num)) {
+                this.toolStripHighLevelTextBox.Text = this.highLevel.ToString();
+                e.Cancel = true;
+            }
+            this.highLevel = num;
+            this.SetCombatants();
+        }
+
+        private void toolStripLowLevelTextBox_Validating (object sender, CancelEventArgs e) {
+            int num;
+            if (!int.TryParse(this.toolStripLowLevelTextBox.Text, out num)) {
+                this.toolStripLowLevelTextBox.Text = this.lowLevel.ToString();
+                e.Cancel = true;
+            }
+            this.lowLevel = num;
+            this.SetCombatants();
         }
 
         #endregion
 
-        private void AddFilesToStatsList<T> (string filter) where T : Combatant {
+        #region Private Methods
+
+        private int? AddFilesToStatsList<T> (string filter) where T : Combatant {
             OpenFileDialog dialog = new OpenFileDialog() {
                 Filter = filter + "|All files (*.*)|*.*",
                 CheckFileExists = true,
@@ -137,7 +199,7 @@ namespace DnD4e.CombatManager.Test {
             DialogResult result = dialog.ShowDialog();
 
             if ((result != DialogResult.OK) || (dialog.FileNames.Length == 0)) {
-                return;
+                return null;
             }
 
             foreach (var filename in dialog.FileNames) {
@@ -163,8 +225,13 @@ namespace DnD4e.CombatManager.Test {
                     this.statsListBox.Items.Remove(old.Single());
                 }
                 this.combatants[combatant.Handle] = combatant;
-                this.statsListBox.Items.Add(combatant);
+                var index = this.statsListBox.Items.Add(combatant);
+                if (dialog.FileNames.Length == 1) {
+                    return index;
+                }
             }
+
+            return null;
         }
 
         private void RenderCombatantDetails (Combatant combatant) {
@@ -186,5 +253,28 @@ namespace DnD4e.CombatManager.Test {
                 Trace.WriteLine(ex);
             }
         }
+
+        private void SetCombatants () {
+            var role = this.toolStripRoleComboBox.SelectedItem as string;
+            var name = this.toolStripNameTextBox.Text;
+
+            var query = this.combatants.Values.AsQueryable()
+                            .Where(c => c.Level >= this.lowLevel)
+                            .Where(c => c.Level <= this.highLevel);
+            if (!String.IsNullOrWhiteSpace(name)) {
+                query = query.Where(c => UICulture.CompareInfo.IndexOf(c.Name, name, CompareOptions.IgnoreCase) != -1);
+            }
+            if (!String.IsNullOrWhiteSpace(role)) {
+                query = query.Where(c => String.Equals(c.Role, role, StringComparison.OrdinalIgnoreCase));
+            }
+
+            var matches = query.Select(c => c);
+            this.statsListBox.BeginUpdate();
+            this.statsListBox.Items.Clear();
+            this.statsListBox.Items.AddRange(matches.ToArray());
+            this.statsListBox.EndUpdate();
+        }
+
+        #endregion
     }
 }

@@ -137,6 +137,7 @@
             this.toolStripItemClearButton.Text = "Clear";
             this.toolStripItemClearButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.toolStripItemClearButton.ToolTipText = "Clear Filter";
+            this.toolStripItemClearButton.Click += new System.EventHandler(this.toolStripItemClearButton_Click);
             // 
             // ToolStripAdditionalFilters
             // 
@@ -163,11 +164,13 @@
             // 
             // toolStripLowLevelTextBox
             // 
+            this.toolStripLowLevelTextBox.MaxLength = 2;
             this.toolStripLowLevelTextBox.Name = "toolStripLowLevelTextBox";
             this.toolStripLowLevelTextBox.Size = new System.Drawing.Size(30, 25);
             this.toolStripLowLevelTextBox.Text = "1";
             this.toolStripLowLevelTextBox.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolStripLowLevelTextBox.ToolTipText = "Filter List by Level";
+            this.toolStripLowLevelTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.toolStripLowLevelTextBox_Validating);
             // 
             // toolStripToLabel
             // 
@@ -177,11 +180,13 @@
             // 
             // toolStripHighLevelTextBox
             // 
+            this.toolStripHighLevelTextBox.MaxLength = 2;
             this.toolStripHighLevelTextBox.Name = "toolStripHighLevelTextBox";
             this.toolStripHighLevelTextBox.Size = new System.Drawing.Size(30, 25);
             this.toolStripHighLevelTextBox.Text = "40";
             this.toolStripHighLevelTextBox.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolStripHighLevelTextBox.ToolTipText = "Filter List by Level";
+            this.toolStripHighLevelTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.toolStripHighLevelTextBox_Validating);
             // 
             // toolStripRoleComboBox
             // 
@@ -202,6 +207,7 @@
             "Warder"});
             this.toolStripRoleComboBox.Name = "toolStripRoleComboBox";
             this.toolStripRoleComboBox.Size = new System.Drawing.Size(80, 25);
+            this.toolStripRoleComboBox.SelectedIndexChanged += new System.EventHandler(this.toolStripRoleComboBox_SelectedIndexChanged);
             // 
             // toolStripRoleLabel
             // 
@@ -348,9 +354,7 @@
         internal System.Windows.Forms.ToolStripButton toolStripItemClearButton;
         internal System.Windows.Forms.ToolStrip ToolStripAdditionalFilters;
         internal System.Windows.Forms.ToolStripLabel toolStripLevelsLabel;
-        internal System.Windows.Forms.ToolStripTextBox toolStripLowLevelTextBox;
         internal System.Windows.Forms.ToolStripLabel toolStripToLabel;
-        internal System.Windows.Forms.ToolStripTextBox toolStripHighLevelTextBox;
         internal System.Windows.Forms.ToolStripComboBox toolStripRoleComboBox;
         internal System.Windows.Forms.ToolStripLabel toolStripRoleLabel;
         internal System.Windows.Forms.ListBox statsListBox;
@@ -363,5 +367,7 @@
         internal System.Windows.Forms.ToolStripButton toolStripStatListLoadCBButton;
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator1;
         private System.Windows.Forms.WebBrowser statDetailsWebBrowser;
+        internal System.Windows.Forms.ToolStripTextBox toolStripLowLevelTextBox;
+        internal System.Windows.Forms.ToolStripTextBox toolStripHighLevelTextBox;
     }
 }
