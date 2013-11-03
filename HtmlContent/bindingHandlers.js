@@ -12,33 +12,38 @@ ko.bindingHandlers.powerFont = {
     update: function (element, valueAccessor) {
         var value = valueAccessor(),
             power = _.isObject(value) && value || _.isString(value) && { Type: value, IsBasic: false } || {},
-            text;
+            types = power.Type && power.Type.split("###"),
+            text = '';
 
         if (!_.size(power)) {
             return;
         }
 
-        switch (power.Type.toLowerCase()) {
-            case 'melee':
-                text = power.IsBasic ? 'm' : 'M';
-                break;
+        _.each(types, function (type) {
+            var type = type.toLowerCase();
+            switch (type) {
+                case 'melee':
+                    text += power.IsBasic ? 'm' : 'M';
+                    break;
 
-            case 'ranged':
-                text = power.IsBasic ? 'r' : 'R';
-                break;
+                case 'ranged':
+                    text += power.IsBasic ? 'r' : 'R';
+                    break;
 
-            case 'close':
-            case 'close burst':
-            case 'close blast':
-                text = power.IsBasic ? 'c' : 'C';
-                break;
+                case 'close':
+                case 'close burst':
+                case 'close blast':
+                    text += power.IsBasic ? 'c' : 'C';
+                    break;
 
-            case 'area':
-                text = power.IsBasic ? 'a' : 'A';
-                break;
+                case 'area':
+                    text += power.IsBasic ? 'a' : 'A';
+                    break;
+            }
+        });
 
-            default:
-                return;
+        if (!text) {
+            return;
         }
 
         ko.bindingHandlers.text.update(element, function() { return text; });

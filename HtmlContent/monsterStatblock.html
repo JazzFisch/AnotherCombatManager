@@ -90,7 +90,7 @@
             <div data-bind="template: { name: 'power', foreach: _.filter(Monster().Powers, function(power) { return power.Action !== 'Standard' && power.Action !== 'Move' && power.Action !== 'Minor' && _.isEmpty(power.Trigger) }), as: 'power' }"></div>
         <!-- /ko -->
 
-        <p class="skills" data-bind="if: _.size(Skills())"><b>Skills</b><span data-bind="template: { name: 'skills', data: { name: 'Skills', data: Skills() } }"></span></p>
+        <p class="skills" data-bind="if: _.size(Skills())"><b>Skills</b><span data-bind="template: { name: 'skills', data: Skills() }"></span></p>
 		<table class="abilityScores">
 			<tr>
 				<td>
@@ -123,10 +123,7 @@
         </p>
     </div>
 <script type="text/html" id="skills">
-    <!-- ko foreach: _.pairs(data) -->
-        <span data-bind="text: $data[0]"></span>
-        <span data-bind="commaNum: $data[1], signed: true"></span><!-- ko if: $index()+1 < _.size($parent.data) -->, <!-- /ko -->
-    <!-- /ko -->
+<!-- ko foreach: _.pairs($data) -->{{$data[0]}} {{($data[1] > 0 ? '+' : '') + $data[1]}}<!-- ko if: $index() + 1 < _.size($parent) -->, <!-- /ko --><!-- /ko -->
 </script>
 <script type="text/html" id="attackBonuses">
 <!-- ko foreach: _.pairs($data) -->{{($data[1] > 0 ? '+' : '') + $data[1]}} vs. {{$data[0]}}<!-- ko if: $index()+1 < _.size($parent.data) -->, <!-- /ko --><!-- /ko -->
