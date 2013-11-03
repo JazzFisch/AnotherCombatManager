@@ -13,20 +13,21 @@
 </head>
 <body>
     <div id="detail">
-        <h1 class="monster" data-bind="text: Monster().Name"></h1>
-        <span class="type" data-bind="text: TraitsString()"></span>
-        <span class="level" data-bind="text: LevelString()"></span>
-        <span class="xp" data-bind="commaNum: Monster().Experience, prefix: 'XP '"></span>
+        <h1 class="monster">
+            {{Monster().Name}}<span class="type">{{TraitsString()}}</span>
+            <span class="type">{{LevelString()}}</span><span class="xp" data-bind="commaNum: Monster().Experience, prefix: 'XP '"></span>
+        </h1>
         <table class="bodytable">
             <tr>
-                <td><b>HP</b>&nbsp;<span data-bind="commaNum: Monster().HitPoints"></span>;&nbsp;<b>Bloodied</b>&nbsp;<span data-bind="commaNum: Bloodied()"></span></td>
+                <td><b>HP</b>&nbsp;<span data-bind="commaNum: Monster().HitPoints"></span>;&nbsp;<b>Bloodied</b>&nbsp;<span data-bind="commaNum: Bloodied()"></span></td>                
                 <td class="rightalign"><b>Initiative</b>&nbsp;<span data-bind="commaNum: Monster().Initiative, signed: true"></span></td>
             </tr>
             <tr>
                 <td>
-                    <b>AC</b>&nbsp;<span data-bind="text: Monster().Defenses.AC"></span>,&nbsp;
-                    <b>Fortitude</b>&nbsp;<span data-bind="text: Monster().Defenses.Fortitude"></span>,&nbsp;
-                    <b>Reflex</b>&nbsp;<span data-bind="text: Monster().Defenses.Reflex"></span>,&nbsp;
+                    <!-- ko if: Monster().Regeneration.Value --><b>Regeneration</b>&nbsp;{{Monster().Regeneration.Value}}<!-- ko if: Monster().Regeneration.Details --> ({{Monster().Regeneration.Details}})<!-- /ko --><!-- /ko -->
+                    <b>AC</b>&nbsp;<span data-bind="text: Monster().Defenses.AC"></span>;&nbsp;
+                    <b>Fortitude</b>&nbsp;<span data-bind="text: Monster().Defenses.Fortitude"></span>;&nbsp;
+                    <b>Reflex</b>&nbsp;<span data-bind="text: Monster().Defenses.Reflex"></span>;&nbsp;
                     <b>Will</b>&nbsp;<span data-bind="text: Monster().Defenses.Will"></span>
                 </td>
                 <td class="rightalign">
@@ -46,8 +47,8 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <b>Saving Throws</b>&nbsp;<span data-bind="commaNum: Monster().SavingThrows, signed: true"></span>;&nbsp;
-                    <b>Action Points</b>&nbsp;<span data-bind="text: Monster().ActionPoints"></span>
+                    <!-- ko if: Monster().SavingThrows --><b>Saving Throws</b>&nbsp;<span data-bind="commaNum: Monster().SavingThrows, signed: true"></span>;&nbsp;<!-- /ko -->
+                    <!-- ko if: Monster().ActionPoints --><b>Action Points</b>&nbsp;<span data-bind="text: Monster().ActionPoints"></span><!-- /ko -->
                 </td>
             </tr>
         </table>
@@ -77,9 +78,12 @@
             <div data-bind="template: { name: 'power', foreach: _.filter(Monster().Powers, function(power) { return !_.isEmpty(power.Trigger) }), as: 'power' }"></div>
         <!-- /ko -->
 
-        <p class="flavor alt">
-            <!-- ko if _.omit(Monster().Skills, 'Perception') --><b>Skills</b>&nbsp;<span data-bind="template: { name: 'skills', data: { name: 'Skills', data: _.omit(Monster().Skills, 'Perception') } }"></span><br/><!-- /ko -->
-        </p>
+        <!-- ko if: _.find(Monster().Powers, function(power) { return power.Action !== 'Standard' && power.Action !== 'Move' && power.Action !== 'Minor' && _.isEmpty(power.Trigger) }) -->
+            <h2>Other Powers</h2>
+            <div data-bind="template: { name: 'power', foreach: _.filter(Monster().Powers, function(power) { return power.Action !== 'Standard' && power.Action !== 'Move' && power.Action !== 'Minor' && _.isEmpty(power.Trigger) }), as: 'power' }"></div>
+        <!-- /ko -->
+
+        <p class="flavor alt" data-bind="if: _.size(_.omit(Monster().Skills, 'Perception'))"><b>Skills</b><span data-bind="template: { name: 'skills', data: { name: 'Skills', data: _.omit(Monster().Skills, 'Perception') } }"></span></p>
 		<table class="flavor alt">
 			<tr>
 				<td class="indmed">
@@ -105,7 +109,7 @@
 			</tr>
 		</table>
         <p class="flavor alt">
-            <b>Alignment</b>&nbsp;<span data-bind="text: Monster().Alignment"></span>
+            <b>Alignment</b>&nbsp;<span data-bind="text: Alignment()"></span>
 			<b>Languages</b>&nbsp;<span data-bind="stringArray: Monster().Languages, fallback: '-'"></span><br/>
             <!-- ko if: _.size(Monster().Items) --><b>Equipment</b>&nbsp;<span data-bind="kvpArray: Monster().Items, min: 2, valuePrefix: ' x '"></span><br /><!-- /ko -->
             <b>Source</b>&nbsp;<a data-bind="attr: { href: Monster().CompendiumUrl }">{{ Monster().SourceBook }}</a><br/>               
@@ -126,44 +130,41 @@
     <!-- need to change from ($parents.length - 2) to whatever the correct depth is -->
     <!-- uncomment following to figure out how much to subtract -->
     <!--{{$parents.length}} {{$parentContext.$index}} {{$parents[$parents.length - 2].Action}}-->
-    <p class="flavorIndent" data-bind="if: !Hit.IsEmpty">
-        <i>Attack<!-- ko if: $parent.Action === 'Immediate Interrupt' || $parent.Action === 'Immediate Reaction' --> ({{$parent.Action}})<!-- /ko -->: </i>
-        <span data-bind="if: Range">{{Range}}</span>
-        <!-- ko if: Targets -->&nbsp;({{Targets}})<!-- /ko --><!-- ko if: Range || Targets-->;<!-- /ko -->
-        <span data-bind="template: { name: 'attackBonuses', data: AttackBonuses }"></span>
+    <p class="flavorIndent" data-bind="if: !Hit.IsEmpty && Hit.Description">
+        <i>Attack<!-- ko if: $parent.Action !== 'Standard' && $parent.Action !== 'Move' && $parent.Action !== 'Minor' --> ({{$parent.Action}})<!-- /ko -->:</i>
+        {{Range}}<!-- ko if: Targets --> ({{Targets}})<!-- /ko --><!-- ko if: Range || Targets-->;<!-- /ko --><span data-bind="template: { name: 'attackBonuses', data: AttackBonuses }"></span>
     </p>
-    <p class="flavorIndent" data-bind="if: !Hit.IsEmpty">
+    <p class="flavorIndent" data-bind="if: !Hit.IsEmpty && Hit.Description">
         <i>Hit: </i>
         <span data-bind="if: Hit.Damage">{{Hit.Damage}} </span>
         <span data-bind="text: Hit.Description"></span>
-        <p data-bind="foreach: Hit.AfterEffects, as: 'aftereffect'">&nbsp;&nbsp;<i>Aftereffect: </i>{{Description}}</p>
-        <p data-bind="foreach: Hit.FailedSavingThrows, as: 'failed'">&nbsp;&nbsp;<i>{{$root.IterationString($index() + 1)}} Failed Saving Throw: </i>{{Description}}</p>
-        <p data-bind="if: _.size(Hit.Attacks) && !Hit.Attacks[0].Effect.IsEmpty">&nbsp;&nbsp;<i>Successful Saving Throw: </i>{{Hit.Attacks[0].Effect.Description}}</p>
     </p>
+    <!-- ko foreach: Hit.AfterEffects --><p>{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 1)}}<i>Aftereffect: </i>{{Damage}} {{Description}}</p><!-- /ko -->
+    <!-- ko foreach: Hit.FailedSavingThrows --><p>&nbsp;&nbsp;<i>{{$root.IterationString($index() + 1)}} Failed Saving Throw: </i>{{Description}}</p><!-- /ko -->
+    <p data-bind="if: _.size(Hit.Attacks) && !Hit.Attacks[0].Effect.IsEmpty">&nbsp;&nbsp;<i>Successful Saving Throw: </i>{{Hit.Attacks[0].Effect.Description}}</p>
     <p class="flavorIndent" data-bind="if: !Miss.IsEmpty">
         <i>Miss: </i>
         <span data-bind="if: Miss.Damage">{{Miss.Damage}} </span>
         <span data-bind="text: Miss.Description"></span>
     </p>
     <p class="flavorIndent" data-bind="if: !Effect.IsEmpty">
-        <i><!-- ko if: ($parents.length - 2) > 0-->{{($index() + 1)}}.&nbsp;<!-- /ko -->Effect<!-- ko if: $parents[$parents.length - 2].Action && $parents[$parents.length - 2].Action !== 'Standard' --> ({{$parents[$parents.length - 2].Action}})<!-- /ko -->: </i>
-        <span data-bind="text: Effect.Description"></span>
-        <p data-bind="foreach: Effect.Sustains, as: 'sustain'">&nbsp;&nbsp;<i>Sustain {{Action}}: </i>{{Description}}</p>
+        <i><!-- ko if: ($parents.length - 2) > 0-->{{Name}}<!-- /ko --><!-- ko ifnot: ($parents.length - 2) > 0 -->Effect<!-- /ko --><!-- ko if: $parents[$parents.length - 2].Action && ($parents[$parents.length - 2].Action !== 'Standard' && $parents[$parents.length - 2].Action !== 'Move' && $parents[$parents.length - 2].Action !== 'Minor') --> ({{$parents[$parents.length - 2].Action}})<!-- /ko -->: </i>
+        <span data-bind="html: Effect.Description.replace(/###/g, '<br/>')"></span>
     </p>
+    <!-- ko foreach: Effect.Sustains --><p>{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 1)}}<i>Sustain {{Action}}: </i>{{Description}}</p><!-- /ko -->
     <!-- ko template: { name: 'attack', foreach: Effect.Attacks }--><!-- /ko -->
+    <!-- ko foreach: Effect.AfterEffects --><p>{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 1)}}<i>Aftereffect: </i><span data-bind="html: Description.replace(/###/g, '<br/>')"></span></p><!-- /ko -->
+    <!-- ko foreach: Effect.FailedSavingThrows --><p>{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 1)}}<i>{{$root.IterationString($index() + 1)}} Failed Saving Throw: </i>{{Description}}</p><!-- /ko -->
 </script>
 <script type="text/html" id="power">
-    <p class="flavor alt"><font face="4etools symbols" data-bind="powerFont: power"></font><b>&nbsp;{{Name}}&nbsp;</b><span data-bind="if: _.size(Keywords)">({{ Keywords.join(', ') }})&nbsp;</span><b>&bull; {{Usage}} </b><font face="4etools symbols" data-bind="rechargeFont: power"></font></p>
+    <p class="flavor alt"><font face="4etools symbols" data-bind="powerFont: power"></font><b>&nbsp;{{Name}}&nbsp;</b><span data-bind="if: _.size(Keywords)">({{ Keywords.join(', ') }})&nbsp;</span><b>&bull; {{Usage}} </b><!-- ko if: UsageDetails && UsageDetails.length === 1 && parseInt(UsageDetails, 10) --><font face="4etools symbols" data-bind="rechargeFont: power"></font><!-- /ko --><span data-bind="ifnot: UsageDetails && UsageDetails.length === 1 && parseInt(UsageDetails, 10)">{{UsageDetails}}</span></p>
     <p class="flavorIndent" data-bind="if: Requirements"><i>Requirement:</i> {{Requirements}}</p>
     <p class="flavorIndent" data-bind="if: Trigger"><i>Trigger:</i> {{Trigger}}</p>
     <!-- ko template: { name: 'attack', foreach: Attacks }--><!-- /ko -->
 </script>
 <script type="text/html" id="trait">
-    <p class="flavor alt">
-        <!-- TODO: go about finding an aura icon / font -->
-        <b data-bind="text: Name"></b><span data-bind="if: _.size(Keywords)"> ({{ Keywords.join(', ') }}) </span>
-        <!-- ko if: Range --><b>&nbsp;&bull;&nbsp;Aura&nbsp;</b>{{Range}}<!-- /ko -->
-    </p>
+    <!-- TODO: go about finding an aura icon / font -->
+    <p class="flavor alt"><b>{{Name}}&nbsp;</b><span data-bind="if: _.size(Keywords)">({{ Keywords.join(', ') }})</span><!-- ko if: Range --><b>&nbsp;&bull;&nbsp;Aura&nbsp;</b>{{Range}}<!-- /ko --></p>
     <p class="flavorIndent" data-bind="text: Details"></p>
 </script>
 </body>
