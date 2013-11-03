@@ -96,11 +96,11 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 Flavor = monsterPower.Flavor.FixWhitespace(),
                 IsBasic = monsterPower.IsBasic,
                 Keywords = monsterPower.Keywords.Select(k => k.Name).ToList(),
-                Name = monsterPower.Name,
+                Name = monsterPower.Name.FixWhitespace(),
                 Requirements = monsterPower.Requirements.FixWhitespace(),
                 Trigger = monsterPower.Trigger.FixWhitespace(),
-                Type = Culture.TextInfo.ToTitleCase(monsterPower.Type ?? String.Empty),
-                Usage = Culture.TextInfo.ToTitleCase(monsterPower.Usage ?? String.Empty),
+                Type = Culture.TextInfo.ToTitleCase(monsterPower.Type ?? String.Empty).FixWhitespace(),
+                Usage = Culture.TextInfo.ToTitleCase(monsterPower.Usage ?? String.Empty).FixWhitespace(),
                 UsageDetails = monsterPower.UsageDetails.FixWhitespace()
             };
         }
