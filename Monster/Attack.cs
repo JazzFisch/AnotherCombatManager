@@ -12,6 +12,8 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public AttackType Miss { get; set; }
 
+        public string Name { get; set; }
+
         public string Range { get; set; }
 
         public string Targets { get; set; }

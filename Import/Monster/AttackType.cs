@@ -44,7 +44,7 @@ namespace DnD4e.LibraryHelper.Import.Monster {
                 return String.IsNullOrWhiteSpace(this.Action) &&
                        this.AfterEffects.Count == 0 &&
                        this.Attacks.Count == 0 &&
-                       this.Damage.IsEmpty &&
+                       this.Damage.IsEmpty && 
                        String.IsNullOrWhiteSpace(this.Description) &&
                        this.FailedSavingThrows.Count == 0 &&
                        this.Sustains.Count == 0;

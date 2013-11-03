@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DnD4e.LibraryHelper.ExtensionMethods;
 using DnD4e.LibraryHelper.Import.Common;
 using DnD4e.LibraryHelper.Import.Monster;
 using ExportMonster = DnD4e.LibraryHelper.Monster.Monster;
@@ -9,6 +10,7 @@ using ImportMonster = DnD4e.LibraryHelper.Import.Monster.Monster;
 using ExportAttack = DnD4e.LibraryHelper.Monster.Attack;
 using ExportAttackType = DnD4e.LibraryHelper.Monster.AttackType;
 using ExportPower = DnD4e.LibraryHelper.Monster.Power;
+using ExportRegeneration = DnD4e.LibraryHelper.Monster.Regeration;
 using ExportTrait = DnD4e.LibraryHelper.Monster.Trait;
 using System.Globalization;
 
@@ -33,7 +35,7 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 IsLeader = import.IsLeader,
                 Items = import.Items.Select(i => new KeyValuePair<string, int>(i.Item.Name, i.Quantity)).ToList(),
                 Keywords = import.Keywords.Select(r => r.Name).ToList(),
-                OtherSpeeds = import.Speeds.Select(s => s.ToString()).ToList(),
+                OtherSpeeds = import.Speeds.Select(s => (s.ToString() ?? String.Empty).Trim()).ToList(),
                 Languages = import.Languages.Select(r => r.Name).ToList(),
                 Level = import.Level,
                 Name = import.Name,
@@ -41,6 +43,7 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 Phasing = import.Phasing,
                 Powers = import.Powers.Select(p => p.ToExportPower()).ToList(),
                 Race = import.Race.Name,
+                Regeneration = new ExportRegeneration() { Value = import.Regeneration.Value, Details = import.Regeneration.Details },
                 Resistances = import.Resistances.Select(r => r.ToString()).ToList(),
                 Role = import.Role.Name,
                 SavingThrows = import.SavingThrows.Count > 0 ? import.SavingThrows[0].Value : 0,
@@ -49,8 +52,8 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 Size = import.Size.Name,
                 SourceBook = import.SourceBook.Name,
                 Speed = import.LandSpeed.Value,
-                Tactics = (import.Tactics ?? String.Empty).Replace("\r", " ").Replace("\n", " ").Replace("\t", " "),
-                Traits = import.Traits.ToExportList(),
+                Tactics = (import.Tactics ?? String.Empty).FixWhitespace(),
+                Traits = import.Traits.ToExportTraitList(),
                 Type = import.Type.Name,
                 Weaknesses = import.Weaknesses.Select(r => r.ToString()).ToList(),
             };
@@ -90,15 +93,15 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
             return new ExportPower() {
                 Action = Culture.TextInfo.ToTitleCase(monsterPower.Action ?? String.Empty),
                 Attacks = monsterPower.Attacks.Select(a => a.ToExportAttack()).ToList(),
-                Flavor = monsterPower.Flavor,
+                Flavor = monsterPower.Flavor.FixWhitespace(),
                 IsBasic = monsterPower.IsBasic,
                 Keywords = monsterPower.Keywords.Select(k => k.Name).ToList(),
                 Name = monsterPower.Name,
-                Requirements = monsterPower.Requirements,
-                Trigger = monsterPower.Trigger,
+                Requirements = monsterPower.Requirements.FixWhitespace(),
+                Trigger = monsterPower.Trigger.FixWhitespace(),
                 Type = Culture.TextInfo.ToTitleCase(monsterPower.Type ?? String.Empty),
                 Usage = Culture.TextInfo.ToTitleCase(monsterPower.Usage ?? String.Empty),
-                UsageDetails = monsterPower.UsageDetails
+                UsageDetails = monsterPower.UsageDetails.FixWhitespace()
             };
         }
 
@@ -108,18 +111,19 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 Effect = monsterAttack.Effect.ToExportAttackType(),
                 Hit = monsterAttack.Hit.ToExportAttackType(),
                 Miss = monsterAttack.Miss.ToExportAttackType(),
-                Range = monsterAttack.RangeString,
-                Targets = monsterAttack.Targets
+                Name = monsterAttack.Name.FixWhitespace(),
+                Range = (monsterAttack.RangeString ?? String.Empty).Trim(),
+                Targets = monsterAttack.Targets.FixWhitespace()
             };
         }
 
         public static ExportAttackType ToExportAttackType (this AttackType monsterAttackType) {
             return new ExportAttackType() {
-                Action = monsterAttackType.Action,
+                Action = monsterAttackType.Action.FixWhitespace(),
                 AfterEffects = monsterAttackType.AfterEffects.Select(ae => ae.ToExportAttackType()).ToList(),
                 Attacks = monsterAttackType.Attacks.Select(a => a.ToExportAttack()).ToList(),
-                Damage = monsterAttackType.Damage.Expression,
-                Description = monsterAttackType.Description,
+                Damage = monsterAttackType.Damage.Expression.FixWhitespace(),
+                Description = monsterAttackType.Description.FixWhitespace(),
                 FailedSavingThrows = monsterAttackType.FailedSavingThrows.Select(fst => fst.ToExportAttackType()).ToList(),
                 IsEmpty = monsterAttackType.IsEmpty,
                 Name = monsterAttackType.Name,
@@ -127,10 +131,10 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
             };
         }
 
-        public static List<ExportTrait> ToExportList (this List<MonsterTrait> import) {
+        public static List<ExportTrait> ToExportTraitList (this List<MonsterTrait> import) {
             return import.Select(t => new ExportTrait() { 
                 Name = t.Name, 
-                Details = t.Details,
+                Details = t.Details.FixWhitespace(),
                 Keywords = t.Keywords.Select(k => k.Name).ToList(),
                 Range = t.Range.Value 
             }).ToList();

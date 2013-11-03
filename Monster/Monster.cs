@@ -34,7 +34,7 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public List<Power> Powers { get; set; }
 
-        public int Regeneration { get; set; }
+        public Regeration Regeneration { get; set; }
 
         public List<string> Resistances { get; set; }
 

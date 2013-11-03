@@ -49,6 +49,7 @@
     <Compile Include="Common\Combatant.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="ExtensionMethods\Integer.cs" />
+    <Compile Include="ExtensionMethods\String.cs" />
     <Compile Include="ExtensionMethods\StringBuilder.cs" />
     <Compile Include="Import\Character\AbilityScores.cs" />
     <Compile Include="Import\Character\Character.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Monster\AttackType.cs" />
     <Compile Include="Monster\Monster.cs" />
     <Compile Include="Monster\Power.cs" />
+    <Compile Include="Monster\Regeration.cs" />
     <Compile Include="Monster\Trait.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
