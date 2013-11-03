@@ -38,8 +38,6 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public List<string> Resistances { get; set; }
 
-        public string Role { get; set; }
-
         public int SavingThrows { get; set; }
 
         public List<KeyValuePair<string, int>> Senses { get; set; }

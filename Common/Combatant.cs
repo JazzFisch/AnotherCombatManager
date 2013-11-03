@@ -31,6 +31,8 @@ namespace DnD4e.LibraryHelper.Common {
 
         public string Race { get; set; }
 
+        public string Role { get; set; }
+
         public Dictionary<Skill, int> Skills { get; set; }
 
         public string Size { get; set; }
