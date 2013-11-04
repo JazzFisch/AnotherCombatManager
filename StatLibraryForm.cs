@@ -18,7 +18,7 @@ namespace DnD4e.CombatManager.Test {
         #region Fields
 
         private static readonly CultureInfo UICulture = Thread.CurrentThread.CurrentUICulture;
-        private Dictionary<string, Combatant> combatants = new Dictionary<string, Combatant>();
+        private Dictionary<string, Combatant> library = new Dictionary<string, Combatant>();
         private CombatantType combatantType = CombatantType.Invalid;
         private Combatant combatantToView;
         private int lowLevel = 1;
@@ -46,6 +46,7 @@ namespace DnD4e.CombatManager.Test {
         #region Event Handlers
 
         private void StatLibraryForm_Load (object sender, EventArgs e) {
+            SetCombatants();
         }
 
         private void statDetailsWebBrowser_DocumentCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
@@ -159,7 +160,7 @@ namespace DnD4e.CombatManager.Test {
 
             foreach (var combatant in selected) {
                 this.statsListBox.Items.Remove(combatant);
-                this.combatants.Remove(combatant.Handle);
+                this.library.Remove(combatant.Handle);
             }
         }
 
@@ -202,6 +203,7 @@ namespace DnD4e.CombatManager.Test {
                 return null;
             }
 
+            int index = -1;
             foreach (var filename in dialog.FileNames) {
                 Monster monster;
                 Character character;
@@ -218,20 +220,22 @@ namespace DnD4e.CombatManager.Test {
                     continue;
                 }
 
-                if (this.combatants.ContainsKey(combatant.Handle)) {
+                if (this.library.ContainsKey(combatant.Handle)) {
                     var old = this.statsListBox.Items
                                                 .OfType<Combatant>()
                                                 .Where(m => m.Handle == monster.Handle);
                     this.statsListBox.Items.Remove(old.Single());
                 }
-                this.combatants[combatant.Handle] = combatant;
-                var index = this.statsListBox.Items.Add(combatant);
-                if (dialog.FileNames.Length == 1) {
-                    return index;
-                }
+                this.library[combatant.Handle] =combatant;
+                index = this.statsListBox.Items.Add(combatant);
             }
 
-            return null;
+            if (dialog.FileNames.Length == 1) {
+                return index;
+            }
+            else {
+                return null;
+            }
         }
 
         private void RenderCombatantDetails (Combatant combatant) {
@@ -251,6 +255,7 @@ namespace DnD4e.CombatManager.Test {
             }
             catch (System.Exception ex) {
                 Trace.WriteLine(ex);
+                System.Diagnostics.Debugger.Break();
             }
         }
 
@@ -258,7 +263,7 @@ namespace DnD4e.CombatManager.Test {
             var role = this.toolStripRoleComboBox.SelectedItem as string;
             var name = this.toolStripNameTextBox.Text;
 
-            var query = this.combatants.Values.AsQueryable()
+            var query = this.library.Values
                             .Where(c => c.Level >= this.lowLevel)
                             .Where(c => c.Level <= this.highLevel);
             if (!String.IsNullOrWhiteSpace(name)) {
