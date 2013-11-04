@@ -48,6 +48,7 @@
     <Compile Include="Character\Character.cs" />
     <Compile Include="Common\Combatant.cs" />
     <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\Library.cs" />
     <Compile Include="ExtensionMethods\Integer.cs" />
     <Compile Include="ExtensionMethods\String.cs" />
     <Compile Include="ExtensionMethods\StringBuilder.cs" />
