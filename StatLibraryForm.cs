@@ -18,7 +18,8 @@ namespace DnD4e.CombatManager.Test {
         #region Fields
 
         private static readonly CultureInfo UICulture = Thread.CurrentThread.CurrentUICulture;
-        private Dictionary<string, Combatant> library = new Dictionary<string, Combatant>();
+        private const string LibraryDatabaseName = "Library.ndb";
+        private Library library;
         private CombatantType combatantType = CombatantType.Invalid;
         private Combatant combatantToView;
         private int lowLevel = 1;
@@ -43,10 +44,15 @@ namespace DnD4e.CombatManager.Test {
 
         #endregion
 
-        #region Event Handlers
+        #region Event Handlers  
 
         private void StatLibraryForm_Load (object sender, EventArgs e) {
+            this.library = Library.OpenLibrary(LibraryDatabaseName);
             SetCombatants();
+        }
+
+        private void StatLibraryForm_FormClosing (object sender, FormClosingEventArgs e) {
+            this.library.Dispose();
         }
 
         private void statDetailsWebBrowser_DocumentCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
@@ -159,9 +165,9 @@ namespace DnD4e.CombatManager.Test {
             // TODO: remove from "add to battle" pane
 
             foreach (var combatant in selected) {
-                this.statsListBox.Items.Remove(combatant);
-                this.library.Remove(combatant.Handle);
+                this.library.Remove(combatant);
             }
+            SetCombatants();
         }
 
         private void toolStripHighLevelTextBox_Validating (object sender, CancelEventArgs e) {
@@ -220,13 +226,13 @@ namespace DnD4e.CombatManager.Test {
                     continue;
                 }
 
-                if (this.library.ContainsKey(combatant.Handle)) {
+                if (this.library.Exists(monster)) {
                     var old = this.statsListBox.Items
-                                                .OfType<Combatant>()
-                                                .Where(m => m.Handle == monster.Handle);
+                                               .OfType<Combatant>()
+                                               .Where(m => m.Handle == monster.Handle);
                     this.statsListBox.Items.Remove(old.Single());
                 }
-                this.library[combatant.Handle] =combatant;
+                this.library.Upsert(combatant as Monster);
                 index = this.statsListBox.Items.Add(combatant);
             }
 
@@ -263,12 +269,16 @@ namespace DnD4e.CombatManager.Test {
             var role = this.toolStripRoleComboBox.SelectedItem as string;
             var name = this.toolStripNameTextBox.Text;
 
-            var query = this.library.Values
-                            .Where(c => c.Level >= this.lowLevel)
-                            .Where(c => c.Level <= this.highLevel);
+            IEnumerable<Combatant> combatants;
             if (!String.IsNullOrWhiteSpace(name)) {
-                query = query.Where(c => UICulture.CompareInfo.IndexOf(c.Name, name, CompareOptions.IgnoreCase) != -1);
+                combatants = this.library.QueryByName<Combatant>(name);
             }
+            else {
+                combatants = this.library.Query<Combatant>();
+            }
+
+            var query = combatants.Where(c => c.Level >= this.lowLevel)
+                                  .Where(c => c.Level <= this.highLevel);
             if (!String.IsNullOrWhiteSpace(role)) {
                 query = query.Where(c => String.Equals(c.Role, role, StringComparison.OrdinalIgnoreCase));
             }

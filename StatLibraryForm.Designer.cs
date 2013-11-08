@@ -322,6 +322,7 @@
             this.Controls.Add(this.splitContainer);
             this.Name = "StatLibraryForm";
             this.Text = "StatLibraryForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StatLibraryForm_FormClosing);
             this.Load += new System.EventHandler(this.StatLibraryForm_Load);
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
