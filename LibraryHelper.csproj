@@ -37,7 +37,12 @@
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +53,8 @@
     <Compile Include="Character\Character.cs" />
     <Compile Include="Common\Combatant.cs" />
     <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\ILibrary.cs" />
+    <Compile Include="Common\Json.cs" />
     <Compile Include="Common\Library.cs" />
     <Compile Include="ExtensionMethods\Integer.cs" />
     <Compile Include="ExtensionMethods\String.cs" />
