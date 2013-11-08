@@ -46,7 +46,7 @@ ko.bindingHandlers.powerFont = {
             return;
         }
 
-        ko.bindingHandlers.text.update(element, function() { return text; });
+        ko.bindingHandlers.text.update(element, function() { return text + ' '; });
     }
 };
 
@@ -108,14 +108,8 @@ ko.bindingHandlers.commaNum = {
             options = ko.utils.unwrapObservable(allBindingsAccessor()) || {},
             prefix = options.prefix || '',
             postfix = options.postfix || '',
-            sign = options.signed ? (num > 0 ? '+' : '') : '',
-            regex = /(\d+)(\d{3})/,
-            text = num + '';
+            text = toCommaNum(num, options.signed);
 
-        while (regex.test(text)) {
-            text = text.replace(regex, '$1' + ',' + '$2');
-        }
-
-        ko.bindingHandlers.text.update(element, function() { return prefix + sign + text + postfix; });
+        ko.bindingHandlers.text.update(element, function() { return prefix + text + postfix; });
     }
 };

@@ -18,12 +18,11 @@ namespace DnD4e.CombatManager.Test {
         #region Fields
 
         private static readonly CultureInfo UICulture = Thread.CurrentThread.CurrentUICulture;
-        private const string LibraryDatabaseName = "Library.ndb";
-        private Library library;
         private CombatantType combatantType = CombatantType.Invalid;
         private Combatant combatantToView;
         private int lowLevel = 1;
         private int highLevel = 40;
+        private Library library;
 
         #endregion
 
@@ -47,7 +46,7 @@ namespace DnD4e.CombatManager.Test {
         #region Event Handlers  
 
         private void StatLibraryForm_Load (object sender, EventArgs e) {
-            this.library = Library.OpenLibrary(LibraryDatabaseName);
+            this.library = Library.OpenLibrary();
             SetCombatants();
         }
 
@@ -67,9 +66,10 @@ namespace DnD4e.CombatManager.Test {
             // load our javascript in
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.modernizr_2_6_2_js);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.underscore_js);
-            //this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.jquery_1_10_2_js);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_3_0_0_debug_js);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_StringInterpolatingBindingProvider_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.ko_ninja_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.statblockHelpers_js);
 
             // TODO: flip based upon type of combatant being viewed
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.bindingHandlers_js);
@@ -232,7 +232,7 @@ namespace DnD4e.CombatManager.Test {
                                                .Where(m => m.Handle == monster.Handle);
                     this.statsListBox.Items.Remove(old.Single());
                 }
-                this.library.Upsert(combatant as Monster);
+                this.library[combatant.Handle] = combatant;
                 index = this.statsListBox.Items.Add(combatant);
             }
 
@@ -274,7 +274,7 @@ namespace DnD4e.CombatManager.Test {
                 combatants = this.library.QueryByName<Combatant>(name);
             }
             else {
-                combatants = this.library.Query<Combatant>();
+                combatants = this.library.Combatants;
             }
 
             var query = combatants.Where(c => c.Level >= this.lowLevel)

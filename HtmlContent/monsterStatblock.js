@@ -79,6 +79,9 @@ function ViewModel() {
 
         return parts.join(' ');
     };
+    this.XPString = function () {
+        return 'XP ' + toCommaNum(self.Monster().Experience);
+    };
 }
 
 // transform the ViewModel so that we can map our data to
