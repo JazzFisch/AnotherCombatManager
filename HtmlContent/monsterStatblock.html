@@ -15,8 +15,8 @@
     <script type='text/javascript' src='monsterStatblock.js'></script>-->
 </head>
 <body>
-    <div id="detail">
-        <table class="monster">
+    <div class="monster">
+        <table class="header">
             <tr>
                 <td class="bold">{{Monster().Name}}</td>
                 <td class="bold right">{{LevelString()}}</td>
@@ -26,10 +26,10 @@
                 <td class="right">{{XPString()}}</td>
             </tr>
         </table>
-        <table class="bodytable flavor">
+        <table class="flavor noindent">
             <tr>
                 <td><b>HP</b>&nbsp;<span data-bind="commaNum: Monster().HitPoints"></span>;&nbsp;<!-- ko ifnot: Monster().GroupRole === 'Minion' --><b>Bloodied</b>&nbsp;<span data-bind="commaNum: Bloodied()"></span><!-- /ko --><!-- ko if: Monster().GroupRole === 'Minion' -->a missed attack never damages a minion.<!-- /ko --></td>                
-                <td class="rightalign"><b>Initiative</b>&nbsp;<span data-bind="commaNum: Monster().Initiative, signed: true"></span></td>
+                <td class="right"><b>Initiative</b>&nbsp;<span data-bind="commaNum: Monster().Initiative, signed: true"></span></td>
             </tr>
             <tr>
                 <td>
@@ -39,13 +39,13 @@
                     <b>Reflex</b>&nbsp;<span data-bind="text: Monster().Defenses.Reflex"></span>;&nbsp;
                     <b>Will</b>&nbsp;<span data-bind="text: Monster().Defenses.Will"></span>
                 </td>
-                <td class="rightalign">
+                <td class="right">
                     <!-- ko if: Monster().Skills.Perception --><b>Perception</b>&nbsp;<span data-bind="commaNum: Monster().Skills.Perception, signed: true"></span><!-- /ko -->
                 </td>
             </tr>
             <tr>
                 <td><b>Speed</b>&nbsp;<span data-bind="text: Monster().Speed"></span><!-- ko if: _.size(Monster().OtherSpeeds) -->,&nbsp;<span data-bind="stringArray: Monster().OtherSpeeds"></span><!-- /ko --><!-- ko if: Monster().Phasing -->; phasing<!-- /ko --></td>
-                <td class="rightalign"><span data-bind="kvpArray: Monster().Senses"></span></td>
+                <td class="right"><span data-bind="kvpArray: Monster().Senses"></span></td>
             </tr>
             <tr>
                 <!-- ko if: _.size(Monster().Immunities) || _.size(Monster().Resistances) || _.size(Monster().Weaknesses)-->
@@ -97,9 +97,9 @@
         <!-- /ko -->
 
         <!-- ko if: _.size(Skills()) -->
-        <p class="skills"><b>Skills</b><span data-bind="template: { name: 'skills', data: Skills() }"></span></p>
+        <p class="flavor dark noindent"><b>Skills</b><span data-bind="template: { name: 'skills', data: Skills() }"></span></p>
         <!-- /ko -->
-		<table class="abilityScores">
+		<table class="flavor dark noindent">
 			<tr>
 				<td>
 					<b>Str</b>&nbsp;<span data-bind="abilityScore: Monster().AbilityScores.Strength"></span>
@@ -123,9 +123,9 @@
 				</td>
 			</tr>
 		</table>
-        <p class="flavor">
-            <b>Alignment</b>&nbsp;<span data-bind="text: Alignment()"></span>
-			<b>Languages</b>&nbsp;<span data-bind="stringArray: Monster().Languages, fallback: '-'"></span><br/>
+        <p class="flavor noindent">
+            <b>Alignment</b>&nbsp;<span data-bind="text: Alignment()"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>Languages</b>&nbsp;<span data-bind="stringArray: Monster().Languages, fallback: '-'"></span><br/>
             <!-- ko if: _.size(Monster().Items) --><b>Equipment</b>&nbsp;<span data-bind="kvpArray: Monster().Items, min: 2, valuePrefix: ' x '"></span><br /><!-- /ko -->
             <b>Source</b>&nbsp;<a data-bind="attr: { href: Monster().CompendiumUrl }">{{ Monster().SourceBook }}</a><br/>               
         </p>

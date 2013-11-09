@@ -6,17 +6,20 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using DnD4e.CombatManager.Test.ExtensionMethods;
 using DnD4e.LibraryHelper.Character;
 using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.Monster;
+using Microsoft.Win32;
 
 namespace DnD4e.CombatManager.Test {
     public partial class StatLibraryForm : Form {
         #region Fields
 
+        private const string WebBrowserEmulationPath = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION";
         private static readonly CultureInfo UICulture = Thread.CurrentThread.CurrentUICulture;
         private CombatantType combatantType = CombatantType.Invalid;
         private Combatant combatantToView;
@@ -29,6 +32,10 @@ namespace DnD4e.CombatManager.Test {
         #region Constructors
 
         public StatLibraryForm () {
+            // fix IE rendering modes... *sigh*
+            // perform prior to any other initialization
+            this.BrowserRenderingRegistryKeys(addKeys: true);
+
             InitializeComponent();
             this.toolStripLowLevelTextBox.Text = lowLevel.ToString();
             this.toolStripHighLevelTextBox.Text = highLevel.ToString();
@@ -51,6 +58,8 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private void StatLibraryForm_FormClosing (object sender, FormClosingEventArgs e) {
+            // remove the browser rendering keys
+            this.BrowserRenderingRegistryKeys(addKeys: false);
             this.library.Dispose();
         }
 
@@ -59,8 +68,14 @@ namespace DnD4e.CombatManager.Test {
             // stop listening
             this.statDetailsWebBrowser.DocumentCompleted -= this.statDetailsWebBrowser_DocumentCompleted;
 
+            // catch futher errors
+            this.statDetailsWebBrowser.Document.Window.Error += (errorSender, errorArgs) => {
+                errorArgs.Handled = true;
+                Trace.WriteLine(errorArgs.Description);
+                System.Diagnostics.Debugger.Break();
+            };
+
             // load our css in
-            this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.normalize_css);
             this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.statblock_css);
 
             // load our javascript in
@@ -241,6 +256,37 @@ namespace DnD4e.CombatManager.Test {
             }
             else {
                 return null;
+            }
+        }
+
+        private void BrowserRenderingRegistryKeys (bool addKeys) {
+            try {
+                var exeName = Path.GetFileName(Assembly.GetEntryAssembly().Location);
+                var key = Registry.CurrentUser.OpenSubKey(WebBrowserEmulationPath, true);
+
+                if (addKeys) {
+                    key.SetValue(exeName, 8000, RegistryValueKind.DWord);
+                }
+                else if (!addKeys && key.GetValue(exeName) != null) {
+                    key.DeleteValue(exeName);
+                }
+
+#if DEBUG
+                // add the vshost
+                var ext = Path.GetExtension(exeName);
+                exeName = Path.GetFileNameWithoutExtension(exeName);
+                exeName += ".vshost" + ext;
+                if (addKeys) {
+                    key.SetValue(exeName, 8000, RegistryValueKind.DWord);
+                }
+                else if (!addKeys && key.GetValue(exeName) != null) {
+                    key.DeleteValue(exeName);
+                }
+#endif
+            }
+            catch (System.Exception ex) {
+                Trace.WriteLine(ex);
+                System.Diagnostics.Debugger.Break();
             }
         }
 

@@ -11,98 +11,69 @@ body {
 }
 
 table {
-    border: 0px; 
+    border: 0px;
+    border-spacing: 0px 1px;
     cellpadding: 0px; 
     cellspacing: 0px;
     width: 100%;
 }
 
-div.monster {
-    padding: 2px 5px 2px 5px;
+div.monster table.header {
+    padding: 2px 3px 2px 3px;
     background-color: #374b27; 
     color: #ffffff;
     min-height: 14px;
 }
 
-div.monster .bold {
+div.monster table.header .bold {
     font-size: 13px;
     font-weight: 700;
 }
 
-div.monster .right {
-    float: right;
-    text-align: right;
-}
-
-table.monster {
-    padding: 2px 5px 2px 5px;
-    background-color: #374b27; 
-    color: #ffffff;
-    min-height: 14px;
-}
-
-table.monster .bold {
-    font-size: 13px;
-    font-weight: 700;
-}
-
-table.monster .right {
-    float: right;
-    text-align: right;
-}
-
-h2 {
+div.monster h2 {
     background-color: #727c55;
     color: #ffffff;
     font-size: 9.5pt;
     font-weight: 700;
-    padding: 1px 5px 1px 5px;
+    padding: 1px 3px 1px 3px;
     margin: 0;
 }
 
-h3 {
+div.monster h3 {
     background-color: #9fa48c;
     font-size: 9.5pt;
     font-weight: 500;
-    padding: 1px 5px 1px 15px;
+    padding: 1px 3px 1px 15px;
     margin: 0;
 }
 
-.flavor {
+div.monster .flavor {
     background-color: #e1e6c4;
     padding: 1px 1px 0px 15px;
     margin: 0;
 }
 
-table.abilityScores {
+div.monster .dark {
     background-color: #9fa48c;
-    font-size: 9.5pt;
-    margin: 0;
 }
 
-p.skills {
-    background-color: #9fa48c;
-    font-size: 9.5pt;
-    margin: 0;
+div.monster .noindent {
+    padding: 1px 1px 0px 3px;
 }
 
-/*
-TD.indmed {padding-left: 4px; padding-right: 4px; font-size: 9.5pt; background-color: #9fa48c;}
-TD.indlt {padding-left: 4px; padding-right: 4px; font-size: 9.5pt; background-color: #e1e6c4;}
+div.monster table td {
+    padding: 0px;
+}
 
-DIV.ggdark {padding-left:5px; padding-right:5px; padding-top:2px; padding-bottom:2px; background-color: #374b27; min-height: 14px;}  
-DIV.gglt {padding-left:5px; padding-right:5px; padding-top:1px; padding-bottom:1px; background-color: #e1e6c4; min-height: 14px;}  
-DIV.ggmed {padding-left:5px; padding-right:5px; padding-top:1px; padding-bottom:1px; background-color: #9fa48c; min-height: 14px; }  
-DIV.ggtype {padding-left:5px; padding-right:5px; padding-top:1px; padding-bottom:1px; background-color: #727c55; min-height: 14px; }  
-DIV.ggindent {padding-left:20px;} 
-*/
+.right {
+    float: right;
+    text-align: right;
+}
 
-/*
-DIV.mbwrap {width: 100%; max-width: 570px;}
-DIV.ggdark {width: 100%; padding-left:5px; padding-right:5px; padding-top:2px; padding-bottom:2px; background-color: #374b27; min-height: 14px;}  
-DIV.gglt {width: 100%; padding-left:5px; padding-right:5px; padding-top:1px; padding-bottom:1px; background-color: #e1e6c4; min-height: 14px;}  
-DIV.ggmed {width: 100%; padding-left:5px; padding-right:5px; padding-top:1px; padding-bottom:1px; background-color: #9fa48c; min-height: 14px; }  
-DIV.ggtype {width: 100%; padding-left:5px; padding-right:5px; padding-top:1px; padding-bottom:1px; background-color: #727c55; min-height: 14px; }  
-DIV.ggindent {padding-left:20px;} 
-TD.indlt {padding-left: 4px; padding-right: 4px; font-size: 9.5pt; background-color: #e1e6c4;}
-*/
+.dotred {
+    border: dashed red 1px;
+}
+
+.dotblue {
+    border: dashed blue 1px;
+}
