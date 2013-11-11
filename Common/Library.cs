@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using DnD4e.LibraryHelper.ExtensionMethods;
@@ -13,13 +14,14 @@ namespace DnD4e.LibraryHelper.Common {
     public class Library {
         // TODO: add lazy commit on throttle this[handle] sets / removes
         // TODO: add restoring from backup if open fails
+        // TODO: add hash to Content class to determine if writing Library is necessary
         private ConcurrentDictionary<string, Combatant> combatants = new ConcurrentDictionary<string, Combatant>();
         private D20Rules rules;
         private string filename;
 
         private Library () { }
 
-        public static Library OpenLibrary (string name = "Library.json") {
+        public static Library OpenLibrary (string name = "Library.json.zip") {
             var path = Assembly.GetExecutingAssembly().Location;
             return Library.OpenLibrary(Path.GetDirectoryName(path), name);
         }
@@ -106,9 +108,14 @@ namespace DnD4e.LibraryHelper.Common {
 
             string json = JsonConvert.SerializeObject(content);
             var exists = File.Exists(this.filename);
-            using (var stream = File.CreateText(exists ? random : this.filename)) {
-                stream.Write(json);
+            using (var file = File.Create(exists ? random : this.filename)) {
+                using (var compress = new DeflateStream(file, CompressionLevel.Fastest)) {
+                    using (var stream = new StreamWriter(compress)) {
+                        stream.Write(json);
+                    }
+                }
             }
+
             if (exists) {
                 File.Replace(random, this.filename, this.filename + ".bak");
             }
@@ -159,9 +166,13 @@ namespace DnD4e.LibraryHelper.Common {
             }
 
             Content content;
-            using (var stream = File.OpenText(this.filename)) {
-                string json = stream.ReadToEnd();
-                content = JsonConvert.DeserializeObject<Content>(json);                
+            using (var file = File.OpenRead(filename)) {
+                using (var deflate = new DeflateStream(file, CompressionMode.Decompress)) {
+                    using (var stream = new StreamReader(deflate)) {
+                        string json = stream.ReadToEnd();
+                        content = JsonConvert.DeserializeObject<Content>(json);                
+                    }
+                }
             }
 
             foreach (var character in content.Characters) {
