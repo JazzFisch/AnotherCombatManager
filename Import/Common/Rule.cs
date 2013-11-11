@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Import.Common;
 
-namespace DnD4e.LibraryHelper.Import.Character {
+namespace DnD4e.LibraryHelper.Import.Common {
     public class Rule : NamedAttributeElement {
         [XmlAttribute("type")]
         public string Type { get; set; }

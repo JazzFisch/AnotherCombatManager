@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.ExtensionMethods;
+using DnD4e.LibraryHelper.Import.Common;
 using ExportCharacter = DnD4e.LibraryHelper.Character.Character;
 using ImportCharacter = DnD4e.LibraryHelper.Import.Character.Character;
 
@@ -69,7 +70,7 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
         }
 
         private static IEnumerable<string> ToRuleNamesList (this ImportCharacter import, string ruleType) {
-            Dictionary<string, List<Character.Rule>> rules;
+            Dictionary<string, List<Rule>> rules;
             if (import.Sheet.Rules.ByType().TryGetValue(ruleType, out rules) && rules.Keys.Count > 0) {
                 return rules.Keys;
             }
@@ -77,7 +78,7 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
         }
 
         private static string SafeGetRuleNameByType (this ImportCharacter import, string ruleType) {
-            Dictionary<string, List<Character.Rule>> rules;
+            Dictionary<string, List<Rule>> rules;
             var output = String.Empty;
 
             if (import.Sheet.Rules.ByType().TryGetValue(ruleType, out rules) && rules.Count == 1) {
