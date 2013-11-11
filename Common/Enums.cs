@@ -51,7 +51,8 @@ namespace DnD4e.LibraryHelper.Common {
     public enum CombatantType {
         Invalid,
         Character,
-        Monster
+        Monster,
+        Trap
     }
 
     public enum Defense {

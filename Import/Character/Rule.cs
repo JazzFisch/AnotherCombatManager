@@ -10,8 +10,39 @@ namespace DnD4e.LibraryHelper.Import.Character {
         [XmlAttribute("internal-id")]
         public string InternalId { get; set; }
 
+        [XmlAttribute("source")]
+        public string Source { get; set; }
+
+        [XmlAttribute("revision-date")]
+        public string RevisionDate { get; set; }
+
+        [XmlElement]
+        public string Category { get; set; }
+
+        public string[] Categories {
+            get {
+                if (String.IsNullOrWhiteSpace(this.Category)) {
+                    return new string[0];
+                }
+                var parts = this.Category.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                return parts;
+            }
+        }
+
+        [XmlElement]
+        public string Flavor { get; set; }
+
+        [XmlElement("Prereqs")]
+        public string Prerequisites { get; set; }
+
         [XmlElement("specific")]
         public Specifics Specifics { get; set; }
+
+        //[XmlElement("rules")]
+        //public object SubRules { get; set; }
+
+        [XmlText]
+        public string Text { get; set; }
 
         public override bool Equals (object obj) {
             Rule rule = obj as Rule;

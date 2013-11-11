@@ -21,6 +21,12 @@ namespace DnD4e.LibraryHelper.Character {
 
         //public List<Power> Powers { get { return this.sheet.Powers; } }
 
+        public string Class { get; set; }
+
+        public int HealingSurges { get; set; }
+
+        public string Vision { get; set; }
+
         public Character () {
             // TODO: construct all collections
         }
@@ -28,8 +34,20 @@ namespace DnD4e.LibraryHelper.Character {
         public static bool TryCreateFromFile (string filename, out Character character) {
             character = null;
             try {
-                using (var fs = new FileStream(filename, FileMode.Open, FileAccess.Read)) {
-                    using (var xml = new XmlTextReader(fs)) {
+                string xmlString;
+                using (var text = File.OpenText(filename)) {
+                    xmlString = text.ReadToEnd();
+                }
+
+                // cleanup campaign settings
+                int start = xmlString.IndexOf("<D20CampaignSetting");
+                int end = xmlString.IndexOf("</D20CampaignSetting>");
+                if (start != -1 && end != -1 && start < end) {
+                    xmlString = xmlString.Remove(start, end - start + 1);
+                }
+
+                using (var reader = new StringReader(xmlString)) {
+                    using (var xml = new XmlTextReader(reader)) {
                         XmlSerializer serializer = new XmlSerializer(typeof(ImportCharacter));
                         if (serializer.CanDeserialize(xml)) {
                             var import = serializer.Deserialize(xml) as ImportCharacter;
@@ -41,6 +59,7 @@ namespace DnD4e.LibraryHelper.Character {
             }
             catch (System.Exception ex) {
                 Trace.WriteLine(ex);
+                System.Diagnostics.Debugger.Break();
             }
 
             return false;

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DnD4e.LibraryHelper.ExtensionMethods {
     public static class StringMethods {
@@ -12,6 +8,14 @@ namespace DnD4e.LibraryHelper.ExtensionMethods {
             }
 
             return value.Replace('\r', '\n').Replace("\n\n", "\n").Replace("\n", "###").Replace('\t', ' ');
+        }
+
+        public static int SafeToInt (this string value, int defaultValue = 0) {
+            int output;
+            if (String.IsNullOrWhiteSpace(value) || !Int32.TryParse(value.Trim(), out output)) {
+                output = defaultValue;
+            }
+            return output;
         }
     }
 }

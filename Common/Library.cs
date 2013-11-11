@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using DnD4e.LibraryHelper.ExtensionMethods;
+using DnD4e.LibraryHelper.Import.Common;
 using Newtonsoft.Json;
 
 namespace DnD4e.LibraryHelper.Common {
@@ -12,6 +14,7 @@ namespace DnD4e.LibraryHelper.Common {
         // TODO: add lazy commit on throttle this[handle] sets / removes
         // TODO: add restoring from backup if open fails
         private ConcurrentDictionary<string, Combatant> combatants = new ConcurrentDictionary<string, Combatant>();
+        private D20Rules rules;
         private string filename;
 
         private Library () { }
@@ -30,7 +33,7 @@ namespace DnD4e.LibraryHelper.Common {
 
         public Combatant this[string handle] {
             get { return this.combatants[handle]; }
-            set { this.combatants[handle] = value; }
+            set { this.Add(value); }
         }
 
         public IQueryable<Character.Character> Characters { get { return this.AsQueryable<Character.Character>(); } }
@@ -39,7 +42,53 @@ namespace DnD4e.LibraryHelper.Common {
 
         public IQueryable<Monster.Monster> Monsters { get { return this.AsQueryable<Monster.Monster>(); } }
 
-        //public IQueryable<Trap.Trap> Traps { get { return this.AsQueryable<Trap.Trap>(); } }
+        public IQueryable<Trap.Trap> Traps { get { return this.AsQueryable<Trap.Trap>(); } }
+
+        public void Add (Combatant combatant) {
+            if (combatant == null) {
+                throw new ArgumentNullException("combatant");
+            }
+
+            // special attempt to add missing character rules
+            var character = combatant as Character.Character;
+            if (character != null && rules != null) {
+                // fixup powers
+            }
+
+            this.combatants[combatant.Handle] = combatant;
+        }
+
+        public void Add (string compendiumHtml, Uri url) {
+            var doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(compendiumHtml);
+            foreach (var err in doc.ParseErrors) {
+                Trace.WriteLine(err);
+                System.Diagnostics.Debugger.Break();
+            }
+
+            // TODO: switch based upon URL
+            var root = doc.GetElementbyId("detail");
+            if (root == null) {
+                return;
+            }
+
+            var title = root.SelectSingleNode("h1");
+            var subHead = title.SelectSingleNode("span[@class='thSubHead']").FirstChild.InnerText.Trim();
+            var levelParts = title.SelectSingleNode("span[@class='thLevel']").FirstChild.InnerText.Trim().Split();
+            var xp = title.SelectSingleNode("span[@class='thLevel']/span[@class='thXP']").FirstChild.InnerText.Trim();
+
+            var trap = new Trap.Trap() {
+                Name = title.FirstChild.InnerText.Trim(),
+                Type = subHead,
+                Level = Int32.Parse(levelParts[1].Trim()),
+                Role = levelParts[2].Trim(),
+                Experience = Int32.Parse(xp.Substring(3)),
+                CompendiumUrl = url.ToString()
+            };
+            trap.Handle = trap.ToHandle();
+
+            this.Add(trap);
+        }
 
         public void Close () {
             var path = Path.GetTempPath();
@@ -51,8 +100,8 @@ namespace DnD4e.LibraryHelper.Common {
                                                    .ToDictionary(c => c.Handle),
                 Monsters   = this.combatants.Values.OfType<Monster.Monster>()
                                                    .ToDictionary(m => m.Handle),
-                //Traps      = this.combatants.Values.OfType<Trap.Trap>()
-                //                                   .ToDictionary(t => t.Handle);
+                Traps      = this.combatants.Values.OfType<Trap.Trap>()
+                                                   .ToDictionary(t => t.Handle)
             };
 
             string json = JsonConvert.SerializeObject(content);
@@ -67,6 +116,10 @@ namespace DnD4e.LibraryHelper.Common {
 
         public bool Exists (Combatant combatant) {
             return this.combatants.ContainsKey(combatant.Handle);
+        }
+
+        public bool TryOpenRules () {
+            return D20Rules.TryCreateFromAppData(out this.rules);
         }
 
         public IEnumerable<T> QueryByName<T> (string name) where T : Combatant {
@@ -93,6 +146,8 @@ namespace DnD4e.LibraryHelper.Common {
 
         #endregion
 
+        #region Private methods
+
         private IQueryable<T> AsQueryable<T> () {
             return this.combatants.Values.OfType<T>().AsQueryable();
         }
@@ -117,15 +172,17 @@ namespace DnD4e.LibraryHelper.Common {
                 this[monster.Key] = monster.Value;
             }
 
-            //foreach (var trap in content.Traps) {
-            //    this[trap.Key] = trap.Value;
-            //}
+            foreach (var trap in content.Traps) {
+                this[trap.Key] = trap.Value;
+            }
         }
+
+        #endregion
 
         private class Content {
             public Dictionary<string, Character.Character> Characters = new Dictionary<string,Character.Character>();
             public Dictionary<string, Monster.Monster> Monsters = new Dictionary<string, Monster.Monster>();
-            //private Dictionary<string, Trap.Trap> Traps = new Dictionary<string, Trap.Trap>();
+            public Dictionary<string, Trap.Trap> Traps = new Dictionary<string, Trap.Trap>();
         }
     }
 }

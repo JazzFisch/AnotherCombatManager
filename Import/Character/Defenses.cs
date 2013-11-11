@@ -22,7 +22,22 @@ namespace DnD4e.LibraryHelper.Import.Character {
 
         public int this[Defense defense] {
             get {
-                return this.stats[defense.ToString()];
+                switch (defense) {
+                    case Defense.AC:
+                        return this.ArmorClass;
+
+                    case Defense.Fortitude:
+                        return this.FortitudeDefense;
+
+                    case Defense.Reflex:
+                        return this.ReflexDefense;
+
+                    case Defense.Will:
+                        return this.WillDefense;
+
+                    default:
+                        throw new ArgumentException("defense");;
+                }
             }
         }
     }

@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -54,6 +57,7 @@
     <Compile Include="Common\Combatant.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\Library.cs" />
+    <Compile Include="ExtensionMethods\Combatant.cs" />
     <Compile Include="ExtensionMethods\Integer.cs" />
     <Compile Include="ExtensionMethods\String.cs" />
     <Compile Include="ExtensionMethods\StringBuilder.cs" />
@@ -75,6 +79,7 @@
     <Compile Include="Import\Character\StatBlock.cs" />
     <Compile Include="Import\Character\TextString.cs" />
     <Compile Include="Import\Character\Weapon.cs" />
+    <Compile Include="Import\Common\D20Rules.cs" />
     <Compile Include="Import\Common\DiscoverableKeyedCollection.cs" />
     <Compile Include="Import\Common\EnumCollection.cs" />
     <Compile Include="Import\Common\NamedElement.cs" />
@@ -109,6 +114,7 @@
     <Compile Include="Monster\Regeration.cs" />
     <Compile Include="Monster\Trait.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trap\Trap.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

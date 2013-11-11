@@ -46,9 +46,11 @@ namespace DnD4e.LibraryHelper.Import.Character {
 
         public List<Item> Items { get { return this.sheet.Items; } }
 
+        public int Initiative { get { return this.sheet.Stats["Initiative"]; } }
+
         public int Level { get { return this.sheet.Stats["Level"]; } }
 
-        public int Initiative { get { return this.sheet.Stats["Initiative"]; } }
+        public string Name { get { return this.sheet.Details.Name.Trim(); } }
 
         public int PassiveInsight { get { return this.sheet.Stats["Passive Insight"]; } }
 

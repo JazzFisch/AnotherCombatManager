@@ -23,7 +23,7 @@ namespace DnD4e.LibraryHelper.Common {
 
         public int Speed { get; set; }
 
-        public List<string> Languages { get; set; }
+        public IEnumerable<string> Languages { get; set; }
 
         public int Level { get; set; }
 
@@ -41,6 +41,7 @@ namespace DnD4e.LibraryHelper.Common {
             // TODO: construct all collections
             this.AbilityScores = new Dictionary<AbilityScore, int>();
             this.Defenses = new Dictionary<Defense, int>();
+            this.Languages = new string[0];
             this.Skills = new Dictionary<Skill, int>();
         }
 
