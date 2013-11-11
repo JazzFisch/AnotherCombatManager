@@ -201,10 +201,10 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///    &lt;title data-bind=&quot;text: Monster().Name&quot;&gt;&lt;/title&gt;
         ///    &lt;meta name=&quot;description&quot; content=&quot;D&amp;amp;D 4E Monster StatBlock display&quot; /&gt;
         ///    &lt;meta name=&quot;author&quot; content=&quot;Jason Fischer&quot; /&gt;
-        ///    &lt;link type=&apos;text/css&apos; href=&apos;statblock.css&apos; media=&apos;screen&apos; rel=&apos;stylesheet&apos; /&gt;
+        ///    &lt;!--&lt;link type=&apos;text/css&apos; href=&apos;statblock.css&apos; media=&apos;screen&apos; rel=&apos;stylesheet&apos; /&gt;
         ///    &lt;script type=&apos;text/javascript&apos; src=&apos;underscore.js&apos;&gt;&lt;/script&gt;
         ///    &lt;script type=&apos;text/javascript&apos; src=&apos;jquery-1.10.2.js&apos;&gt;&lt;/script&gt;
-        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;knockout-3.0.0.debug.js&apos;&gt;&lt;/script&gt;        /// [rest of string was truncated]&quot;;.
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;knockout-3.0.0.debug.js&apos;&gt;&lt;/scri [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string monsterStatblock_html {
             get {
@@ -277,26 +277,23 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///}
         ///
         ///table {
-        ///    border: 0px; 
+        ///    border: 0px;
+        ///    border-spacing: 0px 1px;
         ///    cellpadding: 0px; 
         ///    cellspacing: 0px;
         ///    width: 100%;
         ///}
         ///
-        ///div.monster {
-        ///    padding: 2px 5px 2px 5px;
+        ///div.monster table.header {
         ///    background-color: #374b27; 
         ///    color: #ffffff;
         ///    min-height: 14px;
+        ///    padding: 2px 3px 2px 3px;
         ///}
         ///
-        ///div.monster .bold {
-        ///    font-size: 13px;
-        ///    font-weight: 700;
-        ///}
-        ///
-        ///div.monster .right {
-        ///    float: right; [rest of string was truncated]&quot;;.
+        ///div.trap table.header .bold,
+        ///div.monster table.header .bold {
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string statblock_css {
             get {
@@ -305,21 +302,81 @@ namespace DnD4e.CombatManager.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to function toCommaNum (num, signed) {
-        ///    var sign = signed ? (num &gt; 0 ? &apos;+&apos; : &apos;&apos;) : &apos;&apos;,
-        ///        regex = /(\d+)(\d{3})/,
-        ///        text = num + &apos;&apos;;
+        ///   Looks up a localized string similar to var Combatant = ko.ViewModel.extend({
+        ///    
+        ///});
         ///
-        ///    while (regex.test(text)) {
-        ///        text = text.replace(regex, &apos;$1&apos; + &apos;,&apos; + &apos;$2&apos;);
+        ///var Character = Combatant.extend({
+        ///});
+        ///
+        ///var Monster = Combatant.extend({
+        ///});
+        ///
+        ///var Trap = Combatant.extend({
+        ///});
+        ///
+        ///var Browser = {
+        ///    Version: function() {
+        ///        var version = 999; // we assume a sane browser
+        ///        if (navigator.appVersion.indexOf(&quot;MSIE&quot;) != -1) {
+        ///            // bah, IE again, lets downgrade version number
+        ///            version = parseFloat(navigator.appVersion.split(&quot;MSIE&quot;)[1]);
+        ///        }
+        ///        return version;
         ///    }
-        ///
-        ///    return sign + text;
-        ///}.
+        ///} [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string statblockHelpers_js {
             get {
                 return ResourceManager.GetString("statblockHelpers_js", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;title data-bind=&quot;text: Trap().Name&quot;&gt;&lt;/title&gt;
+        ///    &lt;meta name=&quot;description&quot; content=&quot;D&amp;amp;D 4E Trap StatBlock display&quot; /&gt;
+        ///    &lt;meta name=&quot;author&quot; content=&quot;Jason Fischer&quot; /&gt;
+        ///    &lt;!--&lt;link type=&apos;text/css&apos; href=&apos;statblock.css&apos; media=&apos;screen&apos; rel=&apos;stylesheet&apos; /&gt;
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;underscore.js&apos;&gt;&lt;/script&gt;
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;jquery-1.10.2.js&apos;&gt;&lt;/script&gt;
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;knockout-3.0.0.debug.js&apos;&gt;&lt;/script&gt;
+        ///  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string trapStatblock_html {
+            get {
+                return ResourceManager.GetString("trapStatblock_html", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to function ViewModel() {
+        ///    var self = this;
+        ///
+        ///    this.Bound = false;
+        ///
+        ///    this.Trap = ko.observable();
+        ///
+        ///    this.LevelString = function () {
+        ///        var groupRole = self.Trap().GroupRole,
+        ///            role = self.Trap().Role
+        ///            parts = [];
+        ///
+        ///        parts.push(&apos;Level&apos;);
+        ///        parts.push(self.Trap().Level);
+        ///        if (role !== &apos;No Role&apos;) {
+        ///            parts.push(role);
+        ///        }
+        ///        return parts.join(&apos; &apos;);
+        ///    };
+        ///    this.XPString = function () {
+        ///        return &apos;XP &apos; + toCom [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string trapStatblock_js {
+            get {
+                return ResourceManager.GetString("trapStatblock_js", resourceCulture);
             }
         }
         

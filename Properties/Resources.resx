@@ -151,6 +151,12 @@
   <data name="statblock_css" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\htmlcontent\statblock.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="trapStatblock_html" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\htmlcontent\trapstatblock.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="trapStatblock_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\htmlcontent\trapstatblock.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="underscore_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\htmlcontent\underscore.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

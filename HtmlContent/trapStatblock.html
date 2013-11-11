@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title data-bind="text: Trap().Name"></title>
+    <meta name="description" content="D&amp;D 4E Trap StatBlock display" />
+    <meta name="author" content="Jason Fischer" />
+    <!--<link type='text/css' href='statblock.css' media='screen' rel='stylesheet' />
+    <script type='text/javascript' src='underscore.js'></script>
+    <script type='text/javascript' src='jquery-1.10.2.js'></script>
+    <script type='text/javascript' src='knockout-3.0.0.debug.js'></script>
+    <script type='text/javascript' src='knockout-StringInterpolatingBindingProvider.js'></script>
+    <script type='text/javascript' src='ko.ninja.js'></script>
+    <script type='text/javascript' src='statblockHelpers.js'></script>
+    <script type='text/javascript' src='bindingHandlers.js'></script>
+    <script type='text/javascript' src='trapStatblock.js'></script>-->
+</head>
+<body>
+    <div class="trap">
+        <table class="header">
+            <tr>
+                <td class="bold">{{Trap().Name}}</td>
+                <td class="bold right">{{LevelString()}}</td>
+            </tr>
+            <tr>
+                <td>{{Trap().Type}}</td>
+                <td class="right">{{XPString()}}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+

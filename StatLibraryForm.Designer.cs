@@ -43,6 +43,8 @@
             this.toolStripStatListLoadATButon = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripStatListLoadCBButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripStatListLoadCompendiumButton = new System.Windows.Forms.ToolStripButton();
             this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripStatListDeleteButton = new System.Windows.Forms.ToolStripButton();
             this.ToolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
@@ -197,6 +199,7 @@
             "Blaster",
             "Brute",
             "Controller",
+            "Hazard",
             "Hero",
             "Lurker",
             "Minion",
@@ -204,6 +207,7 @@
             "Puzzle",
             "Skirmisher",
             "Soldier",
+            "Trap",
             "Warder"});
             this.toolStripRoleComboBox.Name = "toolStripRoleComboBox";
             this.toolStripRoleComboBox.Size = new System.Drawing.Size(80, 25);
@@ -241,6 +245,8 @@
             this.toolStripStatListLoadATButon,
             this.toolStripSeparator3,
             this.toolStripStatListLoadCBButton,
+            this.toolStripSeparator4,
+            this.toolStripStatListLoadCompendiumButton,
             this.ToolStripSeparator1,
             this.toolStripStatListDeleteButton,
             this.ToolStripSeparator7});
@@ -281,6 +287,22 @@
             this.toolStripStatListLoadCBButton.Text = "Load CB";
             this.toolStripStatListLoadCBButton.ToolTipText = "Load from Character Builder";
             this.toolStripStatListLoadCBButton.Click += new System.EventHandler(this.toolStripStatListLoadCBButton_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripStatListLoadCompendiumButton
+            // 
+            this.toolStripStatListLoadCompendiumButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripStatListLoadCompendiumButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripStatListLoadCompendiumButton.Image")));
+            this.toolStripStatListLoadCompendiumButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripStatListLoadCompendiumButton.Name = "toolStripStatListLoadCompendiumButton";
+            this.toolStripStatListLoadCompendiumButton.Size = new System.Drawing.Size(114, 22);
+            this.toolStripStatListLoadCompendiumButton.Text = "Load Compendium";
+            this.toolStripStatListLoadCompendiumButton.ToolTipText = "Load from Compendium";
+            this.toolStripStatListLoadCompendiumButton.Click += new System.EventHandler(this.toolStripStatListLoadCompendiumButton_Click);
             // 
             // ToolStripSeparator1
             // 
@@ -370,5 +392,7 @@
         private System.Windows.Forms.WebBrowser statDetailsWebBrowser;
         internal System.Windows.Forms.ToolStripTextBox toolStripLowLevelTextBox;
         internal System.Windows.Forms.ToolStripTextBox toolStripHighLevelTextBox;
+        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        internal System.Windows.Forms.ToolStripButton toolStripStatListLoadCompendiumButton;
     }
 }

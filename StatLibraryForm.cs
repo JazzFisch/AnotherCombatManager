@@ -7,22 +7,27 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using DnD4e.CombatManager.Test.ExtensionMethods;
 using DnD4e.LibraryHelper.Character;
 using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.Monster;
+using DnD4e.LibraryHelper.Trap;
 using Microsoft.Win32;
 
 namespace DnD4e.CombatManager.Test {
     public partial class StatLibraryForm : Form {
         #region Fields
 
+        private const string CompendiumBaseUrl = "https://www.wizards.com/dndinsider/compendium/display.aspx?page=trap&id=900";
+        private const string LoginPath = "/dndinsider/compendium/login.aspx";
         private const string WebBrowserEmulationPath = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION";
         private static readonly CultureInfo UICulture = Thread.CurrentThread.CurrentUICulture;
-        private CombatantType combatantType = CombatantType.Invalid;
         private Combatant combatantToView;
+        private string compendiumCookies;
         private int lowLevel = 1;
         private int highLevel = 40;
         private Library library;
@@ -63,34 +68,47 @@ namespace DnD4e.CombatManager.Test {
             this.library.Dispose();
         }
 
-        private void statDetailsWebBrowser_DocumentCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
-            // ordering of the following is IMPORTANT
-            // stop listening
-            this.statDetailsWebBrowser.DocumentCompleted -= this.statDetailsWebBrowser_DocumentCompleted;
+        private void statDetailsWebBrowser_CharacterCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
+            //this.AddCommonHtmlElements(this.statDetailsWebBrowser_CharacterCompleted);
+            //this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.monsterStatblock_js);
+            //this.RenderCombatantDetails(this.combatantToView);
+        }
 
-            // catch futher errors
-            this.statDetailsWebBrowser.Document.Window.Error += (errorSender, errorArgs) => {
-                errorArgs.Handled = true;
-                Trace.WriteLine(errorArgs.Description);
-                System.Diagnostics.Debugger.Break();
-            };
-
-            // load our css in
-            this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.statblock_css);
-
-            // load our javascript in
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.modernizr_2_6_2_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.underscore_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_3_0_0_debug_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_StringInterpolatingBindingProvider_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.ko_ninja_js);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.statblockHelpers_js);
-
-            // TODO: flip based upon type of combatant being viewed
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.bindingHandlers_js);
+        private void statDetailsWebBrowser_MonsterCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
+            this.StopListeningAndAddCommonHtmlElements(this.statDetailsWebBrowser_MonsterCompleted);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.monsterStatblock_js);
-
             this.RenderCombatantDetails(this.combatantToView);
+        }
+
+        private void statDetailsWebBrowser_TrapCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
+            this.StopListeningAndAddCommonHtmlElements(this.statDetailsWebBrowser_TrapCompleted);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.trapStatblock_js);
+            this.RenderCombatantDetails(this.combatantToView);
+        }
+
+        private void statDetailsWebBrowser_CompendiumCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
+            this.statDetailsWebBrowser.AllowNavigation = false;
+            this.statDetailsWebBrowser.DocumentCompleted -= this.statDetailsWebBrowser_CompendiumCompleted;
+            var url = this.statDetailsWebBrowser.Url;
+            if (!url.LocalPath.Equals(LoginPath, StringComparison.OrdinalIgnoreCase)) {
+                this.compendiumCookies = this.statDetailsWebBrowser.Document.Cookie;
+                this.library.Add(this.statDetailsWebBrowser.DocumentText, url);
+            }
+            else {
+                if (this.statDetailsWebBrowser.EncryptionLevel == WebBrowserEncryptionLevel.Insecure) {
+                    // why does wizards redirect to an insecure url?!
+                    // re-redirect to a secure login page... if you can believe this
+                    // this makes our code more secure than theirs... *sigh*
+                    this.statDetailsWebBrowser.Navigate(String.Format(
+                        "https://{0}{1}{2}",
+                        url.DnsSafeHost,
+                        url.LocalPath,
+                        url.Query
+                    ));
+                }
+                this.statDetailsWebBrowser.AllowNavigation = true;
+                this.statDetailsWebBrowser.DocumentCompleted += this.statDetailsWebBrowser_CompendiumCompleted;
+            }
         }
 
         private void statsListBox_KeyDown (object sender, KeyEventArgs e) {
@@ -113,20 +131,7 @@ namespace DnD4e.CombatManager.Test {
                 return;
             }
 
-            // TODO: make a more generic web page flipping method
-            if (combatant is Monster) {
-                this.combatantToView = combatant;
-                if (this.combatantType != CombatantType.Monster) {
-                    this.combatantType = CombatantType.Monster;
-                    this.statDetailsWebBrowser.DocumentText = Properties.Resources.monsterStatblock_html;
-                    this.statDetailsWebBrowser.DocumentCompleted += this.statDetailsWebBrowser_DocumentCompleted;
-                }
-                else {
-                    this.RenderCombatantDetails(this.combatantToView);
-                }
-            }
-            //else if (comatant is Character) {
-            //}
+            this.RenderCombatant(combatant);
         }
 
         private void toolStripRoleComboBox_SelectedIndexChanged (object sender, EventArgs e) {
@@ -152,10 +157,24 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private void toolStripStatListLoadCBButton_Click (object sender, EventArgs e) {
+            Task<bool> openRules = Task.Factory.StartNew(() => this.library.TryOpenRules());
             int? index = this.AddFilesToStatsList<Character>("Character Files|*.dnd4e");
             if (index.HasValue) {
                 this.statsListBox.ClearSelected();
                 this.statsListBox.SelectedIndex = index.Value;
+            }
+        }
+
+        private void toolStripStatListLoadCompendiumButton_Click (object sender, EventArgs e) {
+            this.statDetailsWebBrowser.DocumentCompleted += this.statDetailsWebBrowser_CompendiumCompleted;
+            this.statDetailsWebBrowser.AllowNavigation = true;
+
+            if (String.IsNullOrWhiteSpace(this.compendiumCookies)) {
+                this.statDetailsWebBrowser.Navigate(CompendiumBaseUrl);
+            }
+            else {
+                var cookies = String.Format("Cookie {0}", this.compendiumCookies);
+                this.statDetailsWebBrowser.Navigate(CompendiumBaseUrl, String.Empty, null, cookies);
             }
         }
 
@@ -209,6 +228,63 @@ namespace DnD4e.CombatManager.Test {
 
         #region Private Methods
 
+        private void RenderCombatant (Combatant combatant) {
+            bool correctPage = this.combatantToView != null && this.combatantToView.GetType() == combatant.GetType();
+            this.combatantToView = combatant;
+            if (correctPage && !(combatant is Character)) {
+                this.RenderCombatantDetails(this.combatantToView);
+                return;
+            }
+
+            string html;
+            WebBrowserDocumentCompletedEventHandler completedHandler;
+            if (combatant is Character) {
+                //throw new NotImplementedException();
+                return;
+            }
+            else if (combatant is Monster) {
+                html = Properties.Resources.monsterStatblock_html;
+                completedHandler = this.statDetailsWebBrowser_MonsterCompleted;
+            }
+            else if (combatant is Trap) {
+                html = Properties.Resources.trapStatblock_html;
+                completedHandler = this.statDetailsWebBrowser_TrapCompleted;
+            }
+            else {
+                return;
+            }
+
+            this.statDetailsWebBrowser.AllowNavigation = true;
+            this.statDetailsWebBrowser.DocumentText = html;
+            this.statDetailsWebBrowser.DocumentCompleted += completedHandler;
+        }
+
+        private void StopListeningAndAddCommonHtmlElements (WebBrowserDocumentCompletedEventHandler completedHandler) {
+            // ordering of the following is IMPORTANT
+            // stop listening
+            this.statDetailsWebBrowser.AllowNavigation = false;
+            this.statDetailsWebBrowser.DocumentCompleted -= completedHandler;
+
+            // catch futher errors
+            this.statDetailsWebBrowser.Document.Window.Error += (errorSender, errorArgs) => {
+                errorArgs.Handled = true;
+                Trace.WriteLine(errorArgs.Description);
+                System.Diagnostics.Debugger.Break();
+            };
+
+            // load our css in
+            this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.statblock_css);
+
+            // load our javascript in
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.modernizr_2_6_2_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.underscore_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_3_0_0_debug_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.knockout_StringInterpolatingBindingProvider_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.ko_ninja_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.statblockHelpers_js);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.bindingHandlers_js);
+        }
+
         private int? AddFilesToStatsList<T> (string filter) where T : Combatant {
             OpenFileDialog dialog = new OpenFileDialog() {
                 Filter = filter + "|All files (*.*)|*.*",
@@ -241,10 +317,10 @@ namespace DnD4e.CombatManager.Test {
                     continue;
                 }
 
-                if (this.library.Exists(monster)) {
+                if (this.library.Exists(combatant)) {
                     var old = this.statsListBox.Items
                                                .OfType<Combatant>()
-                                               .Where(m => m.Handle == monster.Handle);
+                                               .Where(m => m.Handle == combatant.Handle);
                     this.statsListBox.Items.Remove(old.Single());
                 }
                 this.library[combatant.Handle] = combatant;
@@ -290,15 +366,28 @@ namespace DnD4e.CombatManager.Test {
             }
         }
 
+        private Dictionary<string, string> ParseCookies (string cookies) {
+            var output = new Dictionary<string, string>();
+            if (String.IsNullOrWhiteSpace(cookies)) {
+                return output;
+            }
+
+            string[] outer = cookies.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var cookie in outer) {
+                string[] inner = cookie.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                if (inner.Length != 2) {
+                    continue;
+                }
+
+                output.Add(inner[0].Trim(), inner[1].Trim());
+            }
+
+            return output;
+        }
+
         private void RenderCombatantDetails (Combatant combatant) {
             try {
                 string json = combatant.ToJson();
-
-#if DEBUG
-                // round trip checking
-                Monster monster;
-                Debug.Assert(Monster.TryCreateFromJson(json, out monster));
-#endif
 
                 this.statDetailsWebBrowser.Document.InvokeScript(
                     "renderStatBlock",

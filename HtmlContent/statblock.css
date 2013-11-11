@@ -19,12 +19,13 @@ table {
 }
 
 div.monster table.header {
-    padding: 2px 3px 2px 3px;
     background-color: #374b27; 
     color: #ffffff;
     min-height: 14px;
+    padding: 2px 3px 2px 3px;
 }
 
+div.trap table.header .bold,
 div.monster table.header .bold {
     font-size: 13px;
     font-weight: 700;
@@ -57,12 +58,38 @@ div.monster .dark {
     background-color: #9fa48c;
 }
 
+div.trap .noindent
 div.monster .noindent {
     padding: 1px 1px 0px 3px;
 }
 
+div.trap table td,
 div.monster table td {
     padding: 0px;
+}
+
+div.trap table.header {
+    background-color: rgb(69, 19, 60);
+    color: #ffffff;
+    min-height: 14px;
+    padding: 2px 3px 2px 3px;
+}
+
+div.trap h2 {
+    background-color: rgb(101, 52, 93);
+    color: #ffffff;
+    font-size: 9.5pt;
+    font-weight: 700;
+    padding: 1px 3px 1px 3px;
+    margin: 0;
+}
+
+div.trap h3 {
+    background-color: rgb(202, 219, 183);
+    font-size: 9.5pt;
+    font-weight: 500;
+    padding: 1px 3px 1px 15px;
+    margin: 0;
 }
 
 .right {
