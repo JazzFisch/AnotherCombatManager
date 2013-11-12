@@ -7,7 +7,7 @@ namespace DnD4e.LibraryHelper.ExtensionMethods {
                 return value;
             }
 
-            return value.Replace('\r', '\n').Replace("\n\n", "\n").Replace("\n", "###").Replace('\t', ' ');
+            return value.Trim().Replace('\r', '\n').Replace("\n\n", "\n").Replace("\n", "###").Replace('\t', ' ');
         }
 
         public static int SafeToInt (this string value, int defaultValue = 0) {

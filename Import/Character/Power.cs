@@ -30,13 +30,13 @@ namespace DnD4e.LibraryHelper.Import.Character {
         public Range Range { get { return CreateRange(); } }
         public string Target { get { return SafeGet("Target"); } }
 
-        private string SafeGet (string key) {
+        public string SafeGet (string key) {
             Specific specific;
             if (!this.Specifics.TryGetValue(key, out specific) || (specific == null) || (String.IsNullOrWhiteSpace(specific.Value))) {
                 return String.Empty;
             }
 
-            return specific.Value;
+            return specific.Value.Trim();
         }
 
         private Range CreateRange () {

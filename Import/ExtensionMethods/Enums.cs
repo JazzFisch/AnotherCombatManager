@@ -4,6 +4,17 @@ using DnD4e.LibraryHelper.Import.Common;
 
 namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
     internal static class EnumExtensionMethods {
+        public static AbilityScore ToAbilityScore (this string abilityScoreString) {
+            if (String.IsNullOrWhiteSpace(abilityScoreString)) {
+                return AbilityScore.Invalid;
+            }
+            AbilityScore abilityScore;
+            if (!Enum.TryParse(abilityScoreString, out abilityScore)) {
+                abilityScore = AbilityScore.Invalid;
+            }
+            return abilityScore;
+        }
+
         public static ActionType ToActionType (this string actionTypeString) {
             if (String.IsNullOrWhiteSpace(actionTypeString)) {
                 return ActionType.Invalid;
@@ -38,6 +49,17 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 }
             }
             return type;
+        }
+
+        public static Defense ToDefense (this string defenseString) {
+            if (String.IsNullOrWhiteSpace(defenseString)) {
+                return Defense.Invalid;
+            }
+            Defense defense;
+            if (!Enum.TryParse(defenseString, out defense)) {
+                defense = Defense.Invalid;
+            }
+            return defense;
         }
 
         public static PowerUsage ToPowerUsage (this string powerUsageString) {

@@ -11,7 +11,22 @@ namespace DnD4e.LibraryHelper.Import.Character {
         public int AttackBonus { get; set; }
 
         [XmlElement]
-        public string AttackState { get; set; }
+        public string AttackStat { get; set; }
+
+        [XmlElement]
+        public string Conditions { get; set; }
+
+        [XmlElement]
+        public string CritRange { get; set; }
+
+        [XmlElement]
+        public Damage CritDamage { get; set; }
+
+        [XmlElement]
+        public string DamageComponents { get; set; }
+
+        [XmlElement]
+        public string DamageType { get; set; }
 
         [XmlElement]
         public string Defense { get; set; }
@@ -20,10 +35,7 @@ namespace DnD4e.LibraryHelper.Import.Character {
         public Damage Damage { get; set; }
 
         [XmlElement]
-        public string CritRange { get; set; }
-
-        [XmlElement]
-        public Damage CritDamage { get; set; }
+        public string HitComponents { get; set; }
 
         [XmlIgnore]
         public Range Range { get { return CreateRange(); } }

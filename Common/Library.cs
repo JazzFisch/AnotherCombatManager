@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using DnD4e.LibraryHelper.ExtensionMethods;
 using DnD4e.LibraryHelper.Import.Common;
 using Newtonsoft.Json;
@@ -61,35 +63,17 @@ namespace DnD4e.LibraryHelper.Common {
         }
 
         public void Add (string compendiumHtml, Uri url) {
-            var doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(compendiumHtml);
-            foreach (var err in doc.ParseErrors) {
-                Trace.WriteLine(err);
-                System.Diagnostics.Debugger.Break();
+            var query = HttpUtility.ParseQueryString(url.Query);
+            string page = query.Get("page") ?? String.Empty;
+           
+            switch (page.ToLowerInvariant()) {
+                case "trap":
+                    Trap.Trap trap;
+                    if (Import.Trap.Trap.TryCreateFromHtml(compendiumHtml, url, out trap)) {
+                        this.Add(trap);
+                    }
+                    break;
             }
-
-            // TODO: switch based upon URL
-            var root = doc.GetElementbyId("detail");
-            if (root == null) {
-                return;
-            }
-
-            var title = root.SelectSingleNode("h1");
-            var subHead = title.SelectSingleNode("span[@class='thSubHead']").FirstChild.InnerText.Trim();
-            var levelParts = title.SelectSingleNode("span[@class='thLevel']").FirstChild.InnerText.Trim().Split();
-            var xp = title.SelectSingleNode("span[@class='thLevel']/span[@class='thXP']").FirstChild.InnerText.Trim();
-
-            var trap = new Trap.Trap() {
-                Name = title.FirstChild.InnerText.Trim(),
-                Type = subHead,
-                Level = Int32.Parse(levelParts[1].Trim()),
-                Role = levelParts[2].Trim(),
-                Experience = Int32.Parse(xp.Substring(3)),
-                CompendiumUrl = url.ToString()
-            };
-            trap.Handle = trap.ToHandle();
-
-            this.Add(trap);
         }
 
         public void Close () {
@@ -123,6 +107,14 @@ namespace DnD4e.LibraryHelper.Common {
 
         public bool Exists (Combatant combatant) {
             return this.combatants.ContainsKey(combatant.Handle);
+        }
+
+        public bool TryCreateCharacterFromFile (string filename, out Character.Character character) {
+            return Character.Character.TryCreateFromFile(filename, this.rules, out character);
+        }
+
+        public bool TryCreateMonsterFromFile (string filename, out Monster.Monster monster) {
+            return Monster.Monster.TryCreateFromFile(filename, out monster);
         }
 
         public bool TryOpenRules () {

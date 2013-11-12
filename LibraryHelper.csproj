@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character\Character.cs" />
+    <Compile Include="Character\Power.cs" />
+    <Compile Include="Character\Weapon.cs" />
     <Compile Include="Common\Combatant.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\Library.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Import\ExtensionMethods\AttackType.cs" />
     <Compile Include="Import\ExtensionMethods\Character.cs" />
     <Compile Include="Import\ExtensionMethods\Enums.cs" />
+    <Compile Include="Import\ExtensionMethods\HtmlNode.cs" />
     <Compile Include="Import\ExtensionMethods\Monster.cs" />
     <Compile Include="Import\ExtensionMethods\MonsterPower.cs" />
     <Compile Include="Import\Monster\Attack.cs" />
@@ -107,6 +110,7 @@
     <Compile Include="Import\Monster\Speed.cs" />
     <Compile Include="Import\Monster\Susceptibility.cs" />
     <Compile Include="Import\Monster\Trait.cs" />
+    <Compile Include="Import\Trap\Trap.cs" />
     <Compile Include="Monster\Attack.cs" />
     <Compile Include="Monster\AttackType.cs" />
     <Compile Include="Monster\Monster.cs" />
