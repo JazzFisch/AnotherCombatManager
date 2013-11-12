@@ -302,12 +302,14 @@
             this.toolStripStatListLoadCompendiumButton.Size = new System.Drawing.Size(114, 22);
             this.toolStripStatListLoadCompendiumButton.Text = "Load Compendium";
             this.toolStripStatListLoadCompendiumButton.ToolTipText = "Load from Compendium";
+            this.toolStripStatListLoadCompendiumButton.Visible = false;
             this.toolStripStatListLoadCompendiumButton.Click += new System.EventHandler(this.toolStripStatListLoadCompendiumButton_Click);
             // 
             // ToolStripSeparator1
             // 
             this.ToolStripSeparator1.Name = "ToolStripSeparator1";
             this.ToolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.ToolStripSeparator1.Visible = false;
             // 
             // toolStripStatListDeleteButton
             // 

@@ -22,7 +22,7 @@ namespace DnD4e.CombatManager.Test {
     public partial class StatLibraryForm : Form {
         #region Fields
 
-        private const string CompendiumBaseUrl = "https://www.wizards.com/dndinsider/compendium/display.aspx?page=trap&id=900";
+        public static readonly Uri CompendiumBaseUrl = new Uri("https://www.wizards.com/dndinsider/compendium/display.aspx");
         private const string LoginPath = "/dndinsider/compendium/login.aspx";
         private const string WebBrowserEmulationPath = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION";
         private static readonly CultureInfo UICulture = Thread.CurrentThread.CurrentUICulture;
@@ -93,6 +93,7 @@ namespace DnD4e.CombatManager.Test {
             if (!url.LocalPath.Equals(LoginPath, StringComparison.OrdinalIgnoreCase)) {
                 this.compendiumCookies = this.statDetailsWebBrowser.Document.Cookie;
                 this.library.Add(this.statDetailsWebBrowser.DocumentText, url);
+                this.SetCombatants();
             }
             else {
                 if (this.statDetailsWebBrowser.EncryptionLevel == WebBrowserEncryptionLevel.Insecure) {
@@ -166,15 +167,34 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private void toolStripStatListLoadCompendiumButton_Click (object sender, EventArgs e) {
+            // get the URL off the clipboard
+            if (!Clipboard.ContainsText()) {
+                return;
+            }
+
+            var text = Clipboard.GetText();
+            Uri url;
+            if (!Uri.TryCreate(text, UriKind.Absolute, out url)) {
+                return;
+            }
+
+            if (!CompendiumBaseUrl.Host.Equals(url.Host, StringComparison.OrdinalIgnoreCase)) {
+                return;
+            }
+            else if (!CompendiumBaseUrl.LocalPath.Equals(url.LocalPath, StringComparison.OrdinalIgnoreCase)) {
+                return;
+            }
+
+            this.combatantToView = null;
             this.statDetailsWebBrowser.DocumentCompleted += this.statDetailsWebBrowser_CompendiumCompleted;
             this.statDetailsWebBrowser.AllowNavigation = true;
 
             if (String.IsNullOrWhiteSpace(this.compendiumCookies)) {
-                this.statDetailsWebBrowser.Navigate(CompendiumBaseUrl);
+                this.statDetailsWebBrowser.Navigate(url);
             }
             else {
                 var cookies = String.Format("Cookie {0}", this.compendiumCookies);
-                this.statDetailsWebBrowser.Navigate(CompendiumBaseUrl, String.Empty, null, cookies);
+                this.statDetailsWebBrowser.Navigate(url, String.Empty, null, cookies);
             }
         }
 
@@ -305,10 +325,10 @@ namespace DnD4e.CombatManager.Test {
                 Monster monster;
                 Character character;
                 Combatant combatant = null;
-                if (Monster.TryCreateFromFile(filename, out monster)) {
+                if (this.library.TryCreateMonsterFromFile(filename, out monster)) {
                     combatant = monster;
                 }
-                else if (Character.TryCreateFromFile(filename, out character)) {
+                else if (this.library.TryCreateCharacterFromFile(filename, out character)) {
                     combatant = character;
                 }
                 else {
