@@ -24,7 +24,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>0.5.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -133,20 +133,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="HtmlContent\bindingHandlers.js" />
-    <None Include="HtmlContent\jquery-1.10.2.js" />
-    <None Include="HtmlContent\knockout-3.0.0.debug.js" />
-    <None Include="HtmlContent\knockout-StringInterpolatingBindingProvider.js" />
-    <None Include="HtmlContent\ko.ninja.js" />
-    <None Include="HtmlContent\modernizr-2.6.2.js" />
-    <None Include="HtmlContent\trapStatblock.js" />
-    <None Include="HtmlContent\monsterStatblock.html" />
-    <None Include="HtmlContent\monsterStatblock.js" />
-    <None Include="HtmlContent\normalize.css" />
-    <None Include="HtmlContent\statblock.css" />
-    <None Include="HtmlContent\statblockHelpers.js" />
-    <None Include="HtmlContent\trapStatblock.html" />
-    <None Include="HtmlContent\underscore.js" />
+    <Resource Include="HtmlContent\bindingHandlers.js" />
+    <Resource Include="HtmlContent\jquery-1.10.2.js" />
+    <Resource Include="HtmlContent\knockout-3.0.0.debug.js" />
+    <Resource Include="HtmlContent\knockout-StringInterpolatingBindingProvider.js" />
+    <Resource Include="HtmlContent\ko.ninja.js" />
+    <Resource Include="HtmlContent\modernizr-2.6.2.js" />
+    <Resource Include="HtmlContent\trapStatblock.js" />
+    <Resource Include="HtmlContent\monsterStatblock.html" />
+    <Resource Include="HtmlContent\monsterStatblock.js" />
+    <Resource Include="HtmlContent\normalize.css" />
+    <Resource Include="HtmlContent\statblock.css" />
+    <Resource Include="HtmlContent\statblockHelpers.js" />
+    <Resource Include="HtmlContent\trapStatblock.html" />
+    <Resource Include="HtmlContent\underscore.js" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

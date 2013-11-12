@@ -143,55 +143,50 @@
     <!-- uncomment following to figure out how much to subtract -->
     <!--{{$parents.length}} {{$parentContext.$index}} {{$parents[$parents.length - 2].Action}}-->
     <!-- ko if: !Hit.IsEmpty && Hit.Description -->
-    <p class="flavor">
+    <p class="flavor indent">
         <i>Attack<!-- ko if: $parent.Action !== 'Standard' && $parent.Action !== 'Move' && $parent.Action !== 'Minor' --> ({{$parent.Action}})<!-- /ko -->:</i>
         {{Range}}<!-- ko if: Targets --> ({{Targets}})<!-- /ko --><!-- ko if: Range || Targets-->;<!-- /ko --><span data-bind="template: { name: 'attackBonuses', data: AttackBonuses }"></span>
     </p>
     <!-- /ko -->
     <!-- ko if: !Hit.IsEmpty && Hit.Description -->
-    <p class="flavor">
+    <p class="flavor indent">
         <i>Hit: </i>
         <span data-bind="if: Hit.Damage">{{Hit.Damage}} </span>
         <span data-bind="text: Hit.Description"></span>
     </p>
     <!-- /ko -->
-    <!-- ko foreach: Hit.AfterEffects --><p class="flavor">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 1)}}<i>Aftereffect: </i>{{Damage}} {{Description}}</p><!-- /ko -->
-    <!-- ko foreach: Hit.FailedSavingThrows --><p class="flavor">&nbsp;&nbsp;<i>{{$root.IterationString($index() + 1)}} Failed Saving Throw: </i>{{Description}}</p><!-- /ko -->
-    <!-- ko if: _.size(Hit.Attacks) && !Hit.Attacks[0].Effect.IsEmpty -->
-    <p class="flavor">&nbsp;&nbsp;<i>Successful Saving Throw: </i>{{Hit.Attacks[0].Effect.Description}}</p>
-    <!-- /ko -->
+    <!-- ko foreach: Hit.AfterEffects --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<i>Aftereffect: </i>{{Damage}} {{Description}}</p><!-- /ko -->
+    <!-- ko foreach: Hit.FailedSavingThrows --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<!-- ko ifnot: $data.Name--><i>{{$root.IterationString($index() + 1)}} Failed Saving Throw: </i><!-- /ko --><!-- ko if: $data.Name --><i>{{Name}}: </i><!-- /ko -->{{Description}}</p><!-- /ko -->
+    <!-- ko template: { name: 'attack', foreach: Hit.Attacks }--><!-- /ko -->
     <!-- ko if: !Miss.IsEmpty -->
-    <p class="flavor">
+    <p class="flavor indent">
         <i>Miss: </i>
         <span data-bind="if: Miss.Damage">{{Miss.Damage}} </span>
         <span data-bind="text: Miss.Description"></span>
     </p>
     <!-- /ko -->
     <!-- ko if: !Effect.IsEmpty -->
-    <p class="flavor">
-        <i><!-- ko if: ($parents.length - 2) > 0-->{{Name}}<!-- /ko --><!-- ko ifnot: ($parents.length - 2) > 0 -->Effect<!-- /ko --><!-- ko if: $parents[$parents.length - 2].Action && ($parents[$parents.length - 2].Action !== 'Standard' && $parents[$parents.length - 2].Action !== 'Move' && $parents[$parents.length - 2].Action !== 'Minor') --> ({{$parents[$parents.length - 2].Action}})<!-- /ko -->: </i>
-        <span data-bind="html: Effect.Description.replace(/###/g, '<br/>')"></span>
-    </p>
+    <p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<i><!-- ko if: ($parents.length - 2) > 0-->{{Name}}<!-- /ko --><!-- ko ifnot: ($parents.length - 2) > 0 -->Effect<!-- /ko --><!-- ko if: $parents[$parents.length - 2].Action && ($parents[$parents.length - 2].Action !== 'Standard' && $parents[$parents.length - 2].Action !== 'Move' && $parents[$parents.length - 2].Action !== 'Minor') --> ({{$parents[$parents.length - 2].Action}})<!-- /ko -->: </i><span data-bind="html: Effect.Description.replace(/###/g, '<br/>')"></span></p>
     <!-- /ko -->
-    <!-- ko foreach: Effect.Sustains --><p class="flavor">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 1)}}<i>Sustain {{Action}}: </i>{{Description}}</p><!-- /ko -->
+    <!-- ko foreach: Effect.Sustains --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<i>Sustain {{Action}}: </i>{{Description}}</p><!-- /ko -->
     <!-- ko template: { name: 'attack', foreach: Effect.Attacks }--><!-- /ko -->
-    <!-- ko foreach: Effect.AfterEffects --><p class="flavor">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 1)}}<i>Aftereffect: </i><span data-bind="html: Description.replace(/###/g, '<br/>')"></span></p><!-- /ko -->
-    <!-- ko foreach: Effect.FailedSavingThrows --><p class="flavor">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 1)}}<i>{{$root.IterationString($index() + 1)}} Failed Saving Throw: </i>{{Description}}</p><!-- /ko -->
+    <!-- ko foreach: Effect.AfterEffects --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<i>Aftereffect: </i><span data-bind="html: Description.replace(/###/g, '<br/>')"></span></p><!-- /ko -->
+    <!-- ko foreach: Effect.FailedSavingThrows --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<!-- ko ifnot: $data.Name--><i>{{$root.IterationString($index() + 1)}} Failed Saving Throw: </i><!-- /ko --><!-- ko if: $data.Name --><i>{{Name}}: </i><!-- /ko -->{{Description}}</p><!-- /ko -->
 </script>
 <script type="text/html" id="power">
     <h3><font face="4etools symbols" data-bind="powerFont: power"></font><b>{{Name}}&nbsp;</b><span data-bind="if: _.size(Keywords)">({{ Keywords.join(', ') }})&nbsp;</span><b>&bull; {{Usage}} </b><!-- ko if: UsageDetails && UsageDetails.length === 1 && parseInt(UsageDetails, 10) --><font face="4etools symbols" data-bind="rechargeFont: power"></font><!-- /ko --><span data-bind="ifnot: UsageDetails && UsageDetails.length === 1 && parseInt(UsageDetails, 10)">{{UsageDetails}}</span></h3>
     <!-- ko if: Requirements -->
-    <p class="flavor"><i>Requirement:</i> {{Requirements}}</p>
+    <p class="flavor indent"><i>Requirement:</i> {{Requirements}}</p>
     <!-- /ko -->
     <!-- ko if: Trigger -->
-    <p class="flavor"><i>Trigger:</i> {{Trigger}}</p>
+    <p class="flavor indent"><i>Trigger:</i> {{Trigger}}</p>
     <!-- /ko -->
     <!-- ko template: { name: 'attack', foreach: Attacks }--><!-- /ko -->
 </script>
 <script type="text/html" id="trait">
     <!-- TODO: go about finding an aura icon / font -->
     <h3><b>{{Name}}&nbsp;</b><span data-bind="if: _.size(Keywords)">({{ Keywords.join(', ') }})</span><!-- ko if: Range --><b>&nbsp;&bull;&nbsp;Aura&nbsp;</b>{{Range}}<!-- /ko --></h3>
-    <p class="flavor" data-bind="text: Details"></p>
+    <p class="flavor indent" data-bind="text: Details"></p>
 </script>
 </body>
 </html>

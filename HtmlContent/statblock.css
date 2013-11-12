@@ -50,17 +50,11 @@ div.monster h3 {
 
 div.monster .flavor {
     background-color: #e1e6c4;
-    padding: 1px 1px 0px 15px;
     margin: 0;
 }
 
 div.monster .dark {
     background-color: #9fa48c;
-}
-
-div.trap .noindent
-div.monster .noindent {
-    padding: 1px 1px 0px 3px;
 }
 
 div.trap table td,
@@ -97,10 +91,10 @@ div.trap h3 {
     text-align: right;
 }
 
-.dotred {
-    border: dashed red 1px;
+.noindent {
+    padding: 1px 3px 0px 3px;
 }
 
-.dotblue {
-    border: dashed blue 1px;
+.indent {
+    padding: 1px 3px 0px 15px;
 }
