@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using DnD4e.LibraryHelper.ExtensionMethods;
 using DnD4e.LibraryHelper.Import.Common;
 
 namespace DnD4e.LibraryHelper.Import.Character {
@@ -51,7 +52,7 @@ namespace DnD4e.LibraryHelper.Import.Character {
 
         public int Level { get { return this.sheet.Stats["Level"]; } }
 
-        public string Name { get { return this.sheet.Details.Name.Trim(); } }
+        public string Name { get { return this.sheet.Details.Name.FixWhitespace(); } }
 
         public int PassiveInsight { get { return this.sheet.Stats["Passive Insight"]; } }
 

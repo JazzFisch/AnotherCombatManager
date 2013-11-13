@@ -151,20 +151,26 @@ namespace DnD4e.LibraryHelper.Common {
             return this.combatants.Values.OfType<T>().AsQueryable();
         }
 
-        private void Open (string filename) {
+        private bool Open (string filename, bool useBackup = false) {
             this.filename = filename;
             if (!File.Exists(filename)) {
-                return;
+                return true;
             }
 
             Content content;
-            using (var file = File.OpenRead(filename)) {
-                using (var deflate = new DeflateStream(file, CompressionMode.Decompress)) {
-                    using (var stream = new StreamReader(deflate)) {
-                        string json = stream.ReadToEnd();
-                        content = JsonConvert.DeserializeObject<Content>(json);                
+            try {
+                using (var file = File.OpenRead(filename)) {
+                    using (var deflate = new DeflateStream(file, CompressionMode.Decompress)) {
+                        using (var stream = new StreamReader(deflate)) {
+                            string json = stream.ReadToEnd();
+                            content = JsonConvert.DeserializeObject<Content>(json);
+                        }
                     }
                 }
+            }
+            catch (System.Exception ex) {
+                Trace.WriteLine(ex);
+                return false;
             }
 
             foreach (var character in content.Characters) {
@@ -178,6 +184,8 @@ namespace DnD4e.LibraryHelper.Common {
             foreach (var trap in content.Traps) {
                 this[trap.Key] = trap.Value;
             }
+
+            return true;
         }
 
         #endregion

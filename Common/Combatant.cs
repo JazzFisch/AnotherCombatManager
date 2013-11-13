@@ -23,7 +23,7 @@ namespace DnD4e.LibraryHelper.Common {
 
         public int Speed { get; set; }
 
-        public IEnumerable<string> Languages { get; set; }
+        public List<string> Languages { get; set; }
 
         public int Level { get; set; }
 
@@ -33,16 +33,13 @@ namespace DnD4e.LibraryHelper.Common {
 
         public string Role { get; set; }
 
-        public Dictionary<Skill, int> Skills { get; set; }
-
         public string Size { get; set; }
 
         public Combatant () {
             // TODO: construct all collections
             this.AbilityScores = new Dictionary<AbilityScore, int>();
             this.Defenses = new Dictionary<Defense, int>();
-            this.Languages = new string[0];
-            this.Skills = new Dictionary<Skill, int>();
+            this.Languages = new List<string>();
         }
 
         public virtual string ToJson (bool indent = false) {

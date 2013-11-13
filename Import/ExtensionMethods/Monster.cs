@@ -11,6 +11,7 @@ using ExportAttack = DnD4e.LibraryHelper.Monster.Attack;
 using ExportAttackType = DnD4e.LibraryHelper.Monster.AttackType;
 using ExportPower = DnD4e.LibraryHelper.Monster.Power;
 using ExportRegeneration = DnD4e.LibraryHelper.Monster.Regeration;
+using ExportSkill = DnD4e.LibraryHelper.Common.Skill;
 using ExportTrait = DnD4e.LibraryHelper.Monster.Trait;
 using System.Globalization;
 
@@ -63,7 +64,8 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
 
         private static Dictionary<TEnum, int> ToDictionary<TEnum, TValue> (this ValueEnumCollection<TEnum, TValue> collection)
             where TEnum : struct
-            where TValue : SimpleValue {
+            where TValue : SimpleValue 
+        {
             var select = collection.Values.Keys.Select(
                 key => new KeyValuePair<TEnum, int>(
                     key,

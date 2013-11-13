@@ -42,6 +42,8 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public List<KeyValuePair<string, int>> Senses { get; set; }
 
+        public Dictionary<Skill, int> Skills { get; set; }
+
         public string SourceBook { get; set; }
 
         public List<string> SourceBooks { get; set; }
@@ -63,6 +65,7 @@ namespace DnD4e.LibraryHelper.Monster {
             this.Powers = new List<Power>();
             this.Resistances = new List<string>();
             this.Senses = new List<KeyValuePair<string, int>>();
+            this.Skills = new Dictionary<Skill, int>();
             this.Traits = new List<Trait>();
             this.Weaknesses = new List<string>();
         }

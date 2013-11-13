@@ -54,7 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character\Character.cs" />
+    <Compile Include="Character\Feat.cs" />
     <Compile Include="Character\Power.cs" />
+    <Compile Include="Character\SkillValue.cs" />
     <Compile Include="Character\Weapon.cs" />
     <Compile Include="Common\Combatant.cs" />
     <Compile Include="Common\Enums.cs" />

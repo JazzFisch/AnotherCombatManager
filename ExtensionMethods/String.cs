@@ -4,7 +4,7 @@ namespace DnD4e.LibraryHelper.ExtensionMethods {
     public static class StringMethods {
         public static string FixWhitespace (this string value) {
             if (value == null) {
-                return value;
+                return String.Empty;
             }
 
             return value.Trim().Replace('\r', '\n').Replace("\n\n", "\n").Replace("\n", "###").Replace('\t', ' ');

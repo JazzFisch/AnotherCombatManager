@@ -5,42 +5,68 @@ using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.ExtensionMethods;
 using DnD4e.LibraryHelper.Import.Common;
 using ExportCharacter = DnD4e.LibraryHelper.Character.Character;
+using ExportClassFeat = DnD4e.LibraryHelper.Character.ClassFeat;
+using ExportFeat = DnD4e.LibraryHelper.Character.Feat;
 using ExportPower = DnD4e.LibraryHelper.Character.Power;
+using ExportSkillValue = DnD4e.LibraryHelper.Character.SkillValue;
 using ExportWeapon = DnD4e.LibraryHelper.Character.Weapon;
 using ImportCharacter = DnD4e.LibraryHelper.Import.Character.Character;
 
 namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
     internal static class CharacterMethods {
-        public static ExportCharacter ToCharacter (this ImportCharacter import, D20Rules rules) {
-            System.Diagnostics.Debugger.Break();
+        public static ExportCharacter ToCharacter (this ImportCharacter import, D20Rules d20Rules) {
+            Rules rules = d20Rules != null ? d20Rules.Rules : import.Sheet.Rules;
 
-            var export = new ExportCharacter() {
-                AbilityScores = import.AbilityScores.ToDictionary(),
-                ActionPoints = import.Sheet.Stats["_BaseActionPoints"],
-                Alignment = import.SafeGetRuleNameByType("Alignment").ToAlignment(),
-                Class = import.SafeGetRuleNameByType("Class"),
-                Defenses = import.Defenses.ToDictionary(),
-                Experience = import.Sheet.Details.Experience.SafeToInt(),
-                Handle = import.ToHandle(),
-                HealingSurges = import.HealingSurges,
-                HitPoints = import.HitPoints,
-                Initiative = import.Initiative,
-                Languages = import.ToRuleNamesList("Language"),
-                Level = import.Level,
-                Name = import.Name,
-                Powers = import.Powers.ToPowers(import.Sheet.Rules, rules.Rules),                
-                Race = import.SafeGetRuleNameByType("Race"),
-                Role = "Hero", //import.SafeGetRuleNameByType("Role"),
-                Skills = import.Skills.ToDictionary(),
-                Size = import.SafeGetRuleNameByType("Size"),
-                Speed = import.Sheet.Stats["Speed"].Value,
-                Vision = import.SafeGetRuleNameByType("Vision")
+            var export = new ExportCharacter();
+            export.AbilityScores = import.AbilityScores.ToDictionary();
+            export.ActionPoints = import.Sheet.Stats["_BaseActionPoints"];
+            export.Alignment = import.SafeGetRuleNameByType("Alignment").ToAlignment();
+            export.Class = import.SafeGetRuleNameByType("Class");
+            export.ClassFeatures = import.Sheet.Rules.ByType()["Class Feature"].ToFeats(rules);
+            export.Defenses = import.Defenses.ToDictionary();
+            export.Experience = import.Sheet.Details.Experience.SafeToInt();
+            export.Feats = import.Sheet.Rules.ByType()["Feat"].ToFeats(rules);
+            export.Handle = import.ToHandle();
+            export.HealingSurges = import.HealingSurges;
+            export.HitPoints = import.HitPoints;
+            export.Initiative = import.Initiative;
+            export.Languages = import.ToRuleNamesList("Language");
+            export.Level = import.Level;
+            export.Name = import.Name;
+            export.PassiveInsight = import.PassiveInsight;
+            export.PassivePerception = import.PassivePerception;
+            export.Powers = import.Powers.ToPowers(import.Sheet.Rules, rules);
+            export.PowerSource = import.SafeGetRuleNameByType("Power Source");
+            export.Race = import.SafeGetRuleNameByType("Race");
+            export.RacialTraits = import.Sheet.Rules.ByType()["Racial Trait"].ToFeats(rules);
+            export.Role = import.SafeGetRuleNameByType("Role");
+            export.Skills = import.ToSkills();
+            export.Size = import.SafeGetRuleNameByType("Size");
+            export.Speed = import.Sheet.Stats["Speed"].Value;
+            export.Vision = import.SafeGetRuleNameByType("Vision");
 
-                //Items = import.Items.Select(i => new KeyValuePair<string, int>(i.Item.Name, i.Quantity)).ToList(),
-                //Traits = import.Traits.ToExportTraitList(),
-            };
+            //Items = import.Items.Select(i => new KeyValuePair<string, int>(i.Item.Name, i.Quantity)).ToList(),
 
             return export;
+        }
+
+        private static Rule CompleteRule (Rule characterRule, Rules d20Rules) {
+            if (d20Rules == null) {
+                return characterRule;
+            }
+
+            var d20Rule = d20Rules[characterRule.InternalId];
+            return d20Rule.Specifics.Count > characterRule.Specifics.Count ? d20Rule : characterRule;
+        }
+
+        private static string SafeGetRuleNameByType (this ImportCharacter import, string ruleType) {
+            Dictionary<string, List<Rule>> rules;
+            var output = String.Empty;
+
+            if (import.Sheet.Rules.ByType().TryGetValue(ruleType, out rules) && rules.Count == 1) {
+                output = rules.Keys.First();
+            }
+            return output;
         }
 
         private static Dictionary<AbilityScore, int> ToDictionary (this Character.AbilityScores abilityScores) {
@@ -59,12 +85,23 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
             return output;
         }
 
-        private static Dictionary<Skill, int> ToDictionary (this Character.Skills skills) {
-            var output = new Dictionary<Skill, int>();
-            for (int i = 1; i <= 17; ++i) {
-                output[(Skill)i] = skills[(Skill)i];
+        private static List<ExportFeat> ToFeats (this Dictionary<string, List<Rule>> feats, Rules d20Rules) {
+            var output = new List<ExportFeat>();
+            foreach (var kvp in feats) {
+                var rule = CompleteRule(kvp.Value[0], d20Rules);
+                var feat = new ExportFeat() {
+                    Name = kvp.Key,
+                    ShortDescription = rule.Specifics.SafeGetValue("Short Description").FixWhitespace(),
+                    Text = rule.Text.FixWhitespace()
+                };
+                output.Add(feat);
             }
+
             return output;
+        }
+
+        public static string ToHandle (this ImportCharacter import) {
+            return String.Format("* {0} ({1}{2})", import.Name, import.SafeGetRuleNameByType("Class"), import.Level);
         }
 
         private static List<ExportPower> ToPowers (this List<Character.Power> importPowers, Rules charRules, Rules d20Rules) {
@@ -76,12 +113,8 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 }
 
                 // use the D20 rules instead of the character file's rules
-                Rule d20Rule = d20Rules != null ? d20Rules[charRule.InternalId] : null;
-                if (d20Rule != null && d20Rule.Specifics.Count > charRule.Specifics.Count) {
-                    charRule = d20Rule;
-                }
-
-                importPower.Specifics = charRule.Specifics;
+                Rule rule = CompleteRule(charRule, d20Rules);
+                importPower.Specifics = rule.Specifics;
 
                 var power = new ExportPower() {
                     ActionType = importPower.SafeGet("Action Type"),
@@ -95,7 +128,7 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                     Name = importPower.Name,
                     PowerType = importPower.SafeGet("Power Type"),
                     Target = importPower.Target.FixWhitespace(),
-                    Text = charRule.Text.FixWhitespace(),
+                    Text = rule.Text.FixWhitespace(),
                     Usage = importPower.SafeGet("Power Usage"),
                     Weapons = importPower.Weapons.Select(w => new ExportWeapon() {
                         AttackBonus = w.AttackBonus,
@@ -115,16 +148,27 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
             return powers;
         }
 
-        public static string ToHandle (this ImportCharacter import) {
-            return String.Format("* {0} ({1}{2})", import.Name, import.SafeGetRuleNameByType("Class"), import.Level);
-        }
-
-        private static IEnumerable<string> ToRuleNamesList (this ImportCharacter import, string ruleType) {
+        private static List<string> ToRuleNamesList (this ImportCharacter import, string ruleType) {
             Dictionary<string, List<Rule>> rules;
             if (import.Sheet.Rules.ByType().TryGetValue(ruleType, out rules) && rules.Keys.Count > 0) {
-                return rules.Keys;
+                return rules.Keys.ToList();
             }
-            return new string[0];
+            return new List<string>();
+        }
+
+        private static Dictionary<Skill, ExportSkillValue> ToSkills (this ImportCharacter character) {
+            var output = new Dictionary<Skill, ExportSkillValue>();
+            var skills = character.Skills;
+            for (int i = 1; i <= 17; ++i) {
+                var skill = (Skill)i;
+                var trained = skill.ToString() + " Trained";
+                var value = new ExportSkillValue() {
+                    Value = skills[(Skill)i],
+                    IsTrained = character.Sheet.Stats[trained] != 0
+                };
+                output[(Skill)i] = value;
+            }
+            return output;
         }
 
         public static List<string> ToStringList (this string listString) {
@@ -141,16 +185,6 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 }
             }
             return list;
-        }
-
-        private static string SafeGetRuleNameByType (this ImportCharacter import, string ruleType) {
-            Dictionary<string, List<Rule>> rules;
-            var output = String.Empty;
-
-            if (import.Sheet.Rules.ByType().TryGetValue(ruleType, out rules) && rules.Count == 1) {
-                output = rules.Keys.First();
-            }
-            return output;
         }
     }
 }

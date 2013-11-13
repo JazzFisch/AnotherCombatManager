@@ -64,6 +64,14 @@ namespace DnD4e.LibraryHelper.Import.Common {
             }
             base.InsertItem(index, item);
         }
+
+        public string SafeGetValue (string key) {
+            Specific specific;
+            if (!this.TryGetValue(key, out specific)) {
+                return String.Empty;
+            }
+            return specific.Value;
+        }
     }
 
     public class Stats : DiscoverableKeyedCollection<string, Stat> {
