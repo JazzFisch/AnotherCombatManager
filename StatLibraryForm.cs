@@ -58,8 +58,20 @@ namespace DnD4e.CombatManager.Test {
         #region Event Handlers  
 
         private void StatLibraryForm_Load (object sender, EventArgs e) {
-            this.library = Library.OpenLibrary();
-            SetCombatants();
+            TaskScheduler scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            this.statsListBox.Items.Add("Please wait, loading the goodness...");
+
+            // the general idea is to get off the UI thread as soon as possible
+            // while we load various parts of the library in the background
+            Task.Factory.StartNew(() => {
+                this.library = Library.OpenLibrary();
+            }).ContinueWith(_ => {
+                SetCombatants();
+            }, scheduler).ContinueWith(_ => {
+                this.library.TryOpenRules();
+            }).ContinueWith(_ => {
+                this.toolStripStatListLoadCBButton.Enabled = true;
+            }, scheduler);
         }
 
         private void StatLibraryForm_FormClosing (object sender, FormClosingEventArgs e) {
@@ -158,7 +170,6 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private void toolStripStatListLoadCBButton_Click (object sender, EventArgs e) {
-            Task<bool> openRules = Task.Factory.StartNew(() => this.library.TryOpenRules());
             int? index = this.AddFilesToStatsList<Character>("Character Files|*.dnd4e");
             if (index.HasValue) {
                 this.statsListBox.ClearSelected();
@@ -435,7 +446,13 @@ namespace DnD4e.CombatManager.Test {
             var query = combatants.Where(c => c.Level >= this.lowLevel)
                                   .Where(c => c.Level <= this.highLevel);
             if (!String.IsNullOrWhiteSpace(role)) {
-                query = query.Where(c => String.Equals(c.Role, role, StringComparison.OrdinalIgnoreCase));
+                if (role == "Hero") {
+                    query = query.Where(c => c is Character);
+                }
+                else {
+                    query = query.Where(c => c is Monster);
+                    query = query.Where(c => String.Equals(c.Role, role, StringComparison.OrdinalIgnoreCase));
+                }
             }
 
             var matches = query.Select(c => c);

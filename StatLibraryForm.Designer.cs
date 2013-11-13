@@ -196,19 +196,12 @@
             this.toolStripRoleComboBox.Items.AddRange(new object[] {
             "",
             "Artillery",
-            "Blaster",
             "Brute",
             "Controller",
-            "Hazard",
             "Hero",
             "Lurker",
-            "Minion",
-            "Obstacle",
-            "Puzzle",
             "Skirmisher",
-            "Soldier",
-            "Trap",
-            "Warder"});
+            "Soldier"});
             this.toolStripRoleComboBox.Name = "toolStripRoleComboBox";
             this.toolStripRoleComboBox.Size = new System.Drawing.Size(80, 25);
             this.toolStripRoleComboBox.SelectedIndexChanged += new System.EventHandler(this.toolStripRoleComboBox_SelectedIndexChanged);
@@ -280,6 +273,7 @@
             // toolStripStatListLoadCBButton
             // 
             this.toolStripStatListLoadCBButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripStatListLoadCBButton.Enabled = false;
             this.toolStripStatListLoadCBButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripStatListLoadCBButton.Image")));
             this.toolStripStatListLoadCBButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripStatListLoadCBButton.Name = "toolStripStatListLoadCBButton";
