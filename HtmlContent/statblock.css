@@ -18,21 +18,13 @@ table {
     width: 100%;
 }
 
-div.monster table.header {
-    background-color: #374b27; 
+table.header {
     color: #ffffff;
     min-height: 14px;
     padding: 2px 3px 2px 3px;
 }
 
-div.trap table.header .bold,
-div.monster table.header .bold {
-    font-size: 13px;
-    font-weight: 700;
-}
-
-div.monster h2 {
-    background-color: #727c55;
+h2 {
     color: #ffffff;
     font-size: 9.5pt;
     font-weight: 700;
@@ -40,12 +32,23 @@ div.monster h2 {
     margin: 0;
 }
 
-div.monster h3 {
-    background-color: #9fa48c;
+h3 {
     font-size: 9.5pt;
     font-weight: 500;
     padding: 1px 3px 1px 15px;
     margin: 0;
+}
+
+div.monster table.header {
+    background-color: #374b27; 
+}
+
+div.monster h2 {
+    background-color: #727c55;
+}
+
+div.monster h3 {
+    background-color: #9fa48c;
 }
 
 div.monster .flavor {
@@ -57,33 +60,48 @@ div.monster .dark {
     background-color: #9fa48c;
 }
 
+div.character table.header {
+    background-color: #003399;
+}
+
+div.character .flavor {
+    background-color: #66ccff;
+    margin: 0;
+}
+
+div.character .dark {
+    background-color: #6699ff;
+}
+
+div.character h2 {
+    background-color: #3366cc;
+}
+
+div.character h3 {
+    background-color: #6699ff;
+}
+
+div.trap table.header {
+    background-color: rgb(69, 19, 60);
+}
+
+div.trap h2 {
+    background-color: rgb(101, 52, 93);
+}
+
+div.trap h3 {
+    background-color: rgb(202, 219, 183);
+}
+
+div.character table td,
 div.trap table td,
 div.monster table td {
     padding: 0px;
 }
 
-div.trap table.header {
-    background-color: rgb(69, 19, 60);
-    color: #ffffff;
-    min-height: 14px;
-    padding: 2px 3px 2px 3px;
-}
-
-div.trap h2 {
-    background-color: rgb(101, 52, 93);
-    color: #ffffff;
-    font-size: 9.5pt;
+.bold {
+    font-size: 13px;
     font-weight: 700;
-    padding: 1px 3px 1px 3px;
-    margin: 0;
-}
-
-div.trap h3 {
-    background-color: rgb(202, 219, 183);
-    font-size: 9.5pt;
-    font-weight: 500;
-    padding: 1px 3px 1px 15px;
-    margin: 0;
 }
 
 .right {

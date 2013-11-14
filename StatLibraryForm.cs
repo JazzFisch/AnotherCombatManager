@@ -27,6 +27,7 @@ namespace DnD4e.CombatManager.Test {
         private const string WebBrowserEmulationPath = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION";
         private static readonly CultureInfo UICulture = Thread.CurrentThread.CurrentUICulture;
         private Combatant combatantToView;
+        private Task<string> serializeTask;
         private string compendiumCookies;
         private int lowLevel = 1;
         private int highLevel = 40;
@@ -81,21 +82,21 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private void statDetailsWebBrowser_CharacterCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
-            //this.AddCommonHtmlElements(this.statDetailsWebBrowser_CharacterCompleted);
-            //this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.monsterStatblock_js);
-            //this.RenderCombatantDetails(this.combatantToView);
+            this.StopListeningAndAddCommonHtmlElements(this.statDetailsWebBrowser_CharacterCompleted);
+            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.characterStatblock_js);
+            this.RenderCombatantDetails();
         }
 
         private void statDetailsWebBrowser_MonsterCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
             this.StopListeningAndAddCommonHtmlElements(this.statDetailsWebBrowser_MonsterCompleted);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.monsterStatblock_js);
-            this.RenderCombatantDetails(this.combatantToView);
+            this.RenderCombatantDetails();
         }
 
         private void statDetailsWebBrowser_TrapCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
             this.StopListeningAndAddCommonHtmlElements(this.statDetailsWebBrowser_TrapCompleted);
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.trapStatblock_js);
-            this.RenderCombatantDetails(this.combatantToView);
+            this.RenderCombatantDetails();
         }
 
         private void statDetailsWebBrowser_CompendiumCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
@@ -262,16 +263,17 @@ namespace DnD4e.CombatManager.Test {
         private void RenderCombatant (Combatant combatant) {
             bool correctPage = this.combatantToView != null && this.combatantToView.GetType() == combatant.GetType();
             this.combatantToView = combatant;
-            if (correctPage && !(combatant is Character)) {
-                this.RenderCombatantDetails(this.combatantToView);
+            this.serializeTask = this.combatantToView.ToJsonAsync();
+            if (correctPage) {
+                this.RenderCombatantDetails();
                 return;
             }
 
             string html;
             WebBrowserDocumentCompletedEventHandler completedHandler;
             if (combatant is Character) {
-                //throw new NotImplementedException();
-                return;
+                html = Properties.Resources.characterStatblock_html;
+                completedHandler = this.statDetailsWebBrowser_CharacterCompleted;
             }
             else if (combatant is Monster) {
                 html = Properties.Resources.monsterStatblock_html;
@@ -352,7 +354,9 @@ namespace DnD4e.CombatManager.Test {
                     var old = this.statsListBox.Items
                                                .OfType<Combatant>()
                                                .Where(m => m.Handle == combatant.Handle);
-                    this.statsListBox.Items.Remove(old.Single());
+                    if (old.Any()) {
+                        this.statsListBox.Items.Remove(old.Single());
+                    }
                 }
                 this.library[combatant.Handle] = combatant;
                 index = this.statsListBox.Items.Add(combatant);
@@ -370,6 +374,10 @@ namespace DnD4e.CombatManager.Test {
             try {
                 var exeName = Path.GetFileName(Assembly.GetEntryAssembly().Location);
                 var key = Registry.CurrentUser.OpenSubKey(WebBrowserEmulationPath, true);
+
+                if (key == null) {
+                    return;
+                }
 
                 if (addKeys) {
                     key.SetValue(exeName, 8000, RegistryValueKind.DWord);
@@ -416,10 +424,15 @@ namespace DnD4e.CombatManager.Test {
             return output;
         }
 
-        private void RenderCombatantDetails (Combatant combatant) {
-            try {
-                string json = combatant.ToJson();
+        private void RenderCombatantDetails () {
+            if (this.serializeTask == null) {
+                return;
+            }
 
+            // this will wait if the serialize is still running
+            string json = serializeTask.Result;
+
+            try {
                 this.statDetailsWebBrowser.Document.InvokeScript(
                     "renderStatBlock",
                     new object[] { json }

@@ -83,6 +83,51 @@ namespace DnD4e.CombatManager.Test.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;title data-bind=&quot;text: Character().Name&quot;&gt;&lt;/title&gt;
+        ///    &lt;meta name=&quot;description&quot; content=&quot;D&amp;amp;D 4E Character StatBlock display&quot; /&gt;
+        ///    &lt;meta name=&quot;author&quot; content=&quot;Jason Fischer&quot; /&gt;
+        ///    &lt;!--&lt;link type=&apos;text/css&apos; href=&apos;statblock.css&apos; media=&apos;screen&apos; rel=&apos;stylesheet&apos; /&gt;
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;underscore.js&apos;&gt;&lt;/script&gt;
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;jquery-1.10.2.js&apos;&gt;&lt;/script&gt;
+        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;knockout-3.0.0.debug.js&apos;&gt;&lt;/ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string characterStatblock_html {
+            get {
+                return ResourceManager.GetString("characterStatblock_html", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to function ViewModel() {
+        ///    var self = this;
+        ///
+        ///    this.Bound = false;
+        ///
+        ///    this.Character = ko.observable();
+        ///
+        ///    this.Bloodied = function () {
+        ///        return (self.Character().HitPoints / 2).toFixed(0);
+        ///    };
+        ///    this.LevelString = function () {
+        ///        var groupRole = self.Character().GroupRole,
+        ///            role = self.Character().Role
+        ///            parts = [];
+        ///
+        ///        parts.push(&apos;Level&apos;);
+        ///        parts.push(self.Character().Level);
+        ///        if (groupRole !== &apos;Standard&apos;) {
+        ///            part [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string characterStatblock_js {
+            get {
+                return ResourceManager.GetString("characterStatblock_js", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /*!
         /// * jQuery JavaScript Library v1.10.2
         /// * http://jquery.com/
@@ -100,8 +145,7 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///
         ///// Can&apos;t do this because several apps including ASP.NET trace
         ///// the stack via arguments.caller.callee and Firefox dies if
-        ///// you try to trace through &quot;use strict&quot; call chains. (#13335)
-        ///// Suppor [rest of string was truncated]&quot;;.
+        ///// you try to trace through &quot;use strict&quot; call chains. ( [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string jquery_1_10_2_js {
             get {
@@ -121,7 +165,7 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///    // For details, see http://stackoverflow.com/questions/14119988/return-this-0-evalthis/14120023#14120023
         ///    var window = this || (0, eval)(&apos;this&apos;),
         ///        document = window[&apos;document&apos;],
-        ///        navigator = window[ [rest of string was truncated]&quot;;.
+        ///        navigato [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string knockout_3_0_0_debug_js {
             get {
@@ -142,7 +186,7 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///    var expressionRegex = /{{([\s\S]+?)}}/g;
         ///
         ///    this.preprocessNode = function(node) {
-        ///        if (node.nodeType === 3 &amp;&amp; node.nodeVal [rest of string was truncated]&quot;;.
+        ///        if (node.nodeType === 3 &amp;&amp;  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string knockout_StringInterpolatingBindingProvider_js {
             get {
@@ -186,7 +230,7 @@ namespace DnD4e.CombatManager.Test.Properties {
         /// * the current UA and makes the results available to you in two ways:
         /// * as properties on a global Modernizr object, and as classes on the
         /// * &lt;html&gt; element. This information allows you to progressively enhance
-        /// * your pages with a granular level of control  [rest of string was truncated]&quot;;.
+        /// * your pages with a granular leve [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string modernizr_2_6_2_js {
             get {
@@ -251,11 +295,7 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///}
         ///
         ////**
-        /// * Correct `inline-block` display not defined in IE 8/9.
-        /// */
-        ///
-        ///audio,
-        ///canvas, [rest of string was truncated]&quot;;.
+        /// * Correct `inline-block` display not defined in I [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string normalize_css {
             get {
