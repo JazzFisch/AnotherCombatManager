@@ -53,7 +53,7 @@ namespace DnD4e.LibraryHelper.Common {
                 throw new ArgumentNullException("combatant");
             }
 
-            // special attempt to add missing character rules
+            // TODO: add special attempt to add missing character rules
             var character = combatant as Character.Character;
             if (character != null && rules != null) {
                 // fixup powers

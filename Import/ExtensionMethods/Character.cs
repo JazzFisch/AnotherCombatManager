@@ -26,6 +26,7 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
             export.Defenses = import.Defenses.ToDictionary();
             export.Experience = import.Sheet.Details.Experience.SafeToInt();
             export.Feats = import.Sheet.Rules.ByType()["Feat"].ToFeats(rules);
+            export.Gender = import.SafeGetRuleNameByType("Gender");
             export.Handle = import.ToHandle();
             export.HealingSurges = import.HealingSurges;
             export.HitPoints = import.HitPoints;
@@ -55,7 +56,11 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 return characterRule;
             }
 
-            var d20Rule = d20Rules[characterRule.InternalId];
+            Rule d20Rule;
+            if (!d20Rules.TryGetValue(characterRule.InternalId, out d20Rule)) {
+                return characterRule;
+            }
+
             return d20Rule.Specifics.Count > characterRule.Specifics.Count ? d20Rule : characterRule;
         }
 

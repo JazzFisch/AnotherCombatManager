@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -50,6 +51,15 @@ namespace DnD4e.LibraryHelper.Common {
 
             string json = JsonConvert.SerializeObject(this, formatting, settings);
             return json;
+        }
+
+        public virtual Task<string> ToJsonAsync (bool indent = false) {
+            Formatting formatting = indent ? Formatting.Indented : Formatting.None;
+            var settings = new JsonSerializerSettings() {
+                Converters = new List<JsonConverter>() { new StringEnumConverter() }
+            };
+
+            return JsonConvert.SerializeObjectAsync(this, formatting, settings);
         }
 
         public override string ToString () {

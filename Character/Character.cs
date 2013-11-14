@@ -17,6 +17,8 @@ namespace DnD4e.LibraryHelper.Character {
 
         public List<Feat> Feats { get; set; }
 
+        public string Gender { get; set; }
+
         public int HealingSurges { get; set; }
 
         //public List<Item> Items { get { return this.sheet.Items; } }
