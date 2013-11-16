@@ -41,7 +41,7 @@ namespace DnD4e.LibraryHelper.Import.Character {
 
         private Range CreateRange () {
             Range range = SafeGet("Attack Type").ToRange();
-            if (range.AttackType == AttackType.RangedWeapon) {
+            if ((range.AttackType == AttackType.RangedWeapon) && (this.Weapons.Count > 0)) {
                 Range weaponRange = this.Weapons[0].Range;
                 range.Distance = weaponRange.Distance;
                 range.MaxDistance = weaponRange.MaxDistance;

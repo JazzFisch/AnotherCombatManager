@@ -27,6 +27,10 @@ namespace DnD4e.LibraryHelper.Character {
 
         public string PowerType { get; set; }
 
+        public DnD4e.LibraryHelper.Import.Common.Range Range { get; set; }
+
+        public string Source { get; set; }
+
         public string Target { get; set; }
 
         public string Text { get; set; }

@@ -121,32 +121,33 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 Rule rule = CompleteRule(charRule, d20Rules);
                 importPower.Specifics = rule.Specifics;
 
-                var power = new ExportPower() {
-                    ActionType = importPower.SafeGet("Action Type"),
-                    Attack = importPower.Attack,
-                    AttackType = importPower.SafeGet("Attack Type"),
-                    Display = importPower.Display.FixWhitespace(),
-                    Effect = importPower.Effect.FixWhitespace(),
-                    Flavor = importPower.Flavor.FixWhitespace(),
-                    Hit = importPower.Hit.FixWhitespace(),
-                    Keywords = importPower.Keywords.ToList(),
-                    Name = importPower.Name,
-                    PowerType = importPower.SafeGet("Power Type"),
-                    Target = importPower.Target.FixWhitespace(),
-                    Text = rule.Text.FixWhitespace(),
-                    Usage = importPower.SafeGet("Power Usage"),
-                    Weapons = importPower.Weapons.Select(w => new ExportWeapon() {
-                        AttackBonus = w.AttackBonus,
-                        AttackStat = w.AttackStat.ToAbilityScore(),
-                        Conditions = w.Conditions.ToStringList(),
-                        Damage = w.Damage.Expression,
-                        DamageComponents = w.DamageComponents.ToStringList(),
-                        DamageType = w.DamageType.FixWhitespace(),
-                        Defense = w.Defense.ToDefense(),
-                        HitComponents = w.HitComponents.ToStringList(),
-                        Name = w.Name,
-                    }).ToList()
-                };
+                var power = new ExportPower();
+                power.ActionType = importPower.SafeGet("Action Type");
+                power.Attack = importPower.Attack;
+                power.AttackType = importPower.SafeGet("Attack Type");
+                power.Display = importPower.Display.FixWhitespace();
+                power.Effect = importPower.Effect.FixWhitespace();
+                power.Flavor = (!String.IsNullOrWhiteSpace(importPower.Flavor) ? importPower.Flavor : rule.Flavor).FixWhitespace();
+                power.Hit = importPower.Hit.FixWhitespace();
+                power.Keywords = importPower.Keywords.ToList();
+                power.Name = importPower.Name;
+                power.PowerType = importPower.SafeGet("Power Type");
+                power.Range = importPower.Range;
+                power.Source = rule.Source.FixWhitespace();
+                power.Target = importPower.Target.FixWhitespace();
+                power.Text = rule.Text.FixWhitespace();
+                power.Usage = importPower.SafeGet("Power Usage");
+                power.Weapons = importPower.Weapons.Select(w => new ExportWeapon() {
+                    AttackBonus = w.AttackBonus,
+                    AttackStat = w.AttackStat.ToAbilityScore(),
+                    Conditions = w.Conditions.ToStringList(),
+                    Damage = w.Damage.Expression,
+                    DamageComponents = w.DamageComponents.ToStringList(),
+                    DamageType = w.DamageType.FixWhitespace(),
+                    Defense = w.Defense.ToDefense(),
+                    HitComponents = w.HitComponents.ToStringList(),
+                    Name = w.Name,
+                }).ToList();
                 powers.Add(power);
             }
 

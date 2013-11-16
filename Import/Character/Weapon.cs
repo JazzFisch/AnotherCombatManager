@@ -43,7 +43,10 @@ namespace DnD4e.LibraryHelper.Import.Character {
         private Range CreateRange () {
             Specific specific;
             Range range = new Range { Distance = 1.0f };
-            if (!this.Rules[0].Specifics.TryGetValue("Range", out specific)) {
+            if (this.Rules.Count == 0) {
+                return range;
+            }
+            else if (!this.Rules[0].Specifics.TryGetValue("Range", out specific)) {
                 return range;
             }
 
