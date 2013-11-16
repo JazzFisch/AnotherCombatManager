@@ -48,6 +48,11 @@
             </tr>
         </table>
 
+        <!-- ko if: _.size(Character().Powers) -->
+            <h2>Powers</h2>
+            <div data-bind="template: { name: 'power', foreach: Character().Powers }"></div>
+        <!-- /ko -->        
+
         <!-- ko if: _.size(Character().ClassFeatures) -->
             <h2>Class Features</h2>
             <div data-bind="template: { name: 'feat', foreach: Character().ClassFeatures }"></div>
@@ -96,9 +101,6 @@
 <script type="text/html" id="skills">
 <!-- ko foreach: _.pairs($data) -->{{$data[0]}} {{($data[1].Value > 0 ? '+' : '') + $data[1].Value}}{{$data[1].IsTrained ? ' (Trained)' : ''}}<!-- ko if: $index() + 1 < _.size($parent) -->, <!-- /ko --><!-- /ko -->
 </script>
-<script type="text/html" id="attackBonuses">
-<!-- ko foreach: _.pairs($data) -->{{($data[1] > 0 ? '+' : '') + $data[1]}} vs. {{$data[0]}}<!-- ko if: $index()+1 < _.size($parent.data) -->, <!-- /ko --><!-- /ko -->
-</script>
 <script type="text/html" id="attack">
     <!-- check parent depth to figure out &nbsp; prefixing -->
     <!-- bit of a hard coded hack sadly, if recursion depth changes you will-->
@@ -137,14 +139,8 @@
     <!-- ko foreach: Effect.FailedSavingThrows --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<!-- ko ifnot: $data.Name--><i>{{$root.IterationString($index() + 1)}} Failed Saving Throw: </i><!-- /ko --><!-- ko if: $data.Name --><i>{{Name}}: </i><!-- /ko -->{{Description}}</p><!-- /ko -->
 </script>
 <script type="text/html" id="power">
-    <h3><font face="4etools symbols" data-bind="powerFont: power"></font><b>{{Name}}&nbsp;</b><span data-bind="if: _.size(Keywords)">({{ Keywords.join(', ') }})&nbsp;</span><b>&bull; {{Usage}} </b><!-- ko if: UsageDetails && UsageDetails.length === 1 && parseInt(UsageDetails, 10) --><font face="4etools symbols" data-bind="rechargeFont: power"></font><!-- /ko --><span data-bind="ifnot: UsageDetails && UsageDetails.length === 1 && parseInt(UsageDetails, 10)">{{UsageDetails}}</span></h3>
-    <!-- ko if: Requirements -->
-    <p class="flavor indent"><i>Requirement:</i> {{Requirements}}</p>
-    <!-- /ko -->
-    <!-- ko if: Trigger -->
-    <p class="flavor indent"><i>Trigger:</i> {{Trigger}}</p>
-    <!-- /ko -->
-    <!-- ko template: { name: 'attack', foreach: Attacks }--><!-- /ko -->
+    <h3><font face="4etools symbols" data-bind="powerFont: power"></font><b>{{Name}}&nbsp;</b><span data-bind="if: _.size(Keywords)">({{ Keywords.join(', ') }})&nbsp;</span><b>&bull; {{Usage}} </b></h3>
+    
 </script>
 <script type="text/html" id="feat">
     <!-- TODO: go about finding an aura icon / font -->
