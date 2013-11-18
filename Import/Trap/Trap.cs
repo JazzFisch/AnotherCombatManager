@@ -21,7 +21,7 @@ namespace DnD4e.LibraryHelper.Import.Trap {
             var doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(compendiumHtml);
             foreach (var err in doc.ParseErrors) {
-                System.Diagnostics.Trace.WriteLine(err);
+                Trace.TraceError(err.ToString());
                 System.Diagnostics.Debugger.Break();
             }
 

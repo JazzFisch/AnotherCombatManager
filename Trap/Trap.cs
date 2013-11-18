@@ -4,6 +4,8 @@ using DnD4e.LibraryHelper.Common;
 
 namespace DnD4e.LibraryHelper.Trap {
     public class Trap : Combatant {
+        public override CombatantType CombatantType { get { return Common.CombatantType.Trap; } }
+
         public string CompendiumUrl { get; set; }
 
         public Dictionary<Skill, int> Detect { get; set; }

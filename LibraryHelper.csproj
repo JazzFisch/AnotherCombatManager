@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BESSy">
+      <HintPath>..\packages\BESSy.0.8.1.2\lib\net40\BESSy.dll</HintPath>
+    </Reference>
+    <Reference Include="BESSy.Json">
+      <HintPath>..\packages\BESSy.0.8.1.2\lib\net40\BESSy.Json.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -39,10 +45,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SevenZip">
+      <HintPath>..\packages\BESSy.0.8.1.2\lib\net40\SevenZip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -54,7 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character\Character.cs" />
-    <Compile Include="Character\Feat.cs" />
+    <Compile Include="Common\Feat.cs" />
+    <Compile Include="Character\Item.cs" />
     <Compile Include="Character\Power.cs" />
     <Compile Include="Character\SkillValue.cs" />
     <Compile Include="Character\Weapon.cs" />
@@ -99,6 +110,7 @@
     <Compile Include="Import\ExtensionMethods\HtmlNode.cs" />
     <Compile Include="Import\ExtensionMethods\Monster.cs" />
     <Compile Include="Import\ExtensionMethods\MonsterPower.cs" />
+    <Compile Include="Import\ExtensionMethods\String.cs" />
     <Compile Include="Import\Monster\Attack.cs" />
     <Compile Include="Import\Monster\AttackBonus.cs" />
     <Compile Include="Import\Monster\AttackType.cs" />

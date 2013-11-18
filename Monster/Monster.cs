@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Common;
@@ -12,6 +13,8 @@ using ImportMonster = DnD4e.LibraryHelper.Import.Monster.Monster;
 namespace DnD4e.LibraryHelper.Monster {
     [JsonObject]
     public class Monster : Combatant {
+        public override CombatantType CombatantType { get { return Common.CombatantType.Monster; } }
+
         public string CompendiumUrl { get; set; }
 
         public string Description { get; set; }
@@ -70,26 +73,30 @@ namespace DnD4e.LibraryHelper.Monster {
             this.Weaknesses = new List<string>();
         }
 
-        public static bool TryCreateFromFile (string filename, out Monster monster) {
-            monster = null;
+        public static async Task<Monster> LoadFromFileAsync (string filename) {
+            Monster monster = null;
+            Stopwatch timer = Stopwatch.StartNew();
             try {
-                using (var fs = new FileStream(filename, FileMode.Open, FileAccess.Read)) {
-                    using (var xml = new XmlTextReader(fs)) {
-                        XmlSerializer serializer = new XmlSerializer(typeof(ImportMonster));
-                        if (serializer.CanDeserialize(xml)) {
-                            var import = serializer.Deserialize(xml) as ImportMonster;
-                            monster = import.ToMonster();
-                            return true;
-                        }
+                string xmlString;
+                using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 0x1000, useAsync: true)) {
+                    using (var reader = new StreamReader(file)) {
+                        xmlString = await reader.ReadToEndAsync();
                     }
                 }
+
+                ImportMonster import = await xmlString.DeserializeXmlAsync<ImportMonster>();
+                monster = import.ToMonster();
             }
             catch (System.Exception ex) {
-                Trace.WriteLine(ex);
+                Trace.TraceError(ex.ToString());
                 System.Diagnostics.Debugger.Break();
             }
+            finally {
+                timer.Stop();
+                Trace.TraceInformation("Deserializing Monster [{0}] from AT took {1}ms", Path.GetFileName(filename), timer.ElapsedMilliseconds);
+            }
 
-            return false;
+            return monster;
         }
     }
 }

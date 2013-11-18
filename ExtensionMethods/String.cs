@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace DnD4e.LibraryHelper.ExtensionMethods {
-    public static class StringMethods {
+    internal static class StringMethods {
         public static string FixWhitespace (this string value) {
             if (value == null) {
                 return String.Empty;

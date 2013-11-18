@@ -4,8 +4,23 @@ using DnD4e.LibraryHelper.Import.Common;
 
 namespace DnD4e.LibraryHelper.Import.Character {
     public class Item {
+        [XmlAttribute("count")]
+        public int Count { get; set; }
+
+        [XmlAttribute("equip-count")]
+        public int EquippedCount { get; set; }
+
         [XmlElement("RulesElement")]
         public Rules Rules { get; set; }
+
+        public string Name {
+            get {
+                if (this.Rules.Count > 0) {
+                    return this.Rules[0].Name;
+                }
+                return String.Empty;
+            }
+        }
 
         public override string ToString () {
             if (this.Rules.Count == 1) {

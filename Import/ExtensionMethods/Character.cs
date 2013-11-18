@@ -7,6 +7,7 @@ using DnD4e.LibraryHelper.Import.Common;
 using ExportCharacter = DnD4e.LibraryHelper.Character.Character;
 using ExportClassFeat = DnD4e.LibraryHelper.Character.ClassFeat;
 using ExportFeat = DnD4e.LibraryHelper.Character.Feat;
+using ExportItem = DnD4e.LibraryHelper.Character.Item;
 using ExportPower = DnD4e.LibraryHelper.Character.Power;
 using ExportSkillValue = DnD4e.LibraryHelper.Character.SkillValue;
 using ExportWeapon = DnD4e.LibraryHelper.Character.Weapon;
@@ -14,8 +15,8 @@ using ImportCharacter = DnD4e.LibraryHelper.Import.Character.Character;
 
 namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
     internal static class CharacterMethods {
-        public static ExportCharacter ToCharacter (this ImportCharacter import, D20Rules d20Rules) {
-            Rules rules = d20Rules != null ? d20Rules.Rules : import.Sheet.Rules;
+        public static ExportCharacter ToCharacter (this ImportCharacter import, Rules d20Rules) {
+            Rules rules = d20Rules ?? import.Sheet.Rules;
 
             var export = new ExportCharacter();
             export.AbilityScores = import.AbilityScores.ToDictionary();
@@ -31,6 +32,7 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
             export.HealingSurges = import.HealingSurges;
             export.HitPoints = import.HitPoints;
             export.Initiative = import.Initiative;
+            export.Items = import.Items.ToItems(rules);
             export.Languages = import.ToRuleNamesList("Language");
             export.Level = import.Level;
             export.Name = import.Name;
@@ -45,8 +47,6 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
             export.Size = import.SafeGetRuleNameByType("Size");
             export.Speed = import.Sheet.Stats["Speed"].Value;
             export.Vision = import.SafeGetRuleNameByType("Vision");
-
-            //Items = import.Items.Select(i => new KeyValuePair<string, int>(i.Item.Name, i.Quantity)).ToList(),
 
             return export;
         }
@@ -107,6 +107,30 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
 
         public static string ToHandle (this ImportCharacter import) {
             return String.Format("* {0} ({1}{2})", import.Name, import.SafeGetRuleNameByType("Class"), import.Level);
+        }
+
+        public static List<ExportItem> ToItems (this List<Character.Item> import, Rules d20Rules) {
+            List<ExportItem> output = new List<ExportItem>();
+            foreach (var item in import) {
+                Rule baseRule = CompleteRule(item.Rules[0], d20Rules);
+                Rule magicRule = item.Rules.Count > 1 ? CompleteRule(item.Rules[1], d20Rules) : null;
+                var export = new ExportItem() {
+                    Name = item.Name,
+                    Count = item.Count,
+                    EquippedCount = item.EquippedCount,
+                    ArmorCategory = baseRule.Specifics.SafeGetValue("Armor Category"),
+                    ArmorType = baseRule.Specifics.SafeGetValue("Armor Type"),
+                    Category = baseRule.Specifics.SafeGetValue("Category"),
+                    Flavor = baseRule.Flavor.FixWhitespace(),
+                    ItemSlot = baseRule.Specifics.SafeGetValue("Item Slot"),
+                    Text = baseRule.Text.FixWhitespace(),
+                    Type = baseRule.Type,
+                    Weight = baseRule.Specifics.SafeGetValue("Weight"),
+                };
+                output.Add(export);
+            }
+
+            return output;
         }
 
         private static List<ExportPower> ToPowers (this List<Character.Power> importPowers, Rules charRules, Rules d20Rules) {

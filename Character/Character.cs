@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Common;
@@ -15,13 +16,15 @@ namespace DnD4e.LibraryHelper.Character {
 
         public List<Feat> ClassFeatures { get; set; }
 
+        public override CombatantType CombatantType { get { return Common.CombatantType.Character; } }
+
         public List<Feat> Feats { get; set; }
 
         public string Gender { get; set; }
 
         public int HealingSurges { get; set; }
 
-        //public List<Item> Items { get { return this.sheet.Items; } }
+        public List<Item> Items { get; set; }
 
         public int PassiveInsight { get; set; }
 
@@ -46,12 +49,15 @@ namespace DnD4e.LibraryHelper.Character {
             this.Skills = new Dictionary<Skill, SkillValue>();
         }
 
-        internal static bool TryCreateFromFile (string filename, D20Rules rules, out Character character) {
-            character = null;
+        internal static async Task<Character> LoadFromFileAsync (string filename, Rules rules) {
+            Character character = null;
+            Stopwatch timer = Stopwatch.StartNew();
             try {
                 string xmlString;
-                using (var text = File.OpenText(filename)) {
-                    xmlString = text.ReadToEnd();
+                using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 0x1000, useAsync: true)) {
+                    using (var reader = new StreamReader(file)) {
+                        xmlString = await reader.ReadToEndAsync();
+                    }
                 }
 
                 // cleanup campaign settings
@@ -63,23 +69,19 @@ namespace DnD4e.LibraryHelper.Character {
                     xmlString = xmlString.Remove(start, end - start + 1);
                 }
 
-                using (var reader = new StringReader(xmlString)) {
-                    using (var xml = new XmlTextReader(reader)) {
-                        XmlSerializer serializer = new XmlSerializer(typeof(ImportCharacter));
-                        if (serializer.CanDeserialize(xml)) {
-                            var import = serializer.Deserialize(xml) as ImportCharacter;
-                            character = import.ToCharacter(rules);
-                            return true;
-                        }
-                    }
-                }
+                ImportCharacter import = await xmlString.DeserializeXmlAsync<ImportCharacter>();
+                character = import.ToCharacter(rules);
             }
             catch (System.Exception ex) {
-                Trace.WriteLine(ex);
+                Trace.TraceError(ex.ToString());
                 System.Diagnostics.Debugger.Break();
             }
+            finally {
+                timer.Stop();
+                Trace.TraceInformation("Deserializing Character [{0}] from CB took {1}ms", Path.GetFileName(filename), timer.ElapsedMilliseconds);
+            }
 
-            return false;
+            return character;
         }
     }
 }

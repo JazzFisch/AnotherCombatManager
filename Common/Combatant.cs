@@ -12,6 +12,8 @@ namespace DnD4e.LibraryHelper.Common {
 
         public Alignment Alignment { get; set; }
 
+        public abstract CombatantType CombatantType { get; }
+
         public Dictionary<Defense, int> Defenses { get; set; }
 
         public int Experience { get; set; }
