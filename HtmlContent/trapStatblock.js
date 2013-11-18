@@ -1,4 +1,9 @@
-﻿function ViewModel() {
+﻿/// <reference path="knockout-3.0.0.debug.js" />
+/// <reference path="underscore.js" />
+/// <reference path="statblockhelpers.js" />
+/// <reference path="bindinghandlers.js" />
+
+function ViewModel() {
     var self = this;
 
     this.Bound = false;
@@ -18,7 +23,7 @@
         return parts.join(' ');
     };
     this.XPString = function () {
-        return 'XP ' + toCommaNum(self.Trap().Experience);
+        return 'XP ' + StatblockHelpers.toCommaNum(self.Trap().Experience);
     };
 }
 

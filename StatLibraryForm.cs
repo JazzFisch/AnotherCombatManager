@@ -26,8 +26,7 @@ namespace DnD4e.CombatManager.Test {
         private const string LoginPath = "/dndinsider/compendium/login.aspx";
         private const string WebBrowserEmulationPath = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION";
         private static readonly CultureInfo UICulture = Thread.CurrentThread.CurrentUICulture;
-        private Combatant combatantToView;
-        private Task<string> serializeTask;
+        private CombatantType combatantType = CombatantType.Invalid;
         private string compendiumCookies;
         private int lowLevel = 1;
         private int highLevel = 40;
@@ -58,45 +57,23 @@ namespace DnD4e.CombatManager.Test {
 
         #region Event Handlers  
 
-        private void StatLibraryForm_Load (object sender, EventArgs e) {
+        private async void StatLibraryForm_Load (object sender, EventArgs e) {
             TaskScheduler scheduler = TaskScheduler.FromCurrentSynchronizationContext();
             this.statsListBox.Items.Add("Please wait, loading the goodness...");
 
             // the general idea is to get off the UI thread as soon as possible
             // while we load various parts of the library in the background
-            Task.Factory.StartNew(() => {
-                this.library = Library.OpenLibrary();
-            }).ContinueWith(_ => {
-                SetCombatants();
-            }, scheduler).ContinueWith(_ => {
-                this.library.TryOpenRules();
-            }).ContinueWith(_ => {
-                this.toolStripStatListLoadCBButton.Enabled = true;
-            }, scheduler);
+            this.library = await Library.OpenLibraryAsync();
+            SetCombatants();
+
+            await this.library.LoadRulesAsync();
+            this.toolStripStatListLoadCBButton.Enabled = true;
         }
 
         private void StatLibraryForm_FormClosing (object sender, FormClosingEventArgs e) {
             // remove the browser rendering keys
             this.BrowserRenderingRegistryKeys(addKeys: false);
             this.library.Dispose();
-        }
-
-        private void statDetailsWebBrowser_CharacterCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
-            this.StopListeningAndAddCommonHtmlElements(this.statDetailsWebBrowser_CharacterCompleted);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.characterStatblock_js);
-            this.RenderCombatantDetails();
-        }
-
-        private void statDetailsWebBrowser_MonsterCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
-            this.StopListeningAndAddCommonHtmlElements(this.statDetailsWebBrowser_MonsterCompleted);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.monsterStatblock_js);
-            this.RenderCombatantDetails();
-        }
-
-        private void statDetailsWebBrowser_TrapCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
-            this.StopListeningAndAddCommonHtmlElements(this.statDetailsWebBrowser_TrapCompleted);
-            this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.trapStatblock_js);
-            this.RenderCombatantDetails();
         }
 
         private void statDetailsWebBrowser_CompendiumCompleted (object sender, WebBrowserDocumentCompletedEventArgs e) {
@@ -162,16 +139,16 @@ namespace DnD4e.CombatManager.Test {
             this.SetCombatants();
         }
 
-        private void toolStripStatListLoadATButon_Click (object sender, EventArgs e) {
-            int? index = this.AddFilesToStatsList<Monster>("Monster Files|*.monster");
+        private async void toolStripStatListLoadATButon_Click (object sender, EventArgs e) {
+            int? index = await this.AddFilesToStatsListAsync(CombatantType.Monster);
             if (index.HasValue) {
                 this.statsListBox.ClearSelected();
                 this.statsListBox.SelectedIndex = index.Value;
             }
         }
 
-        private void toolStripStatListLoadCBButton_Click (object sender, EventArgs e) {
-            int? index = this.AddFilesToStatsList<Character>("Character Files|*.dnd4e");
+        private async void toolStripStatListLoadCBButton_Click (object sender, EventArgs e) {
+            int? index = await this.AddFilesToStatsListAsync(CombatantType.Character);
             if (index.HasValue) {
                 this.statsListBox.ClearSelected();
                 this.statsListBox.SelectedIndex = index.Value;
@@ -179,35 +156,35 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private void toolStripStatListLoadCompendiumButton_Click (object sender, EventArgs e) {
-            // get the URL off the clipboard
-            if (!Clipboard.ContainsText()) {
-                return;
-            }
+            //// get the URL off the clipboard
+            //if (!Clipboard.ContainsText()) {
+            //    return;
+            //}
 
-            var text = Clipboard.GetText();
-            Uri url;
-            if (!Uri.TryCreate(text, UriKind.Absolute, out url)) {
-                return;
-            }
+            //var text = Clipboard.GetText();
+            //Uri url;
+            //if (!Uri.TryCreate(text, UriKind.Absolute, out url)) {
+            //    return;
+            //}
 
-            if (!CompendiumBaseUrl.Host.Equals(url.Host, StringComparison.OrdinalIgnoreCase)) {
-                return;
-            }
-            else if (!CompendiumBaseUrl.LocalPath.Equals(url.LocalPath, StringComparison.OrdinalIgnoreCase)) {
-                return;
-            }
+            //if (!CompendiumBaseUrl.Host.Equals(url.Host, StringComparison.OrdinalIgnoreCase)) {
+            //    return;
+            //}
+            //else if (!CompendiumBaseUrl.LocalPath.Equals(url.LocalPath, StringComparison.OrdinalIgnoreCase)) {
+            //    return;
+            //}
 
-            this.combatantToView = null;
-            this.statDetailsWebBrowser.DocumentCompleted += this.statDetailsWebBrowser_CompendiumCompleted;
-            this.statDetailsWebBrowser.AllowNavigation = true;
+            //this.combatantToView = null;
+            //this.statDetailsWebBrowser.DocumentCompleted += this.statDetailsWebBrowser_CompendiumCompleted;
+            //this.statDetailsWebBrowser.AllowNavigation = true;
 
-            if (String.IsNullOrWhiteSpace(this.compendiumCookies)) {
-                this.statDetailsWebBrowser.Navigate(url);
-            }
-            else {
-                var cookies = String.Format("Cookie {0}", this.compendiumCookies);
-                this.statDetailsWebBrowser.Navigate(url, String.Empty, null, cookies);
-            }
+            //if (String.IsNullOrWhiteSpace(this.compendiumCookies)) {
+            //    this.statDetailsWebBrowser.Navigate(url);
+            //}
+            //else {
+            //    var cookies = String.Format("Cookie {0}", this.compendiumCookies);
+            //    this.statDetailsWebBrowser.Navigate(url, String.Empty, null, cookies);
+            //}
         }
 
         private void toolStripStatListDeleteButton_Click (object sender, EventArgs e) {
@@ -261,27 +238,39 @@ namespace DnD4e.CombatManager.Test {
         #region Private Methods
 
         private void RenderCombatant (Combatant combatant) {
-            bool correctPage = this.combatantToView != null && this.combatantToView.GetType() == combatant.GetType();
-            this.combatantToView = combatant;
-            this.serializeTask = this.combatantToView.ToJsonAsync();
+            bool correctPage = this.combatantType == combatant.CombatantType;
+            this.combatantType = combatant.CombatantType;
+            Task<string> serializeTask = combatant.ToJsonAsync();
             if (correctPage) {
-                this.RenderCombatantDetails();
+                this.RenderCombatantDetails(serializeTask);
                 return;
             }
 
-            string html;
-            WebBrowserDocumentCompletedEventHandler completedHandler;
+            string html = null;
+            WebBrowserDocumentCompletedEventHandler completedHandler = null;
             if (combatant is Character) {
                 html = Properties.Resources.characterStatblock_html;
-                completedHandler = this.statDetailsWebBrowser_CharacterCompleted;
+                completedHandler = (a, b) => {
+                    this.StopListeningAndAddCommonHtmlElements(completedHandler);
+                    this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.characterStatblock_js);
+                    this.RenderCombatantDetails(serializeTask);
+                };
             }
             else if (combatant is Monster) {
                 html = Properties.Resources.monsterStatblock_html;
-                completedHandler = this.statDetailsWebBrowser_MonsterCompleted;
+                completedHandler = (a, b) => {
+                    this.StopListeningAndAddCommonHtmlElements(completedHandler);
+                    this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.monsterStatblock_js);
+                    this.RenderCombatantDetails(serializeTask);
+                };
             }
             else if (combatant is Trap) {
                 html = Properties.Resources.trapStatblock_html;
-                completedHandler = this.statDetailsWebBrowser_TrapCompleted;
+                completedHandler = (a, b) => {
+                    this.StopListeningAndAddCommonHtmlElements(completedHandler);
+                    this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.trapStatblock_js);
+                    this.RenderCombatantDetails(serializeTask);
+                };
             }
             else {
                 return;
@@ -298,13 +287,6 @@ namespace DnD4e.CombatManager.Test {
             this.statDetailsWebBrowser.AllowNavigation = false;
             this.statDetailsWebBrowser.DocumentCompleted -= completedHandler;
 
-            // catch futher errors
-            this.statDetailsWebBrowser.Document.Window.Error += (errorSender, errorArgs) => {
-                errorArgs.Handled = true;
-                Trace.WriteLine(errorArgs.Description);
-                System.Diagnostics.Debugger.Break();
-            };
-
             // load our css in
             this.statDetailsWebBrowser.AddStyleSheet(Properties.Resources.statblock_css);
 
@@ -318,7 +300,8 @@ namespace DnD4e.CombatManager.Test {
             this.statDetailsWebBrowser.AddScriptElement(Properties.Resources.bindingHandlers_js);
         }
 
-        private int? AddFilesToStatsList<T> (string filter) where T : Combatant {
+        private async Task<int?> AddFilesToStatsListAsync (CombatantType type) {
+            string filter = type == CombatantType.Monster ? "Monster Files|*.monster" : "Character Files|*.dnd4e";
             OpenFileDialog dialog = new OpenFileDialog() {
                 Filter = filter + "|All files (*.*)|*.*",
                 CheckFileExists = true,
@@ -326,41 +309,35 @@ namespace DnD4e.CombatManager.Test {
                 Multiselect = true,
                 ValidateNames = true
             };
-            dialog.Filter = filter + "|All files (*.*)|*.*";
             DialogResult result = dialog.ShowDialog();
 
             if ((result != DialogResult.OK) || (dialog.FileNames.Length == 0)) {
                 return null;
             }
 
+            Stopwatch timer = Stopwatch.StartNew();
             int index = -1;
-            foreach (var filename in dialog.FileNames) {
-                Monster monster;
-                Character character;
-                Combatant combatant = null;
-                if (this.library.TryCreateMonsterFromFile(filename, out monster)) {
-                    combatant = monster;
-                }
-                else if (this.library.TryCreateCharacterFromFile(filename, out character)) {
-                    combatant = character;
-                }
-                else {
-                    var msg = String.Format("Unable to import \"{0}\"", Path.GetFileName(filename));
-                    MessageBox.Show(msg, "Import warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    continue;
-                }
+            IEnumerable<Combatant> added = null;
+            if (type == CombatantType.Character) {
+                added = await this.library.LoadCharactersFromFileAsync(dialog.FileNames);
+            }
+            else if (type == CombatantType.Monster) {
+                added = await this.library.LoadMonstersFromFileAsync(dialog.FileNames);
+            }
+            timer.Stop();
+            Trace.TraceInformation("Loading {0}s took {1}ms", type, timer.ElapsedMilliseconds);
 
-                if (this.library.Exists(combatant)) {
-                    var old = this.statsListBox.Items
-                                               .OfType<Combatant>()
-                                               .Where(m => m.Handle == combatant.Handle);
-                    if (old.Any()) {
-                        this.statsListBox.Items.Remove(old.Single());
-                    }
+            this.statsListBox.SuspendLayout();
+            foreach (var combatant in added) {
+                var old = this.statsListBox.Items
+                                           .OfType<Combatant>()
+                                           .Where(m => m.Handle == combatant.Handle);
+                if (old.Any()) {
+                    this.statsListBox.Items.Remove(old.Single());
                 }
-                this.library[combatant.Handle] = combatant;
                 index = this.statsListBox.Items.Add(combatant);
             }
+            this.statsListBox.ResumeLayout();
 
             if (dialog.FileNames.Length == 1) {
                 return index;
@@ -400,32 +377,13 @@ namespace DnD4e.CombatManager.Test {
 #endif
             }
             catch (System.Exception ex) {
-                Trace.WriteLine(ex);
+                Trace.TraceError(ex.ToString());
                 System.Diagnostics.Debugger.Break();
             }
         }
 
-        private Dictionary<string, string> ParseCookies (string cookies) {
-            var output = new Dictionary<string, string>();
-            if (String.IsNullOrWhiteSpace(cookies)) {
-                return output;
-            }
-
-            string[] outer = cookies.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var cookie in outer) {
-                string[] inner = cookie.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                if (inner.Length != 2) {
-                    continue;
-                }
-
-                output.Add(inner[0].Trim(), inner[1].Trim());
-            }
-
-            return output;
-        }
-
-        private void RenderCombatantDetails () {
-            if (this.serializeTask == null) {
+        private void RenderCombatantDetails (Task<string> serializeTask) {
+            if (serializeTask == null) {
                 return;
             }
 
@@ -439,7 +397,7 @@ namespace DnD4e.CombatManager.Test {
                 );
             }
             catch (System.Exception ex) {
-                Trace.WriteLine(ex);
+                Trace.TraceError(ex.ToString());
                 System.Diagnostics.Debugger.Break();
             }
         }

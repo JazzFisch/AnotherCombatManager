@@ -108,7 +108,7 @@ ko.bindingHandlers.commaNum = {
             options = ko.utils.unwrapObservable(allBindingsAccessor()) || {},
             prefix = options.prefix || '',
             postfix = options.postfix || '',
-            text = toCommaNum(num, options.signed);
+            text = StatblockHelpers.toCommaNum(num, options.signed);
 
         ko.bindingHandlers.text.update(element, function() { return prefix + text + postfix; });
     }

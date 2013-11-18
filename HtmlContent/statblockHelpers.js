@@ -22,14 +22,23 @@ var Browser = {
     }
 }
 
-function toCommaNum (num, signed) {
-    var sign = signed ? (num > 0 ? '+' : '') : '',
-        regex = /(\d+)(\d{3})/,
-        text = num + '';
+var StatblockHelpers = {
+    toCommaNum: function (num, signed) {
+        var sign = signed ? (num > 0 ? '+' : '') : '',
+            regex = /(\d+)(\d{3})/,
+            text = num + '';
 
-    while (regex.test(text)) {
-        text = text.replace(regex, '$1' + ',' + '$2');
+        while (regex.test(text)) {
+            text = text.replace(regex, '$1' + ',' + '$2');
+        }
+
+        return sign + text;
+    },
+
+    splitOnCaps: function (text) {
+        var regex = /(?!^)(?=[A-Z])/,
+            text = text + '';
+        return text.replace(regex, " ");
     }
-
-    return sign + text;
 }
+
