@@ -170,7 +170,9 @@ namespace DnD4e.LibraryHelper.Common {
         }
 
         public async Task LoadRulesAsync () {
-            this.d20Rules = await D20Rules.LoadFromAppDataAsync().ConfigureAwait(false);
+            if (this.d20Rules == null) {
+                this.d20Rules = await D20Rules.LoadFromAppDataAsync().ConfigureAwait(false);
+            }
         }
 
         public IEnumerable<T> QueryByName<T> (string name) where T : Combatant {
@@ -195,6 +197,8 @@ namespace DnD4e.LibraryHelper.Common {
         #region IDisposable
 
         public void Dispose () {
+            // perform in a new thread so UI thread isn't blocking
+            // the callback
             Task.Factory.StartNew(() => {
                 var task = this.FlushAsync();
                 task.Wait();
