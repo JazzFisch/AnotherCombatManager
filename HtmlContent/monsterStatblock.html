@@ -34,10 +34,7 @@
             <tr>
                 <td>
                     <!-- ko if: Monster().Regeneration.Value --><b>Regeneration</b>&nbsp;{{Monster().Regeneration.Value}}<!-- ko if: Monster().Regeneration.Details --> ({{Monster().Regeneration.Details}})<!-- /ko --><!-- /ko -->
-                    <b>AC</b>&nbsp;<span data-bind="text: Monster().Defenses.AC"></span>;&nbsp;
-                    <b>Fortitude</b>&nbsp;<span data-bind="text: Monster().Defenses.Fortitude"></span>;&nbsp;
-                    <b>Reflex</b>&nbsp;<span data-bind="text: Monster().Defenses.Reflex"></span>;&nbsp;
-                    <b>Will</b>&nbsp;<span data-bind="text: Monster().Defenses.Will"></span>
+                    <b>AC</b>&nbsp;{{Monster().Defenses.AC}}&nbsp;<b>Fortitude</b>&nbsp;{{Monster().Defenses.Fortitude}}&nbsp;<b>Reflex</b>&nbsp;{{Monster().Defenses.Reflex}}&nbsp;<b>Will</b>&nbsp;{{Monster().Defenses.Will}}
                 </td>
                 <td class="right">
                     <!-- ko if: Monster().Skills.Perception --><b>Perception</b>&nbsp;<span data-bind="commaNum: Monster().Skills.Perception, signed: true"></span><!-- /ko -->
@@ -71,29 +68,29 @@
             <div data-bind="template: { name: 'trait', foreach: Monster().Traits }"></div>
         <!-- /ko -->
         
-        <!-- ko if: _.findWhere(Monster().Powers, { Action: 'Standard' }) -->
+        <!-- ko if: _.size(StandardActions()) -->
             <h2>Standard Actions</h2>
-            <div data-bind="template: { name: 'power', foreach: _.where(Monster().Powers, { Action: 'Standard' }), as: 'power' }"></div>
+            <div data-bind="template: { name: 'power', foreach: StandardActions(), as: 'power' }"></div>
         <!-- /ko -->
 
-        <!-- ko if: _.findWhere(Monster().Powers, { Action: 'Move' }) -->
+        <!-- ko if: _.size(MoveActions()) -->
             <h2>Move Actions</h2>
-            <div data-bind="template: { name: 'power', foreach: _.where(Monster().Powers, { Action: 'Move' }), as: 'power' }"></div>
+            <div data-bind="template: { name: 'power', foreach: MoveActions(), as: 'power' }"></div>
         <!-- /ko -->
 
-        <!-- ko if: _.findWhere(Monster().Powers, { Action: 'Minor' }) -->
+        <!-- ko if: _.size(MinorActions()) -->
             <h2>Minor Actions</h2>
-            <div data-bind="template: { name: 'power', foreach: _.where(Monster().Powers, { Action: 'Minor' }), as: 'power' }"></div>
+            <div data-bind="template: { name: 'power', foreach: MinorActions(), as: 'power' }"></div>
         <!-- /ko -->
 
-        <!-- ko if: _.find(Monster().Powers, function(power) { return !_.isEmpty(power.Trigger) }) -->
+        <!-- ko if: _.size(TriggeredActions()) -->
             <h2>Triggered Actions</h2>
-            <div data-bind="template: { name: 'power', foreach: _.filter(Monster().Powers, function(power) { return !_.isEmpty(power.Trigger) }), as: 'power' }"></div>
+            <div data-bind="template: { name: 'power', foreach: TriggeredActions(), as: 'power' }"></div>
         <!-- /ko -->
 
-        <!-- ko if: _.find(Monster().Powers, function(power) { return power.Action !== 'Standard' && power.Action !== 'Move' && power.Action !== 'Minor' && _.isEmpty(power.Trigger) }) -->
+        <!-- ko if: _.size(OtherPowers()) -->
             <h2>Other Powers</h2>
-            <div data-bind="template: { name: 'power', foreach: _.filter(Monster().Powers, function(power) { return power.Action !== 'Standard' && power.Action !== 'Move' && power.Action !== 'Minor' && _.isEmpty(power.Trigger) }), as: 'power' }"></div>
+            <div data-bind="template: { name: 'power', foreach: OtherPowers(), as: 'power' }"></div>
         <!-- /ko -->
 
         <!-- ko if: _.size(Skills()) -->

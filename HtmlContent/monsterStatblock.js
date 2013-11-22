@@ -26,6 +26,7 @@
 // kobold slinger
 var debugJson = '{"CompendiumUrl":"http://www.wizards.com/dndinsider/compendium/monster.aspx?id=302","Description":"","GroupRole":"Standard","IsLeader":false,"Items":[{"Key":"3 rounds of special shot","Value":1},{"Key":"Leather Armor","Value":1},{"Key":"Dagger","Value":1},{"Key":"Sling","Value":1},{"Key":"Sling Bullet","Value":20}],"Keywords":["Reptile"],"Immunities":[],"Origin":"Natural","OtherSpeeds":[],"Phasing":false,"Powers":[{"Action":"Standard","Attacks":[{"AttackBonuses":{"AC":8},"Effect":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Effect","Sustains":[]},"Hit":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"1d4 + 3","Description":"damage.","FailedSavingThrows":[],"IsEmpty":false,"Name":"Hit","Sustains":[]},"Miss":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Miss","Sustains":[]},"Name":"Attack","Range":"Melee 1","Targets":"one creature"}],"Flavor":null,"IsBasic":true,"Keywords":["Weapon"],"Name":"Dagger","Requirements":null,"Trigger":null,"Type":"Melee","Usage":"At-Will","UsageDetails":null},{"Action":"Standard","Attacks":[{"AttackBonuses":{"AC":8},"Effect":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Effect","Sustains":[]},"Hit":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"1d6 + 5","Description":"damage.","FailedSavingThrows":[],"IsEmpty":false,"Name":"Hit","Sustains":[]},"Miss":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Miss","Sustains":[]},"Name":"Attack","Range":"Ranged 20","Targets":"one creature"}],"Flavor":null,"IsBasic":true,"Keywords":["Weapon"],"Name":"Sling","Requirements":null,"Trigger":null,"Type":"Ranged","Usage":"At-Will","UsageDetails":null},{"Action":"Standard","Attacks":[{"AttackBonuses":{"AC":8},"Effect":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Effect","Sustains":[]},"Hit":{"Action":null,"AfterEffects":[],"Attacks":[{"AttackBonuses":{},"Effect":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":"The target takes a -2 penalty to attack rolls (save ends).","FailedSavingThrows":[],"IsEmpty":false,"Name":"Effect","Sustains":[]},"Hit":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Hit","Sustains":[]},"Miss":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Miss","Sustains":[]},"Name":"1-2 Stinkpot","Range":"","Targets":null},{"AttackBonuses":{},"Effect":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":"The target takes ongoing 2 fire damage (save ends).","FailedSavingThrows":[],"IsEmpty":false,"Name":"Effect","Sustains":[]},"Hit":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Hit","Sustains":[]},"Miss":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Miss","Sustains":[]},"Name":"3-4 Firepot (fire)","Range":"","Targets":null},{"AttackBonuses":{},"Effect":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":"The target is immobilized (save ends).","FailedSavingThrows":[],"IsEmpty":false,"Name":"Effect","Sustains":[]},"Hit":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Hit","Sustains":[]},"Miss":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Miss","Sustains":[]},"Name":"5-6 Gluepot","Range":"","Targets":null}],"Damage":"1d6 + 5","Description":"damage plus one of the following effects (roll a d6):","FailedSavingThrows":[],"IsEmpty":false,"Name":"Hit","Sustains":[]},"Miss":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Miss","Sustains":[]},"Name":"Attack","Range":"Ranged 20","Targets":"one creature"}],"Flavor":null,"IsBasic":false,"Keywords":["Weapon"],"Name":"Special Shot","Requirements":null,"Trigger":null,"Type":"Ranged","Usage":"At-Will","UsageDetails":"(3/encounter)"},{"Action":"Minor","Attacks":[{"AttackBonuses":{},"Effect":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":"The kobold shifts 1 square.","FailedSavingThrows":[],"IsEmpty":false,"Name":"Effect","Sustains":[]},"Hit":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Hit","Sustains":[]},"Miss":{"Action":null,"AfterEffects":[],"Attacks":[],"Damage":"","Description":null,"FailedSavingThrows":[],"IsEmpty":true,"Name":"Miss","Sustains":[]},"Name":"Effect","Range":"","Targets":null}],"Flavor":null,"IsBasic":false,"Keywords":[],"Name":"Shifty","Requirements":null,"Trigger":null,"Type":"Triggered","Usage":"At-Will","UsageDetails":null}],"Regeneration":{"Details":null,"Value":0},"Resistances":[],"SavingThrows":0,"Senses":[{"Key":"Darkvision","Value":0}],"SourceBook":"Monster Manual 1","SourceBooks":null,"Tactics":"","Traits":[],"Type":"Humanoid","Weaknesses":[],"AbilityScores":{"Strength":9,"Constitution":12,"Dexterity":17,"Intelligence":9,"Wisdom":12,"Charisma":10},"ActionPoints":0,"Alignment":"Evil","Defenses":{"AC":13,"Fortitude":12,"Reflex":14,"Will":12},"Experience":100,"Handle":"Kobold Slinger (Ar1S)","HitPoints":24,"Initiative":3,"Speed":6,"Languages":["Common","Draconic"],"Level":1,"Name":"Kobold Slinger","Race":null,"Role":"Artillery","Skills":{"Stealth":8,"Perception":1},"Size":"Small"}';
 
+// TODO: memoize actions methods
 function ViewModel() {
     var self = this;
 
@@ -63,6 +64,17 @@ function ViewModel() {
         }
         return parts.join(' ');
     };
+    this.MinorActions = function () {
+        return _.where(self.Monster().Powers, { Action: 'Minor' });
+    };
+    this.MoveActions = function () {
+        return _.where(self.Monster().Powers, { Action: 'Move' });
+    };
+    this.OtherPowers = function () {
+        return _.filter(self.Monster().Powers, function (power) {
+            return power.Action !== 'Standard' && power.Action !== 'Move' && power.Action !== 'Minor' && _.isEmpty(power.Trigger)
+        });
+    };
     this.Repeat = function (str, num) {
         // anything less than 2 is an empty string
         var list = new Array(num + 1);
@@ -70,6 +82,9 @@ function ViewModel() {
     };
     this.Skills = function () {
         return _.omit(self.Monster().Skills, 'Perception');
+    };
+    this.StandardActions = function () {
+        return _.where(self.Monster().Powers, { Action: 'Standard' });
     };
     this.TraitsString = function () {
         var size = self.Monster().Size,
@@ -85,6 +100,11 @@ function ViewModel() {
         if (keywords) parts.push(keywords);
 
         return parts.join(' ');
+    };
+    this.TriggeredActions = function () {
+        return _.filter(self.Monster().Powers, function (power) {
+            return !_.isEmpty(power.Trigger)
+        });
     };
     this.XPString = function () {
         return 'XP ' + StatblockHelpers.toCommaNum(self.Monster().Experience);

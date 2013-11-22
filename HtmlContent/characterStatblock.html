@@ -4,7 +4,7 @@
     <title data-bind="text: Character().Name"></title>
     <meta name="description" content="D&amp;D 4E Character StatBlock display" />
     <meta name="author" content="Jason Fischer" />
-    <!--<link type='text/css' href='statblock.css' media='screen' rel='stylesheet' />
+<!--    <link type='text/css' href='statblock.css' media='screen' rel='stylesheet' />
     <script type='text/javascript' src='underscore.js'></script>
     <script type='text/javascript' src='jquery-1.10.2.js'></script>
     <script type='text/javascript' src='knockout-3.0.0.debug.js'></script>
@@ -33,10 +33,7 @@
             </tr>
             <tr>
                 <td>
-                    <b>AC</b>&nbsp;<span data-bind="text: Character().Defenses.AC"></span>;&nbsp;
-                    <b>Fortitude</b>&nbsp;<span data-bind="text: Character().Defenses.Fortitude"></span>;&nbsp;
-                    <b>Reflex</b>&nbsp;<span data-bind="text: Character().Defenses.Reflex"></span>;&nbsp;
-                    <b>Will</b>&nbsp;<span data-bind="text: Character().Defenses.Will"></span>
+                    <b>AC</b>&nbsp;{{Character().Defenses.AC}}&nbsp;<b>Fortitude</b>&nbsp;{{Character().Defenses.Fortitude}}&nbsp;<b>Reflex</b>&nbsp;{{Character().Defenses.Reflex}}&nbsp;<b>Will</b>&nbsp;{{Character().Defenses.Will}}
                 </td>
                 <td class="right">
                     <!-- passives -->
@@ -94,53 +91,19 @@
 			</tr>
 		</table>
         <p class="flavor noindent">
-            <b>Alignment</b> {{Alignment()}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>Alignment</b>&nbsp;{{Alignment()}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <b>Languages</b>&nbsp;<span data-bind="stringArray: Character().Languages, fallback: '-'"></span><br/>
+            <b>Equipment</b>&nbsp;<span data-bind="template: { name: 'items', data: Character().Items }"></span>
         </p>
     </div>
+<script type="text/html" id="items">
+<!-- ko foreach: $data -->{{$data.Name}}<!-- ko if: $index() + 1 < _.size($parent) -->, <!-- /ko --><!-- /ko -->
+</script>
 <script type="text/html" id="skills">
 <!-- ko foreach: _.pairs($data) -->{{$data[0]}} {{($data[1].Value > 0 ? '+' : '') + $data[1].Value}}{{$data[1].IsTrained ? ' (Trained)' : ''}}<!-- ko if: $index() + 1 < _.size($parent) -->, <!-- /ko --><!-- /ko -->
 </script>
-<script type="text/html" id="attack">
-    <!-- check parent depth to figure out &nbsp; prefixing -->
-    <!-- bit of a hard coded hack sadly, if recursion depth changes you will-->
-    <!-- need to change from ($parents.length - 2) to whatever the correct depth is -->
-    <!-- uncomment following to figure out how much to subtract -->
-    <!--{{$parents.length}} {{$parentContext.$index}} {{$parents[$parents.length - 2].Action}}-->
-    <!-- ko if: !Hit.IsEmpty && Hit.Description -->
-    <p class="flavor indent">
-        <i>Attack<!-- ko if: $parent.Action !== 'Standard' && $parent.Action !== 'Move' && $parent.Action !== 'Minor' --> ({{$parent.Action}})<!-- /ko -->:</i>
-        {{Range}}<!-- ko if: Targets --> ({{Targets}})<!-- /ko --><!-- ko if: Range || Targets-->;<!-- /ko --><span data-bind="template: { name: 'attackBonuses', data: AttackBonuses }"></span>
-    </p>
-    <!-- /ko -->
-    <!-- ko if: !Hit.IsEmpty && Hit.Description -->
-    <p class="flavor indent">
-        <i>Hit: </i>
-        <span data-bind="if: Hit.Damage">{{Hit.Damage}} </span>
-        <span data-bind="text: Hit.Description"></span>
-    </p>
-    <!-- /ko -->
-    <!-- ko foreach: Hit.AfterEffects --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<i>Aftereffect: </i>{{Damage}} {{Description}}</p><!-- /ko -->
-    <!-- ko foreach: Hit.FailedSavingThrows --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<!-- ko ifnot: $data.Name--><i>{{$root.IterationString($index() + 1)}} Failed Saving Throw: </i><!-- /ko --><!-- ko if: $data.Name --><i>{{Name}}: </i><!-- /ko -->{{Description}}</p><!-- /ko -->
-    <!-- ko template: { name: 'attack', foreach: Hit.Attacks }--><!-- /ko -->
-    <!-- ko if: !Miss.IsEmpty -->
-    <p class="flavor indent">
-        <i>Miss: </i>
-        <span data-bind="if: Miss.Damage">{{Miss.Damage}} </span>
-        <span data-bind="text: Miss.Description"></span>
-    </p>
-    <!-- /ko -->
-    <!-- ko if: !Effect.IsEmpty -->
-    <p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<i><!-- ko if: ($parents.length - 2) > 0-->{{Name}}<!-- /ko --><!-- ko ifnot: ($parents.length - 2) > 0 -->Effect<!-- /ko --><!-- ko if: $parents[$parents.length - 2].Action && ($parents[$parents.length - 2].Action !== 'Standard' && $parents[$parents.length - 2].Action !== 'Move' && $parents[$parents.length - 2].Action !== 'Minor') --> ({{$parents[$parents.length - 2].Action}})<!-- /ko -->: </i><span data-bind="html: Effect.Description.replace(/###/g, '<br/>')"></span></p>
-    <!-- /ko -->
-    <!-- ko foreach: Effect.Sustains --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<i>Sustain {{Action}}: </i>{{Description}}</p><!-- /ko -->
-    <!-- ko template: { name: 'attack', foreach: Effect.Attacks }--><!-- /ko -->
-    <!-- ko foreach: Effect.AfterEffects --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<i>Aftereffect: </i><span data-bind="html: Description.replace(/###/g, '<br/>')"></span></p><!-- /ko -->
-    <!-- ko foreach: Effect.FailedSavingThrows --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<!-- ko ifnot: $data.Name--><i>{{$root.IterationString($index() + 1)}} Failed Saving Throw: </i><!-- /ko --><!-- ko if: $data.Name --><i>{{Name}}: </i><!-- /ko -->{{Description}}</p><!-- /ko -->
-</script>
 <script type="text/html" id="power">
-    <h3><font face="4etools symbols" data-bind="powerFont: power"></font><b>{{Name}}&nbsp;</b><span data-bind="if: _.size(Keywords)">({{ Keywords.join(', ') }})&nbsp;</span><b>&bull; {{Usage}} </b></h3>
-    
+    <h3><font face="4etools symbols" data-bind="powerFont: power"></font><b>{{Name}}&nbsp;</b><span data-bind="if: _.size(Keywords)">({{ Keywords.join(', ') }})&nbsp;</span><b>&bull; {{Usage}} </b></h3>    
 </script>
 <script type="text/html" id="feat">
     <!-- TODO: go about finding an aura icon / font -->

@@ -13,7 +13,7 @@ namespace DnD4e.CombatManager.Test {
         static void Main () {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new StatLibraryForm());
+            Application.Run(new LibraryForm());
         }
     }
 }
