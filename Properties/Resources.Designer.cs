@@ -89,7 +89,7 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///    &lt;title data-bind=&quot;text: Character().Name&quot;&gt;&lt;/title&gt;
         ///    &lt;meta name=&quot;description&quot; content=&quot;D&amp;amp;D 4E Character StatBlock display&quot; /&gt;
         ///    &lt;meta name=&quot;author&quot; content=&quot;Jason Fischer&quot; /&gt;
-        ///    &lt;!--&lt;link type=&apos;text/css&apos; href=&apos;statblock.css&apos; media=&apos;screen&apos; rel=&apos;stylesheet&apos; /&gt;
+        ///&lt;!--    &lt;link type=&apos;text/css&apos; href=&apos;statblock.css&apos; media=&apos;screen&apos; rel=&apos;stylesheet&apos; /&gt;
         ///    &lt;script type=&apos;text/javascript&apos; src=&apos;underscore.js&apos;&gt;&lt;/script&gt;
         ///    &lt;script type=&apos;text/javascript&apos; src=&apos;jquery-1.10.2.js&apos;&gt;&lt;/script&gt;
         ///    &lt;script type=&apos;text/javascript&apos; src=&apos;knockout-3.0.0.debug.js&apos;&gt;&lt;/ [rest of string was truncated]&quot;;.
@@ -101,25 +101,13 @@ namespace DnD4e.CombatManager.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to function ViewModel() {
-        ///    var self = this;
+        ///   Looks up a localized string similar to /// &lt;reference path=&quot;knockout-3.0.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;underscore.js&quot; /&gt;
+        ////// &lt;reference path=&quot;statblockhelpers.js&quot; /&gt;
+        ////// &lt;reference path=&quot;bindinghandlers.js&quot; /&gt;
         ///
-        ///    this.Bound = false;
-        ///
-        ///    this.Character = ko.observable();
-        ///
-        ///    this.Bloodied = function () {
-        ///        return (self.Character().HitPoints / 2).toFixed(0);
-        ///    };
-        ///    this.LevelString = function () {
-        ///        var groupRole = self.Character().GroupRole,
-        ///            role = self.Character().Role
-        ///            parts = [];
-        ///
-        ///        parts.push(&apos;Level&apos;);
-        ///        parts.push(self.Character().Level);
-        ///        if (groupRole !== &apos;Standard&apos;) {
-        ///            part [rest of string was truncated]&quot;;.
+        ///// Duncan McTiernan
+        ///var debugJson = &apos;{&quot;Class&quot;:&quot;Paladin&quot;,&quot;ClassFeatures&quot;:[{&quot;Name&quot;:&quot;Knight Hospitaler Starting Feature&quot;,&quot;ShortDescription&quot;:&quot;Gain the Shield of Devotion power&quot;,&quot;Text&quot;:&quot;You gain the shield of devotion power.&quot;},{&quot;Name&quot;:&quot;Channel Divinity&quot;,&quot;ShortDescription&quot;:&quot;Invoke a channel divinity class feature or other power; enc [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string characterStatblock_js {
             get {
@@ -257,10 +245,15 @@ namespace DnD4e.CombatManager.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to // http://jsfiddle.net/7P8Tp/
+        ///   Looks up a localized string similar to /// &lt;reference path=&quot;knockout-3.0.0.debug.js&quot; /&gt;
+        ////// &lt;reference path=&quot;underscore.js&quot; /&gt;
+        ////// &lt;reference path=&quot;statblockhelpers.js&quot; /&gt;
+        ////// &lt;reference path=&quot;bindinghandlers.js&quot; /&gt;
+        ///
+        ///// http://jsfiddle.net/7P8Tp/
         ///
         ///// adept of orcus
-        /////var debugJson = &apos;{&quot;CompendiumUrl&quot;:&quot;http://www.wizards.com/dndinsider/compendium/monster.aspx?id=4887&quot;,&quot;Description&quot;:&quot;In the dark shrine, they spoke in whispers of the fallen priest who had died with a prayer to Orcus on his lips. He might have remained dead, his soul to become a plaything of Orcus, except that he had killed and consumed a priest of Bahamut when he was alive. After his death, he underwent a horrid and unholy transformation. Now, as he ris [rest of string was truncated]&quot;;.
+        /////var debugJson = &apos;{&quot;CompendiumUrl&quot;:&quot;http://www.wizards.com/dndinsider/compendium/monster.aspx?id=4887&quot;,&quot;Description&quot;:&quot;In the dark shrine, they spoke in whispers of the fallen priest who had died with a prayer to Orcus on his lips. He might have remained dead, his soul to beco [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string monsterStatblock_js {
             get {
@@ -324,16 +317,18 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///    width: 100%;
         ///}
         ///
-        ///div.monster table.header {
-        ///    background-color: #374b27; 
+        ///table.header {
         ///    color: #ffffff;
         ///    min-height: 14px;
         ///    padding: 2px 3px 2px 3px;
         ///}
         ///
-        ///div.trap table.header .bold,
-        ///div.monster table.header .bold {
-        ///     [rest of string was truncated]&quot;;.
+        ///h2 {
+        ///    color: #ffffff;
+        ///    font-size: 9.5pt;
+        ///    font-weight: 700;
+        ///    padding: 1px 3px 1px 3px;
+        ///    margi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string statblock_css {
             get {
@@ -373,54 +368,6 @@ namespace DnD4e.CombatManager.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///&lt;html&gt;
-        ///&lt;head&gt;
-        ///    &lt;title data-bind=&quot;text: Trap().Name&quot;&gt;&lt;/title&gt;
-        ///    &lt;meta name=&quot;description&quot; content=&quot;D&amp;amp;D 4E Trap StatBlock display&quot; /&gt;
-        ///    &lt;meta name=&quot;author&quot; content=&quot;Jason Fischer&quot; /&gt;
-        ///    &lt;!--&lt;link type=&apos;text/css&apos; href=&apos;statblock.css&apos; media=&apos;screen&apos; rel=&apos;stylesheet&apos; /&gt;
-        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;underscore.js&apos;&gt;&lt;/script&gt;
-        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;jquery-1.10.2.js&apos;&gt;&lt;/script&gt;
-        ///    &lt;script type=&apos;text/javascript&apos; src=&apos;knockout-3.0.0.debug.js&apos;&gt;&lt;/script&gt;
-        ///  [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string trapStatblock_html {
-            get {
-                return ResourceManager.GetString("trapStatblock_html", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to function ViewModel() {
-        ///    var self = this;
-        ///
-        ///    this.Bound = false;
-        ///
-        ///    this.Trap = ko.observable();
-        ///
-        ///    this.LevelString = function () {
-        ///        var groupRole = self.Trap().GroupRole,
-        ///            role = self.Trap().Role
-        ///            parts = [];
-        ///
-        ///        parts.push(&apos;Level&apos;);
-        ///        parts.push(self.Trap().Level);
-        ///        if (role !== &apos;No Role&apos;) {
-        ///            parts.push(role);
-        ///        }
-        ///        return parts.join(&apos; &apos;);
-        ///    };
-        ///    this.XPString = function () {
-        ///        return &apos;XP &apos; + toCom [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string trapStatblock_js {
-            get {
-                return ResourceManager.GetString("trapStatblock_js", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to //     Underscore.js 1.5.2
         /////     http://underscorejs.org
         /////     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters &amp; Editors
@@ -437,7 +384,7 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///  // Save the previous value of the `_` variable.
         ///  var previousUnderscore = root._;
         ///
-        ///  // Establish the object that ge [rest of string was truncated]&quot;;.
+        ///  // Establish the object that gets returned to b [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string underscore_js {
             get {

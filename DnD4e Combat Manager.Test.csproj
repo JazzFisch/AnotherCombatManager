@@ -61,7 +61,13 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>DnD4e.CombatManager.Test.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ObjectListView">
+      <HintPath>..\packages\Unofficial.ObjectListView.2.6.0\lib\net20\ObjectListView.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core">
@@ -87,9 +93,35 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking">
+      <HintPath>..\packages\DockPanelSuite.2.8.0.0\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExtensionMethods\WebBrowser.cs" />
+    <Compile Include="DockWindows\CombatantListWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockWindows\CombatantListWindow.Designer.cs">
+      <DependentUpon>CombatantListWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockWindows\PropertiesWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockWindows\PropertiesWindow.Designer.cs">
+      <DependentUpon>PropertiesWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockWindows\StatblockWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockWindows\StatblockWindow.Designer.cs">
+      <DependentUpon>StatblockWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LibraryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LibraryForm.Designer.cs">
+      <DependentUpon>LibraryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -97,19 +129,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StatLibraryForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StatLibraryForm.Designer.cs">
-      <DependentUpon>StatLibraryForm.cs</DependentUpon>
-    </Compile>
+    <EmbeddedResource Include="DockWindows\CombatantListWindow.resx">
+      <DependentUpon>CombatantListWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockWindows\PropertiesWindow.resx">
+      <DependentUpon>PropertiesWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockWindows\StatblockWindow.resx">
+      <DependentUpon>StatblockWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LibraryForm.resx">
+      <DependentUpon>LibraryForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StatLibraryForm.resx">
-      <DependentUpon>StatLibraryForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="DnD4e Combat Manager.Test_TemporaryKey.pfx" />
     <None Include="packages.config" />
@@ -139,13 +174,11 @@
     <Resource Include="HtmlContent\knockout-StringInterpolatingBindingProvider.js" />
     <Resource Include="HtmlContent\ko.ninja.js" />
     <Resource Include="HtmlContent\modernizr-2.6.2.js" />
-    <Resource Include="HtmlContent\trapStatblock.js" />
     <Resource Include="HtmlContent\monsterStatblock.html" />
     <Resource Include="HtmlContent\monsterStatblock.js" />
     <Resource Include="HtmlContent\normalize.css" />
     <Resource Include="HtmlContent\statblock.css" />
     <Resource Include="HtmlContent\statblockHelpers.js" />
-    <Resource Include="HtmlContent\trapStatblock.html" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -174,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="HtmlContent\underscore.js" />
+    <Content Include="license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
