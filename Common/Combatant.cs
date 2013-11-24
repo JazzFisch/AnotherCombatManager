@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace DnD4e.LibraryHelper.Common {
+    [DefaultProperty("Name")]
     public abstract class Combatant {
         public Dictionary<AbilityScore, int> AbilityScores { get; set; }
 
@@ -12,12 +14,14 @@ namespace DnD4e.LibraryHelper.Common {
 
         public Alignment Alignment { get; set; }
 
+        [Browsable(false)]
         public abstract CombatantType CombatantType { get; }
 
         public Dictionary<Defense, int> Defenses { get; set; }
 
         public int Experience { get; set; }
 
+        [Browsable(false)]
         public string Handle { get; set; }
 
         public int HitPoints { get; set; }
@@ -28,14 +32,19 @@ namespace DnD4e.LibraryHelper.Common {
 
         public List<string> Languages { get; set; }
 
+        [Category("General")]
         public int Level { get; set; }
 
+        [Category("General")]
         public string Name { get; set; }
 
+        [Category("General")]
         public string Race { get; set; }
 
+        [Category("General")]
         public string Role { get; set; }
 
+        [Category("General")]
         public string Size { get; set; }
 
         public Combatant () {

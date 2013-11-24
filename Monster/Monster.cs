@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -12,23 +13,29 @@ using ImportMonster = DnD4e.LibraryHelper.Import.Monster.Monster;
 
 namespace DnD4e.LibraryHelper.Monster {
     [JsonObject]
+    [DefaultProperty("Name")]
     public class Monster : Combatant {
+        [Browsable(false)]
         public override CombatantType CombatantType { get { return Common.CombatantType.Monster; } }
 
         public string CompendiumUrl { get; set; }
 
         public string Description { get; set; }
 
+        [Category("General")]
         public string GroupRole { get; set; }
 
+        [Category("General")]
         public bool IsLeader { get; set; }
 
         public List<KeyValuePair<string, int>> Items { get; set; }
 
+        [Category("General")]
         public List<string> Keywords { get; set; }
 
         public List<string> Immunities { get; set; }
 
+        [Category("General")]
         public string Origin { get; set; }
 
         public List<string> OtherSpeeds { get; set; }
@@ -55,6 +62,7 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public List<Trait> Traits { get; set; }
 
+        [Category("General")]
         public string Type { get; set; }
 
         public List<string> Weaknesses { get; set; }

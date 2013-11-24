@@ -67,8 +67,6 @@ namespace DnD4e.LibraryHelper.Common {
 
         public IQueryable<Monster.Monster> Monsters { get { return this.AsQueryable<Monster.Monster>(); } }
 
-        public IQueryable<Trap.Trap> Traps { get { return this.AsQueryable<Trap.Trap>(); } }
-
         #endregion
 
         #region Public Methods
@@ -80,20 +78,6 @@ namespace DnD4e.LibraryHelper.Common {
 
             this.dirty = true;
             this.combatants[combatant.Handle] = combatant;
-        }
-
-        public void Add (string compendiumHtml, Uri url) {
-            var query = HttpUtility.ParseQueryString(url.Query);
-            string page = query.Get("page") ?? String.Empty;
-           
-            switch (page.ToLowerInvariant()) {
-                case "trap":
-                    Trap.Trap trap;
-                    if (Import.Trap.Trap.TryCreateFromHtml(compendiumHtml, url, out trap)) {
-                        this.Add(trap);
-                    }
-                    break;
-            }
         }
 
         public async Task FlushAsync () {
@@ -111,15 +95,12 @@ namespace DnD4e.LibraryHelper.Common {
                                                        .ToDictionary(c => c.Handle);
                 var monsters = this.combatants.Values.OfType<Monster.Monster>()
                                                      .ToDictionary(m => m.Handle);
-                var traps = this.combatants.Values.OfType<Trap.Trap>()
-                                                  .ToDictionary(t => t.Handle);
 
                 var filename = Path.GetFileName(this.libraryPath);
                 using (var file = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 0x1000, useAsync: true)) {
                     using (var archive = new ZipArchive(file, ZipArchiveMode.Update)) {
                         await this.WriteCombatantsAsync(archive, CharactersKey, characters).ConfigureAwait(false);
                         await this.WriteCombatantsAsync(archive, MonstersKey, monsters).ConfigureAwait(false);
-                        await this.WriteCombatantsAsync(archive, TrapsKey, traps).ConfigureAwait(false);
                     }
                 }
                 this.dirty = false;
@@ -236,14 +217,12 @@ namespace DnD4e.LibraryHelper.Common {
 
             Dictionary<string, Character.Character> characters;
             Dictionary<string, Monster.Monster> monsters;
-            Dictionary<string, Trap.Trap> traps;
 
             try {
                 using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 0x1000, useAsync: true)) {
                     using (var archive = new ZipArchive(file, ZipArchiveMode.Read)) {
                         characters = await this.ReadCombatantsAsync<Character.Character>(archive, CharactersKey);
                         monsters = await this.ReadCombatantsAsync<Monster.Monster>(archive, MonstersKey);
-                        traps = await this.ReadCombatantsAsync<Trap.Trap>(archive, TrapsKey);
                     }
                 }
             }
@@ -258,10 +237,6 @@ namespace DnD4e.LibraryHelper.Common {
 
             foreach (var monster in monsters) {
                 this[monster.Key] = monster.Value;
-            }
-
-            foreach (var trap in traps) {
-                this[trap.Key] = trap.Value;
             }
 
             return true;
