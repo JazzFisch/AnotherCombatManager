@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Web;
-using DnD4e.LibraryHelper.ExtensionMethods;
 using DnD4e.LibraryHelper.Import.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -18,18 +15,18 @@ namespace DnD4e.LibraryHelper.Common {
     public class Library {
         // TODO: add lazy commit on throttle this[handle] sets / removes
         // TODO: add restoring from backup if open fails
-        // TODO: add hash to Content class to determine if writing Library is necessary
 
         #region Fields
 
         private const string CharactersKey = "Characters.json";
+        private const string EncountersKey = "Encounters.json";
         private const string MonstersKey = "Monsters.json";
-        private const string TrapsKey = "Traps.json";
 
         private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings() {
             Converters = new List<JsonConverter>() { new StringEnumConverter() }
         };
-        private ConcurrentDictionary<string, Combatant> combatants = new ConcurrentDictionary<string, Combatant>();
+        private ObservableCombatantDictionary<Character.Character> characters = new ObservableCombatantDictionary<Character.Character>();
+        private ObservableCombatantDictionary<Monster.Monster> monsters = new ObservableCombatantDictionary<Monster.Monster>();
         private bool dirty = false;
         private Rules d20Rules;
         private string libraryPath;
@@ -56,29 +53,13 @@ namespace DnD4e.LibraryHelper.Common {
 
         #region Properties
 
-        public Combatant this[string handle] {
-            get { return this.combatants[handle]; }
-            set { this.Add(value); }
-        }
+        public ObservableCombatantDictionary<Character.Character> Characters { get { return this.characters; } }
 
-        public IQueryable<Character.Character> Characters { get { return this.AsQueryable<Character.Character>(); } }
-
-        public IQueryable<Combatant> Combatants { get { return this.AsQueryable<Combatant>(); } }
-
-        public IQueryable<Monster.Monster> Monsters { get { return this.AsQueryable<Monster.Monster>(); } }
+        public ObservableCombatantDictionary<Monster.Monster> Monsters { get { return this.monsters; } }
 
         #endregion
 
         #region Public Methods
-
-        public void Add (Combatant combatant) {
-            if (combatant == null) {
-                throw new ArgumentNullException("combatant");
-            }
-
-            this.dirty = true;
-            this.combatants[combatant.Handle] = combatant;
-        }
 
         public async Task FlushAsync () {
             try {
@@ -91,16 +72,11 @@ namespace DnD4e.LibraryHelper.Common {
                 var random = Path.Combine(path, tmp);
                 var backup = String.Concat(this.libraryPath, ".bak");
 
-                var characters = this.combatants.Values.OfType<Character.Character>()
-                                                       .ToDictionary(c => c.Handle);
-                var monsters = this.combatants.Values.OfType<Monster.Monster>()
-                                                     .ToDictionary(m => m.Handle);
-
                 var filename = Path.GetFileName(this.libraryPath);
                 using (var file = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 0x1000, useAsync: true)) {
                     using (var archive = new ZipArchive(file, ZipArchiveMode.Update)) {
-                        await this.WriteCombatantsAsync(archive, CharactersKey, characters).ConfigureAwait(false);
-                        await this.WriteCombatantsAsync(archive, MonstersKey, monsters).ConfigureAwait(false);
+                        await this.WriteCombatantsAsync(archive, CharactersKey, this.characters).ConfigureAwait(false);
+                        await this.WriteCombatantsAsync(archive, MonstersKey, this.monsters).ConfigureAwait(false);
                     }
                 }
                 this.dirty = false;
@@ -112,41 +88,43 @@ namespace DnD4e.LibraryHelper.Common {
             }
         }
 
-        public bool Exists (Combatant combatant) {
-            return this.combatants.ContainsKey(combatant.Handle);
-        }
-
-        public async Task<Character.Character> LoadCharacterFromFileAsync (string filename) {
+        public async Task<Character.Character> ImportCharacterFromFileAsync (string filename) {
             var character = await Character.Character.LoadFromFileAsync(filename, this.d20Rules).ConfigureAwait(false);
-            this.Add(character);
+            this.Characters[character.Handle] = character;
             return character;
         }
 
-        public async Task<IEnumerable<Character.Character>> LoadCharactersFromFileAsync (IEnumerable<string> filenames) {
+        public async Task<IEnumerable<Character.Character>> ImportCharactersFromFileAsync (IEnumerable<string> filenames) {
             var names = filenames.ToArray();
             var tasks = new Task<Character.Character>[filenames.Count()];
+            this.Characters.FireEvents = false;
             for (int i = 0; i < tasks.Length; ++i) {
-                tasks[i] = this.LoadCharacterFromFileAsync(names[i]);
+                tasks[i] = this.ImportCharacterFromFileAsync(names[i]);
             }
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
+            this.Characters.FireEvents = true;
+            this.Characters.RaiseCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedAction.Reset);
             return tasks.Select(t => t.Result);
         }
 
-        public async Task<Monster.Monster> LoadMonsterFromFileAsync (string filename) {
+        public async Task<Monster.Monster> ImportMonsterFromFileAsync (string filename) {
             var monster = await Monster.Monster.LoadFromFileAsync(filename).ConfigureAwait(false);
-            this.Add(monster);
+            this.Monsters[monster.Handle] = monster;
             return monster;
         }
 
-        public async Task<IEnumerable<Monster.Monster>> LoadMonstersFromFileAsync (IEnumerable<string> filenames) {
+        public async Task<IEnumerable<Monster.Monster>> ImportMonstersFromFileAsync (IEnumerable<string> filenames) {
             var names = filenames.ToArray();
             var tasks = new Task<Monster.Monster>[filenames.Count()];
+            this.Monsters.FireEvents = false;
             for (int i = 0; i < tasks.Length; ++i) {
-                tasks[i] = this.LoadMonsterFromFileAsync(names[i]);
+                tasks[i] = this.ImportMonsterFromFileAsync(names[i]);
             }
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
+            this.Monsters.FireEvents = true;
+            this.Monsters.RaiseCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedAction.Reset);
             return tasks.Select(t => t.Result);
         }
 
@@ -154,23 +132,6 @@ namespace DnD4e.LibraryHelper.Common {
             if (this.d20Rules == null) {
                 this.d20Rules = await D20Rules.LoadFromAppDataAsync().ConfigureAwait(false);
             }
-        }
-
-        public IEnumerable<T> QueryByName<T> (string name) where T : Combatant {
-            return from c in this.AsQueryable<T>()
-                   where c.Name.IndexOf(name, StringComparison.OrdinalIgnoreCase) != -1
-                   select c;
-        }
-
-        public Combatant Remove (Combatant combatant) {
-            if (combatant == null) {
-                throw new ArgumentNullException("combatant");
-            }
-
-            Combatant output;
-            this.combatants.TryRemove(combatant.Handle, out output);
-            this.dirty = true;
-            return output;
         }
 
         #endregion
@@ -189,10 +150,6 @@ namespace DnD4e.LibraryHelper.Common {
         #endregion
 
         #region Private methods
-
-        private IQueryable<T> AsQueryable<T> () {
-            return this.combatants.Values.OfType<T>().AsQueryable();
-        }
 
         private async Task<Dictionary<string, T>> ReadCombatantsAsync<T> (ZipArchive archive, string key) where T : Combatant {
             ZipArchiveEntry entry = archive.GetEntry(key);
@@ -231,18 +188,22 @@ namespace DnD4e.LibraryHelper.Common {
                 return false;
             }
 
+            this.characters.FireEvents = false;
             foreach (var character in characters) {
-                this[character.Key] = character.Value;
+                this.characters[character.Key] = character.Value;
             }
+            this.characters.FireEvents = true;
 
+            this.monsters.FireEvents = false;
             foreach (var monster in monsters) {
-                this[monster.Key] = monster.Value;
+                this.monsters[monster.Key] = monster.Value;
             }
+            this.monsters.FireEvents = true;
 
             return true;
         }
 
-        private async Task WriteCombatantsAsync<T> (ZipArchive archive, string key, Dictionary<string, T> combatants) where T : Combatant {
+        private async Task WriteCombatantsAsync<T> (ZipArchive archive, string key, IDictionary<string, T> combatants) where T : Combatant {
             if (combatants == null || combatants.Count == 0) {
                 return;
             }

@@ -60,6 +60,7 @@
     <Compile Include="Common\Combatant.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\Library.cs" />
+    <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="ExtensionMethods\Combatant.cs" />
     <Compile Include="ExtensionMethods\Integer.cs" />
     <Compile Include="ExtensionMethods\String.cs" />
