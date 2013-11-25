@@ -25,6 +25,7 @@ namespace DnD4e.CombatManager.Test {
         private CombatantListWindow<Monster> monstersWindow = new CombatantListWindow<Monster>() { Text = "Monsters" };
         private PropertiesWindow propertiesWindow = new PropertiesWindow();
         private StatblockWindow statblockWindow = new StatblockWindow();
+        private IEnumerable<Combatant> selectedCombatants;
 
         #endregion
 
@@ -101,6 +102,7 @@ namespace DnD4e.CombatManager.Test {
                 this.propertiesWindow.SelectedObject = e.Combatants.First();
                 this.statblockWindow.Combatant = e.Combatants.First();
             }
+            this.selectedCombatants = e.Combatants;
         }
 
         private async void importFromATToolStripMenuItem_Click (object sender, EventArgs e) {
@@ -116,6 +118,7 @@ namespace DnD4e.CombatManager.Test {
                 this.propertiesWindow.SelectedObject = e.Combatants.First();
                 this.statblockWindow.Combatant = e.Combatants.First();
             }
+            this.selectedCombatants = e.Combatants;
         }
 
         private void monstersWindowToolStripMenuItem_Click (object sender, EventArgs e) {
@@ -128,6 +131,51 @@ namespace DnD4e.CombatManager.Test {
             this.ActivateDockWindow(this.propertiesWindow);
         }
 
+        private void removeToolStripMenuItem_Click (object sender, EventArgs e) {
+            if ((this.selectedCombatants == null) || !this.selectedCombatants.Any()) {
+                return;
+            }
+
+            var type = this.selectedCombatants.First().CombatantType;
+            switch (type) {
+                case CombatantType.Character:
+                    if (!this.charactersWindow.IsActivated) {
+                        return;
+                    }
+                    break;
+
+                case CombatantType.Monster:
+                    if (!this.monstersWindow.IsActivated) {
+                        return;
+                    }
+                    break;
+
+                default:
+                    return;
+            }
+
+            var prompt = String.Format(
+                "Are you sure you want to delete the\nfollowing entries from the Library?\n{0}",
+                String.Join("    \n", this.selectedCombatants.Select(c => c.Handle))
+            );
+
+            var result = MessageBox.Show(prompt, "Delete request", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (result != DialogResult.OK) {
+                return;
+            }
+
+            switch (type) {
+                case CombatantType.Character:
+                    this.RemoveCombatants<Character>(this.Library.Characters, this.selectedCombatants);
+                    break;
+
+                case CombatantType.Monster:
+                    this.RemoveCombatants<Monster>(this.Library.Monsters, this.selectedCombatants);
+                    break;
+            }
+            this.UpdateCounts();
+        }
+
         private async void saveToolStripMenuItem_Click (object sender, EventArgs e) {
             await this.Library.FlushAsync();
         }
@@ -135,30 +183,6 @@ namespace DnD4e.CombatManager.Test {
         private void statblockWindowToolStripMenuItem_Click (object sender, EventArgs e) {
             this.statblockWindow.Show(this.dockPanel);
         }
-
-        //private void toolStripStatListRemoveButton_Click (object sender, EventArgs e) {
-        //    if (this.libraryListBox.SelectedIndices.Count == 0) {
-        //        return;
-        //    }
-
-        //    var selected = this.libraryListBox.SelectedItems.OfType<Combatant>().ToList();
-        //    var prompt = String.Format(
-        //        "Are you sure you want to delete the\nfollowing entries from the Library?\n{0}",
-        //        String.Join("    \n", selected.Select(c => c.Handle))
-        //    );
-
-        //    var result = MessageBox.Show(prompt, "Delete request", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-        //    if (result != DialogResult.OK) {
-        //        return;
-        //    }
-
-        //    foreach (var combatant in selected) {
-        //        this.library.Remove(combatant);
-        //    }
-        //    this.libraryListBox.SelectedIndices.Clear();
-        //    SetCombatants();
-        //}
-
 
         #endregion
 
@@ -189,11 +213,10 @@ namespace DnD4e.CombatManager.Test {
             Stopwatch timer = Stopwatch.StartNew();
             IEnumerable<Combatant> added = null;
             if (type == CombatantType.Character) {
-                added = await this.Library.LoadCharactersFromFileAsync(dialog.FileNames);
+                added = await this.Library.ImportCharactersFromFileAsync(dialog.FileNames);
             }
             else if (type == CombatantType.Monster) {
-                added = await this.Library.LoadMonstersFromFileAsync(dialog.FileNames);
-                this.monstersWindow.Combatants = this.Library.Monsters;
+                added = await this.Library.ImportMonstersFromFileAsync(dialog.FileNames);
             }
             timer.Stop();
             Trace.TraceInformation("Loading {0}s took {1}ms", type, timer.ElapsedMilliseconds);
@@ -256,6 +279,15 @@ namespace DnD4e.CombatManager.Test {
         //    else if (perPC <= 103000) { return 39; }
         //    else { return 40; }
         //}
+
+        private void RemoveCombatants<T> (ObservableCombatantDictionary<T> combatants, IEnumerable<Combatant> victims) where T : Combatant {
+            combatants.FireEvents = false;
+            foreach (var victim in victims) {
+                combatants.Remove(victim.Handle);
+            }
+            combatants.FireEvents = true;
+            combatants.RaiseCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedAction.Reset);
+        }
 
         private void UpdateCounts () {
             this.characterCountToolStripStatusLabel.Text = this.Library.Characters.Count().ToString("#,0");

@@ -8,9 +8,6 @@ var Character = Combatant.extend({
 var Monster = Combatant.extend({
 });
 
-var Trap = Combatant.extend({
-});
-
 var Browser = {
     Version: function() {
         var version = 999; // we assume a sane browser

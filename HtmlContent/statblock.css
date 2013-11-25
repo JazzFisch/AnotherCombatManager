@@ -81,20 +81,7 @@ div.character h3 {
     background-color: #6699ff;
 }
 
-div.trap table.header {
-    background-color: rgb(69, 19, 60);
-}
-
-div.trap h2 {
-    background-color: rgb(101, 52, 93);
-}
-
-div.trap h3 {
-    background-color: rgb(202, 219, 183);
-}
-
 div.character table td,
-div.trap table td,
 div.monster table td {
     padding: 0px;
 }
