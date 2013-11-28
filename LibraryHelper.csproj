@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character\Character.cs" />
+    <Compile Include="Common\Damage.cs" />
     <Compile Include="Common\Feat.cs" />
     <Compile Include="Character\Item.cs" />
     <Compile Include="Character\Power.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\Library.cs" />
     <Compile Include="Common\ObservableDictionary.cs" />
+    <Compile Include="Encounter\Encounter.cs" />
     <Compile Include="ExtensionMethods\Combatant.cs" />
     <Compile Include="ExtensionMethods\Integer.cs" />
     <Compile Include="ExtensionMethods\String.cs" />
@@ -97,7 +99,6 @@
     <Compile Include="Import\ExtensionMethods\Character.cs" />
     <Compile Include="Import\ExtensionMethods\Enums.cs" />
     <Compile Include="Import\ExtensionMethods\Monster.cs" />
-    <Compile Include="Import\ExtensionMethods\MonsterPower.cs" />
     <Compile Include="Import\ExtensionMethods\String.cs" />
     <Compile Include="Import\Monster\Attack.cs" />
     <Compile Include="Import\Monster\AttackBonus.cs" />

@@ -124,7 +124,12 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 Action = monsterAttackType.Action.FixWhitespace(),
                 AfterEffects = monsterAttackType.AfterEffects.Select(ae => ae.ToExportAttackType()).ToList(),
                 Attacks = monsterAttackType.Attacks.Select(a => a.ToExportAttack()).ToList(),
-                Damage = monsterAttackType.Damage.Expression.FixWhitespace(),
+                Damage = new LibraryHelper.Common.Damage() {
+                    Bonus = monsterAttackType.Damage.Bonus,
+                    Dice = monsterAttackType.Damage.Dice,
+                    DieSides = monsterAttackType.Damage.DiceSides,
+                    Expression = monsterAttackType.Damage.Expression.FixWhitespace()
+                },
                 Description = monsterAttackType.Description.FixWhitespace(),
                 FailedSavingThrows = monsterAttackType.FailedSavingThrows.Select(fst => fst.ToExportAttackType()).ToList(),
                 IsEmpty = monsterAttackType.IsEmpty,

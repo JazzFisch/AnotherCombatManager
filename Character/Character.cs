@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.Import.Common;
 using DnD4e.LibraryHelper.Import.ExtensionMethods;
+using Newtonsoft.Json;
 using ImportCharacter = DnD4e.LibraryHelper.Import.Character.Character;
 
 namespace DnD4e.LibraryHelper.Character {
     public class Character : Combatant {
+        [JsonIgnore]
+        public static readonly Character Missing = new Character() { Name = MissingName };
+
         public string Class { get; set; }
 
         public List<Feat> ClassFeatures { get; set; }

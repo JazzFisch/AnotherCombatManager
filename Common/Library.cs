@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -26,6 +27,7 @@ namespace DnD4e.LibraryHelper.Common {
             Converters = new List<JsonConverter>() { new StringEnumConverter() }
         };
         private ObservableCombatantDictionary<Character.Character> characters = new ObservableCombatantDictionary<Character.Character>();
+        private ObservableCollection<Encounter.Encounter> encounters = new ObservableCollection<Encounter.Encounter>();
         private ObservableCombatantDictionary<Monster.Monster> monsters = new ObservableCombatantDictionary<Monster.Monster>();
         private bool dirty = false;
         private Rules d20Rules;
@@ -55,6 +57,8 @@ namespace DnD4e.LibraryHelper.Common {
 
         public ObservableCombatantDictionary<Character.Character> Characters { get { return this.characters; } }
 
+        public ObservableCollection<Encounter.Encounter> Encounters { get { return this.encounters; } }
+
         public ObservableCombatantDictionary<Monster.Monster> Monsters { get { return this.monsters; } }
 
         #endregion
@@ -63,9 +67,9 @@ namespace DnD4e.LibraryHelper.Common {
 
         public async Task FlushAsync () {
             try {
-                if (!this.dirty) {
-                    return;
-                }
+                //if (!this.dirty) {
+                //    return;
+                //}
 
                 var path = Path.GetTempPath();
                 var tmp = Path.GetRandomFileName();
@@ -77,9 +81,10 @@ namespace DnD4e.LibraryHelper.Common {
                     using (var archive = new ZipArchive(file, ZipArchiveMode.Update)) {
                         await this.WriteCombatantsAsync(archive, CharactersKey, this.characters).ConfigureAwait(false);
                         await this.WriteCombatantsAsync(archive, MonstersKey, this.monsters).ConfigureAwait(false);
+                        await this.WriteEncountersAsync(archive, EncountersKey, this.encounters).ConfigureAwait(false);
                     }
                 }
-                this.dirty = false;
+                //this.dirty = false;
             }
             catch (System.Exception ex) {
                 Trace.TraceError(ex.ToString());
@@ -91,6 +96,7 @@ namespace DnD4e.LibraryHelper.Common {
         public async Task<Character.Character> ImportCharacterFromFileAsync (string filename) {
             var character = await Character.Character.LoadFromFileAsync(filename, this.d20Rules).ConfigureAwait(false);
             this.Characters[character.Handle] = character;
+            this.dirty = true;
             return character;
         }
 
@@ -111,6 +117,7 @@ namespace DnD4e.LibraryHelper.Common {
         public async Task<Monster.Monster> ImportMonsterFromFileAsync (string filename) {
             var monster = await Monster.Monster.LoadFromFileAsync(filename).ConfigureAwait(false);
             this.Monsters[monster.Handle] = monster;
+            this.dirty = true;
             return monster;
         }
 
@@ -151,21 +158,6 @@ namespace DnD4e.LibraryHelper.Common {
 
         #region Private methods
 
-        private async Task<Dictionary<string, T>> ReadCombatantsAsync<T> (ZipArchive archive, string key) where T : Combatant {
-            ZipArchiveEntry entry = archive.GetEntry(key);
-            if (entry == null) {
-                return new Dictionary<string, T>();
-            }
-
-            using (var stream = entry.Open()) {
-                using (var reader = new StreamReader(stream)) {
-                    var json = await reader.ReadToEndAsync();
-                    var output = await JsonConvert.DeserializeObjectAsync<Dictionary<string, T>>(json, JsonSettings);
-                    return output;
-                }
-            }
-        }
-
         private async Task<bool> OpenAsync (string filename, bool useBackup = false) {
             this.libraryPath = filename;
             if (!File.Exists(filename)) {
@@ -178,8 +170,10 @@ namespace DnD4e.LibraryHelper.Common {
             try {
                 using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 0x1000, useAsync: true)) {
                     using (var archive = new ZipArchive(file, ZipArchiveMode.Read)) {
-                        characters = await this.ReadCombatantsAsync<Character.Character>(archive, CharactersKey);
-                        monsters = await this.ReadCombatantsAsync<Monster.Monster>(archive, MonstersKey);
+                        // ZipArchive methods are not thread safe, so serializing access
+                        characters = await this.ReadEntryAsync<Dictionary<string, Character.Character>>(archive, CharactersKey);
+                        monsters = await this.ReadEntryAsync<Dictionary<string, Monster.Monster>>(archive, MonstersKey);
+                        this.encounters = await this.ReadEntryAsync<ObservableCollection<Encounter.Encounter>>(archive, EncountersKey);
                     }
                 }
             }
@@ -200,7 +194,45 @@ namespace DnD4e.LibraryHelper.Common {
             }
             this.monsters.FireEvents = true;
 
+            // fixup encounter combatants
+            foreach (var encounter in this.encounters) {
+                encounter.Combatants = new ObservableCollection<Combatant>();
+                foreach (var handle in encounter.Handles) {
+                    Monster.Monster monster;
+                    Character.Character character;
+                    if (this.Characters.TryGetValue(handle, out character)) {
+                        encounter.Combatants.Add(character);
+                    }
+                    else if (this.Monsters.TryGetValue(handle, out monster)) {
+                        encounter.Combatants.Add(monster);
+                    }
+                }
+            }
+
             return true;
+        }
+
+        private async Task<T> ReadEntryAsync<T> (ZipArchive archive, string key) where T : new() {
+            ZipArchiveEntry entry = archive.GetEntry(key);
+            if (entry == null) {
+                return new T();
+            }
+
+            using (var stream = entry.Open()) {
+                using (var reader = new StreamReader(stream)) {
+                    string json = await reader.ReadToEndAsync();
+                    return await JsonConvert.DeserializeObjectAsync<T>(json);
+                }
+            }
+        }
+
+        private async Task WriteEncountersAsync (ZipArchive archive, string key, IList<Encounter.Encounter> encounters) {
+            if (encounters == null || encounters.Count == 0) {
+                return;
+            }
+
+            string json = await JsonConvert.SerializeObjectAsync(encounters, Formatting.Indented, JsonSettings);
+            await this.WriteJsonAsync(archive, key, json);
         }
 
         private async Task WriteCombatantsAsync<T> (ZipArchive archive, string key, IDictionary<string, T> combatants) where T : Combatant {
@@ -209,6 +241,10 @@ namespace DnD4e.LibraryHelper.Common {
             }
 
             string json = await JsonConvert.SerializeObjectAsync(combatants, Formatting.Indented, JsonSettings);
+            await this.WriteJsonAsync(archive, key, json);
+        }
+
+        private async Task WriteJsonAsync (ZipArchive archive, string key, string json) {
             ZipArchiveEntry entry = archive.GetEntry(key);
             if (entry == null) {
                 entry = archive.CreateEntry(key, CompressionLevel.Fastest);

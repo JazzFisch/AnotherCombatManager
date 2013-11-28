@@ -16,7 +16,7 @@ namespace DnD4e.LibraryHelper.Common {
         }
     }
 
-    public class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged {
+    public class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, INotifyCollectionChanged {
         private IDictionary<TKey, TValue> dictionary;
         private bool isIDictionary = true;
 
@@ -40,12 +40,6 @@ namespace DnD4e.LibraryHelper.Common {
         #region INotifyCollectionChanged
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
-
-        #endregion
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
 

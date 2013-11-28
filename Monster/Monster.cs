@@ -15,6 +15,9 @@ namespace DnD4e.LibraryHelper.Monster {
     [JsonObject]
     [DefaultProperty("Name")]
     public class Monster : Combatant {
+        [JsonIgnore]
+        public static readonly Monster Missing = new Monster() { Name = MissingName };
+
         [Browsable(false)]
         public override CombatantType CombatantType { get { return Common.CombatantType.Monster; } }
 

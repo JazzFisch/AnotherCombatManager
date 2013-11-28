@@ -9,7 +9,7 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public List<Attack> Attacks { get; set; }
 
-        public string Damage { get; set; }
+        public Common.Damage Damage { get; set; }
 
         public string Description { get; set; }
 
