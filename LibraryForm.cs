@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Forms;
 using DnD4e.CombatManager.Test.DockWindows;
 using DnD4e.LibraryHelper.Character;
 using DnD4e.LibraryHelper.Common;
+using DnD4e.LibraryHelper.Encounter;
 using DnD4e.LibraryHelper.Monster;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -21,11 +23,15 @@ namespace DnD4e.CombatManager.Test {
     public partial class LibraryForm : Form {
         #region Fields
 
+        private readonly string DockPanelLayoutPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "DockPanel.config");
         private CombatantListWindow<Character> charactersWindow = new CombatantListWindow<Character>() { Text = "Characters" };
+        private EncountersWindow encountersWindow = new EncountersWindow();
         private CombatantListWindow<Monster> monstersWindow = new CombatantListWindow<Monster>() { Text = "Monsters" };
         private PropertiesWindow propertiesWindow = new PropertiesWindow();
         private StatblockWindow statblockWindow = new StatblockWindow();
         private IEnumerable<Combatant> selectedCombatants;
+        private IEnumerable<Encounter> selectedEncounters;
+        private bool saveLayout = true;
 
         #endregion
 
@@ -40,6 +46,7 @@ namespace DnD4e.CombatManager.Test {
             InitializeComponent();
 
             this.charactersWindow.SelectionChanged += charactersWindow_SelectionChanged;
+            this.encountersWindow.SelectionChanged += encountersWindow_SelectionChanged;
             this.monstersWindow.SelectionChanged += monstersWindow_SelectionChanged;
 
             // setup text search throttle
@@ -64,22 +71,44 @@ namespace DnD4e.CombatManager.Test {
                 this.Library = await Library.OpenLibraryAsync();
             }
 
+            this.charactersWindow.Combatants = this.Library.Characters;
+            this.monstersWindow.Combatants = this.Library.Monsters;
+            this.encountersWindow.Encounters = this.Library.Encounters;
             this.UpdateCounts();
 
-            this.charactersWindow.Combatants = this.Library.Characters;
-            this.charactersWindow.Show(this.dockPanel, DockState.DockLeft);
-
-            this.monstersWindow.Combatants = this.Library.Monsters;
-            this.monstersWindow.Show(this.dockPanel, DockState.DockLeft);
-
-            this.propertiesWindow.Show(this.dockPanel, DockState.DockRightAutoHide);
-            this.statblockWindow.Show(this.dockPanel, DockState.Document);
+            if (File.Exists(DockPanelLayoutPath)) {
+                // TODO: if any of our dock windows override GetPersistString, we'll need to reflect
+                // that format here as well
+                this.dockPanel.LoadFromXml(DockPanelLayoutPath, type => {
+                    if (type == typeof(CombatantListWindow<Character>).ToString()) { return this.charactersWindow; }
+                    else if (type == typeof(CombatantListWindow<Monster>).ToString()) { return this.monstersWindow; }
+                    else if (type == typeof(EncountersWindow).ToString()) { return this.encountersWindow; }
+                    else if (type == typeof(PropertiesWindow).ToString()) { return this.propertiesWindow; }
+                    else if (type == typeof(StatblockWindow).ToString()) { return this.statblockWindow; }
+                    else { System.Diagnostics.Debugger.Break(); return null; }
+                });
+            }
+            else {
+                // default initial layout
+                this.charactersWindow.Show(this.dockPanel, DockState.DockLeft);
+                this.monstersWindow.Show(this.dockPanel, DockState.DockLeft);
+                this.encountersWindow.Show(this.dockPanel, DockState.DockLeft);
+                this.propertiesWindow.Show(this.dockPanel, DockState.DockRightAutoHide);
+                this.statblockWindow.Show(this.dockPanel, DockState.Document);
+            }
 
             await this.Library.LoadRulesAsync();
             this.importFromCBToolStripMenuItem.Enabled = true;
         }
 
         private void LibraryForm_FormClosing (object sender, FormClosingEventArgs e) {
+            if (this.saveLayout) {
+                this.dockPanel.SaveAsXml(DockPanelLayoutPath);
+            }
+            else {
+                File.Delete(DockPanelLayoutPath);
+            }
+
             this.closeToolStripMenuItem_Click(sender, e);
         }
 
@@ -93,16 +122,28 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private void charactersWindowToolStripMenuItem_Click (object sender, EventArgs e) {
-            this.charactersWindow.Show(this.dockPanel);
+            //this.charactersWindow.Show(this.dockPanel);
             this.ActivateDockWindow(this.charactersWindow);
         }
 
-        void charactersWindow_SelectionChanged (object sender, CombatantsSelectionChangedEventArgs<Character> e) {
+        private void charactersWindow_SelectionChanged (object sender, CombatantsSelectionChangedEventArgs<Character> e) {
             if (e.Combatants.Count() == 1) {
                 this.propertiesWindow.SelectedObject = e.Combatants.First();
                 this.statblockWindow.Combatant = e.Combatants.First();
             }
             this.selectedCombatants = e.Combatants;
+        }
+
+        private void encountersWindow_SelectionChanged (object sender, EncountersSelectionChangedEventArgs e) {
+            if (e.Encounters.Count() == 1) {
+                this.propertiesWindow.SelectedObject = e.Encounters.First();
+            }
+            this.selectedEncounters = e.Encounters;
+        }
+
+        private void encountersWindowToolStripMenuItem_Click (object sender, EventArgs e) {
+            //this.encountersWindow.Show(this.dockPanel);
+            this.ActivateDockWindow(this.encountersWindow);
         }
 
         private async void importFromATToolStripMenuItem_Click (object sender, EventArgs e) {
@@ -122,12 +163,12 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private void monstersWindowToolStripMenuItem_Click (object sender, EventArgs e) {
-            this.monstersWindow.Show(this.dockPanel);
+            //this.monstersWindow.Show(this.dockPanel);
             this.ActivateDockWindow(this.monstersWindow);
         }
 
         private void propertiesToolStripMenuItem_Click (object sender, EventArgs e) {
-            this.propertiesWindow.Show(this.dockPanel);
+            //this.propertiesWindow.Show(this.dockPanel);
             this.ActivateDockWindow(this.propertiesWindow);
         }
 
@@ -181,7 +222,8 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private void statblockWindowToolStripMenuItem_Click (object sender, EventArgs e) {
-            this.statblockWindow.Show(this.dockPanel);
+            //this.statblockWindow.Show(this.dockPanel);
+            this.ActivateDockWindow(this.statblockWindow);
         }
 
         #endregion

@@ -142,23 +142,23 @@
     <!-- ko if: !Hit.IsEmpty && Hit.Description -->
     <p class="flavor indent">
         <i>Attack<!-- ko if: $parent.Action !== 'Standard' && $parent.Action !== 'Move' && $parent.Action !== 'Minor' --> ({{$parent.Action}})<!-- /ko -->:</i>
-        {{Range}}<!-- ko if: Targets --> ({{Targets}})<!-- /ko --><!-- ko if: Range || Targets-->;<!-- /ko --><span data-bind="template: { name: 'attackBonuses', data: AttackBonuses }"></span>
+        {{Range}}<!-- ko if: Targets --> ({{Targets}})<!-- /ko --><!-- ko if: Range || Targets-->;<!-- /ko -->&nbsp;<span data-bind="template: { name: 'attackBonuses', data: AttackBonuses }"></span>
     </p>
     <!-- /ko -->
     <!-- ko if: !Hit.IsEmpty && Hit.Description -->
     <p class="flavor indent">
         <i>Hit: </i>
-        <span data-bind="if: Hit.Damage">{{Hit.Damage}} </span>
+        <span data-bind="if: Hit.Damage.Expression">{{Hit.Damage.Expression}} </span>
         <span data-bind="text: Hit.Description"></span>
     </p>
     <!-- /ko -->
-    <!-- ko foreach: Hit.AfterEffects --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<i>Aftereffect: </i>{{Damage}} {{Description}}</p><!-- /ko -->
+    <!-- ko foreach: Hit.AfterEffects --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<i>Aftereffect: </i>{{Damage.Expression}} {{Description}}</p><!-- /ko -->
     <!-- ko foreach: Hit.FailedSavingThrows --><p class="flavor indent">{{$root.Repeat('&nbsp;&nbsp;', $parents.length - 2)}}<!-- ko ifnot: $data.Name--><i>{{$root.IterationString($index() + 1)}} Failed Saving Throw: </i><!-- /ko --><!-- ko if: $data.Name --><i>{{Name}}: </i><!-- /ko -->{{Description}}</p><!-- /ko -->
     <!-- ko template: { name: 'attack', foreach: Hit.Attacks }--><!-- /ko -->
     <!-- ko if: !Miss.IsEmpty -->
     <p class="flavor indent">
         <i>Miss: </i>
-        <span data-bind="if: Miss.Damage">{{Miss.Damage}} </span>
+        <span data-bind="if: Miss.Damage.Expression">{{Miss.Damage.Expression}} </span>
         <span data-bind="text: Miss.Description"></span>
     </p>
     <!-- /ko -->

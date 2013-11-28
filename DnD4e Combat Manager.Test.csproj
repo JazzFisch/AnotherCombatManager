@@ -104,6 +104,12 @@
     <Compile Include="DockWindows\CombatantListWindow.Designer.cs">
       <DependentUpon>CombatantListWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="DockWindows\EncountersWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockWindows\EncountersWindow.Designer.cs">
+      <DependentUpon>EncountersWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="DockWindows\PropertiesWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +137,9 @@
     </Compile>
     <EmbeddedResource Include="DockWindows\CombatantListWindow.resx">
       <DependentUpon>CombatantListWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockWindows\EncountersWindow.resx">
+      <DependentUpon>EncountersWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DockWindows\PropertiesWindow.resx">
       <DependentUpon>PropertiesWindow.cs</DependentUpon>
