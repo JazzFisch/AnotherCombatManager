@@ -50,7 +50,7 @@
             this.totalXPColumn});
             this.objectListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.objectListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.objectListView.EmptyListMsg = "There isn\'t anything to show...";
+            this.objectListView.EmptyListMsg = "Loading the awesome...";
             this.objectListView.FullRowSelect = true;
             this.objectListView.HeaderUsesThemes = false;
             this.objectListView.Location = new System.Drawing.Point(0, 0);
