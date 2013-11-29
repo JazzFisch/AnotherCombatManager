@@ -19,6 +19,8 @@ namespace DnD4e.LibraryHelper.Common {
 
         #region Fields
 
+        public const string DefaultFileName = "Library.zip";
+
         private const string CharactersKey = "Characters.json";
         private const string EncountersKey = "Encounters.json";
         private const string MonstersKey = "Monsters.json";
@@ -39,7 +41,7 @@ namespace DnD4e.LibraryHelper.Common {
 
         private Library () { }
 
-        public static async Task<Library> OpenLibraryAsync (string name = "Library.zip") {
+        public static async Task<Library> OpenLibraryAsync (string name = DefaultFileName) {
             var path = Assembly.GetExecutingAssembly().Location;
             return await Library.OpenLibraryAsync(Path.GetDirectoryName(path), name).ConfigureAwait(false);
         }
@@ -61,6 +63,8 @@ namespace DnD4e.LibraryHelper.Common {
 
         public ObservableCombatantDictionary<Monster.Monster> Monsters { get { return this.monsters; } }
 
+        public string FileName { get { return this.libraryPath; } }
+
         #endregion
 
         #region Public Methods
@@ -75,9 +79,7 @@ namespace DnD4e.LibraryHelper.Common {
                 var tmp = Path.GetRandomFileName();
                 var random = Path.Combine(path, tmp);
                 var backup = String.Concat(this.libraryPath, ".bak");
-
-                var filename = Path.GetFileName(this.libraryPath);
-                using (var file = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 0x1000, useAsync: true)) {
+                using (var file = new FileStream(this.libraryPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 0x1000, useAsync: true)) {
                     using (var archive = new ZipArchive(file, ZipArchiveMode.Update)) {
                         await this.WriteCombatantsAsync(archive, CharactersKey, this.characters).ConfigureAwait(false);
                         await this.WriteCombatantsAsync(archive, MonstersKey, this.monsters).ConfigureAwait(false);
@@ -139,6 +141,11 @@ namespace DnD4e.LibraryHelper.Common {
             if (this.d20Rules == null) {
                 this.d20Rules = await D20Rules.LoadFromAppDataAsync().ConfigureAwait(false);
             }
+        }
+
+        public Task SaveAsAsync (string filename) {
+            this.libraryPath = filename;
+            return this.FlushAsync();
         }
 
         #endregion
@@ -246,9 +253,10 @@ namespace DnD4e.LibraryHelper.Common {
 
         private async Task WriteJsonAsync (ZipArchive archive, string key, string json) {
             ZipArchiveEntry entry = archive.GetEntry(key);
-            if (entry == null) {
-                entry = archive.CreateEntry(key, CompressionLevel.Fastest);
+            if (entry != null) {
+                entry.Delete();
             }
+            entry = archive.CreateEntry(key, CompressionLevel.Fastest);
 
             using (var stream = entry.Open()) {
                 using (var writer = new StreamWriter(stream)) {
