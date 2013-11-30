@@ -15,9 +15,6 @@ namespace DnD4e.LibraryHelper.Monster {
     [JsonObject]
     [DefaultProperty("Name")]
     public class Monster : Combatant {
-        [JsonIgnore]
-        public static readonly Monster Missing = new Monster() { Name = MissingName };
-
         [Browsable(false)]
         public override CombatantType CombatantType { get { return Common.CombatantType.Monster; } }
 
@@ -72,16 +69,16 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public Monster () {
             // TODO: construct all collections
-            this.Items = new List<KeyValuePair<string, int>>();
-            this.Keywords = new List<string>();
-            this.Immunities = new List<string>();
-            this.OtherSpeeds = new List<string>();
-            this.Powers = new List<Power>();
-            this.Resistances = new List<string>();
-            this.Senses = new List<KeyValuePair<string, int>>();
-            this.Skills = new Dictionary<Skill, int>();
-            this.Traits = new List<Trait>();
-            this.Weaknesses = new List<string>();
+            //this.Items = new List<KeyValuePair<string, int>>();
+            //this.Keywords = new List<string>();
+            //this.Immunities = new List<string>();
+            //this.OtherSpeeds = new List<string>();
+            //this.Powers = new List<Power>();
+            //this.Resistances = new List<string>();
+            //this.Senses = new List<KeyValuePair<string, int>>();
+            //this.Skills = new Dictionary<Skill, int>();
+            //this.Traits = new List<Trait>();
+            //this.Weaknesses = new List<string>();
         }
 
         public static async Task<Monster> LoadFromFileAsync (string filename) {

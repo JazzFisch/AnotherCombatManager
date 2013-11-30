@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,12 +27,12 @@ namespace DnD4e.LibraryHelper.Common {
         private const string MonstersKey = "Monsters.json";
 
         private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings() {
-            Converters = new List<JsonConverter>() { new StringEnumConverter() }
+            Converters = new List<JsonConverter>() { new StringEnumConverter() },
+            NullValueHandling = NullValueHandling.Ignore
         };
-        private ObservableCombatantDictionary<Character.Character> characters = new ObservableCombatantDictionary<Character.Character>();
+        private ObservableKeyedCollection<string, Character.Character> characters = new ObservableKeyedCollection<string, Character.Character>(c => c.Handle);
         private ObservableCollection<Encounter.Encounter> encounters = new ObservableCollection<Encounter.Encounter>();
-        private ObservableCombatantDictionary<Monster.Monster> monsters = new ObservableCombatantDictionary<Monster.Monster>();
-        private bool dirty = false;
+        private ObservableKeyedCollection<string, Monster.Monster> monsters = new ObservableKeyedCollection<string, Monster.Monster>(m => m.Handle);
         private Rules d20Rules;
         private string libraryPath;
 
@@ -57,11 +58,11 @@ namespace DnD4e.LibraryHelper.Common {
 
         #region Properties
 
-        public ObservableCombatantDictionary<Character.Character> Characters { get { return this.characters; } }
+        public ObservableKeyedCollection<string, Character.Character> Characters { get { return this.characters; } }
 
         public ObservableCollection<Encounter.Encounter> Encounters { get { return this.encounters; } }
 
-        public ObservableCombatantDictionary<Monster.Monster> Monsters { get { return this.monsters; } }
+        public ObservableKeyedCollection<string, Monster.Monster> Monsters { get { return this.monsters; } }
 
         public string FileName { get { return this.libraryPath; } }
 
@@ -71,22 +72,17 @@ namespace DnD4e.LibraryHelper.Common {
 
         public async Task FlushAsync () {
             try {
-                //if (!this.dirty) {
-                //    return;
-                //}
-
                 var path = Path.GetTempPath();
                 var tmp = Path.GetRandomFileName();
                 var random = Path.Combine(path, tmp);
                 var backup = String.Concat(this.libraryPath, ".bak");
                 using (var file = new FileStream(this.libraryPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 0x1000, useAsync: true)) {
                     using (var archive = new ZipArchive(file, ZipArchiveMode.Update)) {
-                        await this.WriteCombatantsAsync(archive, CharactersKey, this.characters).ConfigureAwait(false);
-                        await this.WriteCombatantsAsync(archive, MonstersKey, this.monsters).ConfigureAwait(false);
-                        await this.WriteEncountersAsync(archive, EncountersKey, this.encounters).ConfigureAwait(false);
+                        await this.WriteEntryAsync(archive, CharactersKey, this.characters).ConfigureAwait(false);
+                        await this.WriteEntryAsync(archive, MonstersKey, this.monsters).ConfigureAwait(false);
+                        await this.WriteEntryAsync(archive, EncountersKey, this.encounters).ConfigureAwait(false);
                     }
                 }
-                //this.dirty = false;
             }
             catch (System.Exception ex) {
                 Trace.TraceError(ex.ToString());
@@ -97,43 +93,35 @@ namespace DnD4e.LibraryHelper.Common {
 
         public async Task<Character.Character> ImportCharacterFromFileAsync (string filename) {
             var character = await Character.Character.LoadFromFileAsync(filename, this.d20Rules).ConfigureAwait(false);
-            this.Characters[character.Handle] = character;
-            this.dirty = true;
+            this.Characters.Set(character);
             return character;
         }
 
         public async Task<IEnumerable<Character.Character>> ImportCharactersFromFileAsync (IEnumerable<string> filenames) {
             var names = filenames.ToArray();
             var tasks = new Task<Character.Character>[filenames.Count()];
-            this.Characters.FireEvents = false;
             for (int i = 0; i < tasks.Length; ++i) {
                 tasks[i] = this.ImportCharacterFromFileAsync(names[i]);
             }
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
-            this.Characters.FireEvents = true;
-            this.Characters.RaiseCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedAction.Reset);
             return tasks.Select(t => t.Result);
         }
 
         public async Task<Monster.Monster> ImportMonsterFromFileAsync (string filename) {
             var monster = await Monster.Monster.LoadFromFileAsync(filename).ConfigureAwait(false);
-            this.Monsters[monster.Handle] = monster;
-            this.dirty = true;
+            this.Monsters.Set(monster);
             return monster;
         }
 
         public async Task<IEnumerable<Monster.Monster>> ImportMonstersFromFileAsync (IEnumerable<string> filenames) {
             var names = filenames.ToArray();
             var tasks = new Task<Monster.Monster>[filenames.Count()];
-            this.Monsters.FireEvents = false;
             for (int i = 0; i < tasks.Length; ++i) {
                 tasks[i] = this.ImportMonsterFromFileAsync(names[i]);
             }
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
-            this.Monsters.FireEvents = true;
-            this.Monsters.RaiseCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedAction.Reset);
             return tasks.Select(t => t.Result);
         }
 
@@ -171,16 +159,16 @@ namespace DnD4e.LibraryHelper.Common {
                 return true;
             }
 
-            Dictionary<string, Character.Character> characters;
-            Dictionary<string, Monster.Monster> monsters;
-
             try {
                 using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 0x1000, useAsync: true)) {
                     using (var archive = new ZipArchive(file, ZipArchiveMode.Read)) {
                         // ZipArchive methods are not thread safe, so serializing access
-                        characters = await this.ReadEntryAsync<Dictionary<string, Character.Character>>(archive, CharactersKey);
-                        monsters = await this.ReadEntryAsync<Dictionary<string, Monster.Monster>>(archive, MonstersKey);
-                        this.encounters = await this.ReadEntryAsync<ObservableCollection<Encounter.Encounter>>(archive, EncountersKey);
+                        var characterConverter = new ObservableKeyedCollectionConverter<string, Character.Character>(c => c.Handle);
+                        var encounterConverter = new ObservableKeyedCollectionConverter<string, Encounter.CombatantWrapper>(c => c.Handle);
+                        var monsterConverter = new ObservableKeyedCollectionConverter<string, Monster.Monster>(m => m.Handle);
+                        this.characters = await this.ReadEntryAsync<ObservableKeyedCollection<string, Character.Character>>(archive, CharactersKey, characterConverter);
+                        this.monsters = await this.ReadEntryAsync<ObservableKeyedCollection<string, Monster.Monster>>(archive, MonstersKey, monsterConverter);
+                        this.encounters = await this.ReadEntryAsync<ObservableCollection<Encounter.Encounter>>(archive, EncountersKey, encounterConverter);
                     }
                 }
             }
@@ -189,29 +177,16 @@ namespace DnD4e.LibraryHelper.Common {
                 return false;
             }
 
-            this.characters.FireEvents = false;
-            foreach (var character in characters) {
-                this.characters[character.Key] = character.Value;
-            }
-            this.characters.FireEvents = true;
-
-            this.monsters.FireEvents = false;
-            foreach (var monster in monsters) {
-                this.monsters[monster.Key] = monster.Value;
-            }
-            this.monsters.FireEvents = true;
-
             // fixup encounter combatants
             foreach (var encounter in this.encounters) {
-                encounter.Combatants = new ObservableCollection<Combatant>();
-                foreach (var handle in encounter.Handles) {
+                foreach (var combatant in encounter.Combatants) {
                     Monster.Monster monster;
                     Character.Character character;
-                    if (this.Characters.TryGetValue(handle, out character)) {
-                        encounter.Combatants.Add(character);
+                    if (this.Characters.TryGetValue(combatant.Handle, out character)) {
+                        combatant.Combatant = character;
                     }
-                    else if (this.Monsters.TryGetValue(handle, out monster)) {
-                        encounter.Combatants.Add(monster);
+                    else if (this.Monsters.TryGetValue(combatant.Handle, out monster)) {
+                        combatant.Combatant = monster;
                     }
                 }
             }
@@ -219,7 +194,8 @@ namespace DnD4e.LibraryHelper.Common {
             return true;
         }
 
-        private async Task<T> ReadEntryAsync<T> (ZipArchive archive, string key) where T : new() {
+        private async Task<T> ReadEntryAsync<T> (ZipArchive archive, string key, JsonConverter converter = null) where T : new() {
+            // TODO: use stream deserialization to ensure fewer objects on the LOH
             ZipArchiveEntry entry = archive.GetEntry(key);
             if (entry == null) {
                 return new T();
@@ -228,37 +204,32 @@ namespace DnD4e.LibraryHelper.Common {
             using (var stream = entry.Open()) {
                 using (var reader = new StreamReader(stream)) {
                     string json = await reader.ReadToEndAsync();
-                    return await JsonConvert.DeserializeObjectAsync<T>(json);
+                    if (converter != null) {
+                        return await Task.Factory.StartNew<T>(() => {
+                            return JsonConvert.DeserializeObject<T>(json, converter);
+                        });
+                    }
+                    else {
+                        return await JsonConvert.DeserializeObjectAsync<T>(json);
+                    }
                 }
             }
         }
 
-        private async Task WriteEncountersAsync (ZipArchive archive, string key, IList<Encounter.Encounter> encounters) {
-            if (encounters == null || encounters.Count == 0) {
+        private async Task WriteEntryAsync<T> (ZipArchive archive, string key, T entry) where T : IList {
+            if (entry == null || entry.Count == 0) {
                 return;
             }
 
-            string json = await JsonConvert.SerializeObjectAsync(encounters, Formatting.Indented, JsonSettings);
-            await this.WriteJsonAsync(archive, key, json);
-        }
+            string json = await JsonConvert.SerializeObjectAsync(entry, Formatting.Indented, JsonSettings);
 
-        private async Task WriteCombatantsAsync<T> (ZipArchive archive, string key, IDictionary<string, T> combatants) where T : Combatant {
-            if (combatants == null || combatants.Count == 0) {
-                return;
+            ZipArchiveEntry zipEntry = archive.GetEntry(key);
+            if (zipEntry != null) {
+                zipEntry.Delete();
             }
+            zipEntry = archive.CreateEntry(key, CompressionLevel.Fastest);
 
-            string json = await JsonConvert.SerializeObjectAsync(combatants, Formatting.Indented, JsonSettings);
-            await this.WriteJsonAsync(archive, key, json);
-        }
-
-        private async Task WriteJsonAsync (ZipArchive archive, string key, string json) {
-            ZipArchiveEntry entry = archive.GetEntry(key);
-            if (entry != null) {
-                entry.Delete();
-            }
-            entry = archive.CreateEntry(key, CompressionLevel.Fastest);
-
-            using (var stream = entry.Open()) {
+            using (var stream = zipEntry.Open()) {
                 using (var writer = new StreamWriter(stream)) {
                     await writer.WriteAsync(json);
                 }

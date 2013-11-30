@@ -52,6 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character\Character.cs" />
+    <Compile Include="Common\ObservableKeyedCollection.cs" />
+    <Compile Include="Common\ObservableKeyedCollectionConverter.cs" />
+    <Compile Include="Encounter\CombatantWrapper.cs" />
     <Compile Include="Common\Damage.cs" />
     <Compile Include="Common\Feat.cs" />
     <Compile Include="Character\Item.cs" />
@@ -61,7 +64,6 @@
     <Compile Include="Common\Combatant.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\Library.cs" />
-    <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Encounter\Encounter.cs" />
     <Compile Include="ExtensionMethods\Combatant.cs" />
     <Compile Include="ExtensionMethods\Integer.cs" />

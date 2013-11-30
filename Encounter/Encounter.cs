@@ -10,56 +10,41 @@ using Newtonsoft.Json;
 namespace DnD4e.LibraryHelper.Encounter {
     [DefaultProperty("Name")]
     public class Encounter {
-        private bool handlesSet;
-        private List<string> handles;
-        private ReadOnlyCollection<string> handlesExt;
-        private ObservableCollection<Combatant> combatants;
+        private ObservableKeyedCollection<string, CombatantWrapper> combatants;
 
         public Encounter () {
-            this.handles = new List<string>();
-            this.handlesExt = new ReadOnlyCollection<string>(this.handles);
-            this.combatants = new ObservableCollection<Combatant>();
-            this.combatants.CollectionChanged += this.Combatants_CollectionChanged;
+            this.combatants = new ObservableKeyedCollection<string, CombatantWrapper>(c => c.Handle);
+            //this.Combatants.CollectionChanged += this.Combatants_CollectionChanged;
         }
 
-        private void Combatants_CollectionChanged (object sender, NotifyCollectionChangedEventArgs e) {
-            // reset handles
-            // TODO: make thread safe?
-            this.handles.Clear();
-            this.handles.AddRange(this.combatants.Select(c => c.Handle));
+        [JsonConstructor]
+        public Encounter (string campaign, string name, ObservableKeyedCollection<string, CombatantWrapper> combatants) {
+            // mostly here as a helper for JSON.Net
+            this.Campaign = campaign;
+            this.Name = name;
+            this.Combatants = combatants;
         }
 
         public string Campaign { get; set; }
 
         public string Name { get; set; }
 
-        public ReadOnlyCollection<string> Handles {
-            get { return this.handlesExt; }
-            set {
-                if (this.handlesSet) {
-                    throw new InvalidOperationException("Handles can only be set once.");
-                }
-                this.handlesExt = value;
-                this.handlesSet = true;
-            }
-        }
-
         [JsonIgnore]
-        public ObservableCollection<Combatant> Combatants {
+        public ObservableKeyedCollection<string, CombatantWrapper> Combatants {
             get { return this.combatants; }
             internal set {
-                if (this.combatants != null) {
-                    this.combatants.CollectionChanged -= this.Combatants_CollectionChanged;
-                }
+                //if (this.combatants != null) {
+                //    this.combatants.CollectionChanged -= this.Combatants_CollectionChanged;
+                //}
                 this.combatants = value;
-                this.combatants.CollectionChanged += this.Combatants_CollectionChanged;
+                //this.combatants.CollectionChanged += this.Combatants_CollectionChanged;
             }
         }
 
         [JsonIgnore]
         public IEnumerable<Character.Character> Characters {
             get {
-                return this.Combatants.OfType<Character.Character>();
+                return this.Combatants.Select(c => c.Combatant).OfType<Character.Character>();
             }
         }
 
@@ -73,21 +58,21 @@ namespace DnD4e.LibraryHelper.Encounter {
         [JsonIgnore]
         public IEnumerable<Monster.Monster> Monsters {
             get {
-                return this.Combatants.OfType<Monster.Monster>();
+                return this.Combatants.Select(c => c.Combatant).OfType<Monster.Monster>();
             }
         }
 
         [JsonIgnore]
         public int MonsterCount {
             get {
-                return this.Monsters.Count();
+                return this.combatants.Where(c => c.Type == CombatantType.Monster).Sum(c => c.Count);
             }
         }
 
         [JsonIgnore]
         public int AverageLevel {
             get {
-                return (int)this.Combatants.OfType<Monster.Monster>().Average(m => m.Level);
+                return (int)this.Monsters.Average(m => m.Level);
             }
         }
 
@@ -106,7 +91,7 @@ namespace DnD4e.LibraryHelper.Encounter {
         [JsonIgnore]
         public int TotalXP {
             get {
-                return (int)this.Combatants.OfType<Monster.Monster>().Sum(m => m.Experience);
+                return (int)this.Monsters.Sum(m => m.Experience);
             }
         }
 

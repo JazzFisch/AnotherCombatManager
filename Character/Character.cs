@@ -11,9 +11,6 @@ using ImportCharacter = DnD4e.LibraryHelper.Import.Character.Character;
 
 namespace DnD4e.LibraryHelper.Character {
     public class Character : Combatant {
-        [JsonIgnore]
-        public static readonly Character Missing = new Character() { Name = MissingName };
-
         public string Class { get; set; }
 
         public List<Feat> ClassFeatures { get; set; }
@@ -44,11 +41,11 @@ namespace DnD4e.LibraryHelper.Character {
 
         public Character () {
             // TODO: construct all collections
-            this.ClassFeatures = new List<Feat>();
-            this.Feats = new List<Feat>();
-            this.Powers = new List<Power>();
-            this.RacialTraits = new List<Feat>();
-            this.Skills = new Dictionary<Skill, SkillValue>();
+            //this.ClassFeatures = new List<Feat>();
+            //this.Feats = new List<Feat>();
+            //this.Powers = new List<Power>();
+            //this.RacialTraits = new List<Feat>();
+            //this.Skills = new Dictionary<Skill, SkillValue>();
         }
 
         internal static async Task<Character> LoadFromFileAsync (string filename, Rules rules) {

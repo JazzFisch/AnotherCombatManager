@@ -4,10 +4,16 @@ namespace DnD4e.LibraryHelper.ExtensionMethods {
     internal static class StringMethods {
         public static string FixWhitespace (this string value) {
             if (value == null) {
-                return String.Empty;
+                return null;
             }
 
-            return value.Trim().Replace('\r', '\n').Replace("\n\n", "\n").Replace("\n", "###").Replace('\t', ' ');
+            var str = value.Trim().Replace('\r', '\n').Replace("\n\n", "\n").Replace("\n", "###").Replace('\t', ' ');
+            if (String.IsNullOrWhiteSpace(str)) {
+                return null;
+            }
+            else {
+                return str;
+            }
         }
 
         public static int SafeToInt (this string value, int defaultValue = 0) {

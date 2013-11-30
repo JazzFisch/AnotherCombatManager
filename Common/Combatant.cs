@@ -8,8 +8,6 @@ using Newtonsoft.Json.Converters;
 namespace DnD4e.LibraryHelper.Common {
     [DefaultProperty("Name")]
     public abstract class Combatant {
-        protected const string MissingName = "Missing";
-
         public Dictionary<AbilityScore, int> AbilityScores { get; set; }
 
         public int ActionPoints { get; set; }
@@ -51,9 +49,9 @@ namespace DnD4e.LibraryHelper.Common {
 
         public Combatant () {
             // TODO: construct all collections
-            this.AbilityScores = new Dictionary<AbilityScore, int>();
-            this.Defenses = new Dictionary<Defense, int>();
-            this.Languages = new List<string>();
+            //this.AbilityScores = new Dictionary<AbilityScore, int>();
+            //this.Defenses = new Dictionary<Defense, int>();
+            //this.Languages = new List<string>();
         }
 
         public virtual string ToJson (bool indent = false) {

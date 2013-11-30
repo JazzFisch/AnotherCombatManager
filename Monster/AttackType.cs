@@ -15,8 +15,6 @@ namespace DnD4e.LibraryHelper.Monster {
 
         public List<AttackType> FailedSavingThrows { get; set; }
 
-        public bool IsEmpty { get; set; }
-
         public string Name { get; set; }
 
         public List<AttackType> Sustains { get; set; }
