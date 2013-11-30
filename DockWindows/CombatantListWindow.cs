@@ -9,13 +9,13 @@ namespace DnD4e.CombatManager.Test.DockWindows {
     public partial class CombatantListWindow<T> : DockContent where T : Combatant {
         public event EventHandler<CombatantsSelectionChangedEventArgs<T>> SelectionChanged;
 
-        private ObservableDictionary<string, T> combatants;
+        private ObservableKeyedCollection<string, T> combatants;
 
         public CombatantListWindow () {
             InitializeComponent();
         }
 
-        public ObservableDictionary<string, T> Combatants {
+        public ObservableKeyedCollection<string, T> Combatants {
             get {
                 return this.combatants;
             }
@@ -24,13 +24,13 @@ namespace DnD4e.CombatManager.Test.DockWindows {
                     this.combatants.CollectionChanged -= combatants_CollectionChanged;
                 }
                 this.combatants = value;
-                this.objectListView.SetObjects(this.combatants.Values);
+                this.objectListView.SetObjects(this.combatants);
                 this.combatants.CollectionChanged += combatants_CollectionChanged;
             }
         }
 
         void combatants_CollectionChanged (object sender, NotifyCollectionChangedEventArgs e) {
-            this.objectListView.SetObjects(this.combatants.Values);
+            this.objectListView.SetObjects(this.combatants);
         }
 
         protected virtual void OnSelectionChanged (CombatantsSelectionChangedEventArgs<T> e) {

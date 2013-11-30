@@ -88,7 +88,6 @@
             this.campaignColumn.FillsFreeSpace = true;
             this.campaignColumn.IsEditable = false;
             this.campaignColumn.Text = "Campaign";
-            this.campaignColumn.UseInitialLetterForGroup = true;
             this.campaignColumn.Width = 96;
             // 
             // charactersColumn

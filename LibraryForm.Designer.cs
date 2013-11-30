@@ -93,6 +93,7 @@
             this.monsterCountToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.VS2012LightTheme = new WeifenLuo.WinFormsUI.Docking.VS2012LightTheme();
+            this.encounterDetailsWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -354,6 +355,7 @@
             this.encountersWindowToolStripMenuItem,
             this.monstersWindowToolStripMenuItem,
             this.toolStripSeparator6,
+            this.encounterDetailsWindowToolStripMenuItem,
             this.statblockWindowToolStripMenuItem,
             this.toolStripSeparator7,
             this.propertiesToolStripMenuItem});
@@ -364,46 +366,46 @@
             // charactersWindowToolStripMenuItem
             // 
             this.charactersWindowToolStripMenuItem.Name = "charactersWindowToolStripMenuItem";
-            this.charactersWindowToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.charactersWindowToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.charactersWindowToolStripMenuItem.Text = "&Characters Window";
             this.charactersWindowToolStripMenuItem.Click += new System.EventHandler(this.charactersWindowToolStripMenuItem_Click);
             // 
             // encountersWindowToolStripMenuItem
             // 
             this.encountersWindowToolStripMenuItem.Name = "encountersWindowToolStripMenuItem";
-            this.encountersWindowToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.encountersWindowToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.encountersWindowToolStripMenuItem.Text = "&Encounters Window";
             this.encountersWindowToolStripMenuItem.Click += new System.EventHandler(this.encountersWindowToolStripMenuItem_Click);
             // 
             // monstersWindowToolStripMenuItem
             // 
             this.monstersWindowToolStripMenuItem.Name = "monstersWindowToolStripMenuItem";
-            this.monstersWindowToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.monstersWindowToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.monstersWindowToolStripMenuItem.Text = "&Monsters Window";
             this.monstersWindowToolStripMenuItem.Click += new System.EventHandler(this.monstersWindowToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(180, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(196, 6);
             // 
             // statblockWindowToolStripMenuItem
             // 
             this.statblockWindowToolStripMenuItem.Name = "statblockWindowToolStripMenuItem";
-            this.statblockWindowToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.statblockWindowToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.statblockWindowToolStripMenuItem.Text = "&Statblock Window";
             this.statblockWindowToolStripMenuItem.Click += new System.EventHandler(this.statblockWindowToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(180, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(196, 6);
             // 
             // propertiesToolStripMenuItem
             // 
             this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
             this.propertiesToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.propertiesToolStripMenuItem.Text = "Properties &Window";
             this.propertiesToolStripMenuItem.Click += new System.EventHandler(this.propertiesToolStripMenuItem_Click);
             // 
@@ -596,6 +598,13 @@
             this.dockPanel.TabIndex = 0;
             this.dockPanel.Theme = this.VS2012LightTheme;
             // 
+            // encounterDetailsWindowToolStripMenuItem
+            // 
+            this.encounterDetailsWindowToolStripMenuItem.Name = "encounterDetailsWindowToolStripMenuItem";
+            this.encounterDetailsWindowToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.encounterDetailsWindowToolStripMenuItem.Text = "Encounter &Details Window";
+            this.encounterDetailsWindowToolStripMenuItem.Click += new System.EventHandler(this.encounterDetailsWindowToolStripMenuItem_Click);
+            // 
             // LibraryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -678,5 +687,6 @@
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private WeifenLuo.WinFormsUI.Docking.VS2012LightTheme VS2012LightTheme;
         private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
+        private System.Windows.Forms.ToolStripMenuItem encounterDetailsWindowToolStripMenuItem;
     }
 }

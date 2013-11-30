@@ -24,6 +24,7 @@ namespace DnD4e.CombatManager.Test {
         private EncountersWindow encountersWindow = new EncountersWindow() { HideOnClose = true };
         private CombatantListWindow<Monster> monstersWindow = new CombatantListWindow<Monster>() { Text = "Monsters", HideOnClose = true };
         private PropertiesWindow propertiesWindow = new PropertiesWindow() { HideOnClose = true };
+        private EncounterDetailsWindow encounterDetailsWindow = new EncounterDetailsWindow() { HideOnClose = true };
         private StatblockWindow statblockWindow = new StatblockWindow() { HideOnClose = true };
         private IEnumerable<Combatant> selectedCombatants;
         private IEnumerable<Encounter> selectedEncounters;
@@ -68,6 +69,7 @@ namespace DnD4e.CombatManager.Test {
                     if (type == typeof(CombatantListWindow<Character>).ToString()) { return this.charactersWindow; }
                     else if (type == typeof(CombatantListWindow<Monster>).ToString()) { return this.monstersWindow; }
                     else if (type == typeof(EncountersWindow).ToString()) { return this.encountersWindow; }
+                    else if (type == typeof(EncounterDetailsWindow).ToString()) { return this.encounterDetailsWindow; }
                     else if (type == typeof(PropertiesWindow).ToString()) { return this.propertiesWindow; }
                     else if (type == typeof(StatblockWindow).ToString()) { return this.statblockWindow; }
                     else { System.Diagnostics.Debugger.Break(); return null; }
@@ -125,8 +127,13 @@ namespace DnD4e.CombatManager.Test {
             this.selectedCombatants = e.Combatants;
         }
 
+        private void encounterDetailsWindowToolStripMenuItem_Click (object sender, EventArgs e) {
+            this.ActivateDockWindow(this.encounterDetailsWindow);
+        }
+
         private void encountersWindow_SelectionChanged (object sender, EncountersSelectionChangedEventArgs e) {
             if (e.Encounters.Count() == 1) {
+                this.encounterDetailsWindow.Encounter = e.Encounters.First();
                 this.propertiesWindow.SelectedObject = e.Encounters.First();
             }
             this.selectedEncounters = e.Encounters;
@@ -255,6 +262,9 @@ namespace DnD4e.CombatManager.Test {
 
         private void ActivateDockWindow (DockContent window) {
             if (!window.IsActivated) {
+                if (window.DockPanel == null) {
+                    window.Show(this.dockPanel);
+                }
                 window.PanelPane.Activate();
                 window.Activate();
             }
@@ -289,13 +299,10 @@ namespace DnD4e.CombatManager.Test {
             this.UpdateCounts();
         }
 
-        private void RemoveCombatants<T> (ObservableCombatantDictionary<T> combatants, IEnumerable<Combatant> victims) where T : Combatant {
-            combatants.FireEvents = false;
+        private void RemoveCombatants<T> (ObservableKeyedCollection<string, T> combatants, IEnumerable<Combatant> victims) where T : Combatant {
             foreach (var victim in victims) {
                 combatants.Remove(victim.Handle);
             }
-            combatants.FireEvents = true;
-            combatants.RaiseCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedAction.Reset);
         }
 
         private void UpdateCounts () {
