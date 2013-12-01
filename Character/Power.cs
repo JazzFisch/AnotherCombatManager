@@ -27,6 +27,7 @@ namespace DnD4e.LibraryHelper.Character {
 
         public string PowerType { get; set; }
 
+        // TODO: move Range to Common?
         public DnD4e.LibraryHelper.Import.Common.Range Range { get; set; }
 
         public string Source { get; set; }
@@ -41,8 +42,8 @@ namespace DnD4e.LibraryHelper.Character {
 
         public Power () {
             // TODO: construct all collections
-            this.Keywords = new List<string>();
-            this.Weapons = new List<Weapon>();
+            //this.Keywords = new List<string>();
+            //this.Weapons = new List<Weapon>();
         }
 
         public override string ToString () {

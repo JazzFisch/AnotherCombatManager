@@ -203,7 +203,7 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
 
         public static List<string> ToStringList (this string listString) {
             if (String.IsNullOrWhiteSpace(listString)) {
-                return new List<string>();
+                return null;
             }
 
             var parts = listString.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);

@@ -26,9 +26,9 @@ namespace DnD4e.LibraryHelper.Character {
 
         public Weapon () {
             // TODO: construct all collections
-            this.Conditions = new List<string>();
-            this.DamageComponents = new List<string>();
-            this.HitComponents = new List<string>();
+            //this.Conditions = new List<string>();
+            //this.DamageComponents = new List<string>();
+            //this.HitComponents = new List<string>();
         }
 
         public override string ToString () {
