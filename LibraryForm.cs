@@ -45,14 +45,6 @@ namespace DnD4e.CombatManager.Test {
             this.charactersWindow.SelectionChanged += charactersWindow_SelectionChanged;
             this.encountersWindow.SelectionChanged += encountersWindow_SelectionChanged;
             this.monstersWindow.SelectionChanged += monstersWindow_SelectionChanged;
-
-            // setup text search throttle
-            //var textChanged = Observable.FromEventPattern(this.toolStripNameTextBox, "TextChanged").Select(x => ((ToolStripTextBox)x.Sender).Text);
-            //textChanged.Throttle(TimeSpan.FromMilliseconds(300))
-            //           .ObserveOn(SynchronizationContext.Current)
-            //           .Subscribe(text => {
-            //               this.SetCombatants();
-            //           });
         }
 
         #endregion
@@ -144,11 +136,11 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private async void importFromATToolStripMenuItem_Click (object sender, EventArgs e) {
-            await this.AddFilesToStatsListAsync(CombatantType.Monster);
+            await this.AddFilesToStatsListAsync(CombatantType.Monster, "Import Monster");
         }
 
         private async void importFromCBToolStripMenuItem_Click (object sender, EventArgs e) {
-            await this.AddFilesToStatsListAsync(CombatantType.Character);
+            await this.AddFilesToStatsListAsync(CombatantType.Character, "Import Character");
         }
 
         private void monstersWindow_SelectionChanged (object sender, CombatantsSelectionChangedEventArgs<Monster> e) {
@@ -181,7 +173,7 @@ namespace DnD4e.CombatManager.Test {
             var file = Path.GetFileName(dialog.FileName);
             this.Library = await Library.OpenLibraryAsync(path, file);
             this.UpdateCounts();
-            await old.FlushAsync();
+            old.Flush();
         }
 
         private void propertiesToolStripMenuItem_Click (object sender, EventArgs e) {
@@ -233,7 +225,7 @@ namespace DnD4e.CombatManager.Test {
             this.UpdateCounts();
         }
 
-        private async void saveAsToolStripMenuItem_Click (object sender, EventArgs e) {
+        private void saveAsToolStripMenuItem_Click (object sender, EventArgs e) {
             SaveFileDialog dialog = new SaveFileDialog() {
                 Filter = "Library Files|*.zip|All files (*.*)|*.*",
                 CheckPathExists = true,
@@ -244,12 +236,12 @@ namespace DnD4e.CombatManager.Test {
                 return;
             }
 
-            await this.Library.SaveAsAsync(dialog.FileName);
+            this.Library.SaveAs(dialog.FileName);
             this.UpdateCounts();
         }
 
-        private async void saveToolStripMenuItem_Click (object sender, EventArgs e) {
-            await this.Library.FlushAsync();
+        private void saveToolStripMenuItem_Click (object sender, EventArgs e) {
+            this.Library.Flush();
         }
 
         private void statblockWindowToolStripMenuItem_Click (object sender, EventArgs e) {
@@ -270,13 +262,14 @@ namespace DnD4e.CombatManager.Test {
             }
         }
 
-        private async Task AddFilesToStatsListAsync (CombatantType type) {
+        private async Task AddFilesToStatsListAsync (CombatantType type, string title = "Import") {
             string filter = type == CombatantType.Monster ? "Monster Files|*.monster" : "Character Files|*.dnd4e";
             OpenFileDialog dialog = new OpenFileDialog() {
                 Filter = filter + "|All files (*.*)|*.*",
                 CheckFileExists = true,
                 CheckPathExists = true,
                 Multiselect = true,
+                Title = title,
                 ValidateNames = true
             };
             DialogResult result = dialog.ShowDialog();

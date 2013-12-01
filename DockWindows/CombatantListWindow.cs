@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Threading;
+using System.Windows.Forms;
+using BCCL.UI.WinForms;
+using BrightIdeasSoftware;
 using DnD4e.LibraryHelper.Common;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -13,6 +18,14 @@ namespace DnD4e.CombatManager.Test.DockWindows {
 
         public CombatantListWindow () {
             InitializeComponent();
+
+            // setup text search throttle
+            var textChanged = Observable.FromEventPattern(this.searchTextBox, "TextChanged").Select(x => ((TextBox)x.Sender).Text);
+            textChanged.Throttle(TimeSpan.FromMilliseconds(300))
+                       .ObserveOn(SynchronizationContext.Current)
+                       .Subscribe(text => {
+                           this.Search(text);
+                       });
         }
 
         public ObservableKeyedCollection<string, T> Combatants {
@@ -20,6 +33,7 @@ namespace DnD4e.CombatManager.Test.DockWindows {
                 return this.combatants;
             }
             set {
+                this.objectListView.EmptyListMsg = null;
                 if (this.combatants != null) {
                     this.combatants.CollectionChanged -= combatants_CollectionChanged;
                 }
@@ -29,7 +43,7 @@ namespace DnD4e.CombatManager.Test.DockWindows {
             }
         }
 
-        void combatants_CollectionChanged (object sender, NotifyCollectionChangedEventArgs e) {
+        private void combatants_CollectionChanged (object sender, NotifyCollectionChangedEventArgs e) {
             this.objectListView.SetObjects(this.combatants);
         }
 
@@ -44,6 +58,14 @@ namespace DnD4e.CombatManager.Test.DockWindows {
             if (selected.Any()) {
                 this.OnSelectionChanged(new CombatantsSelectionChangedEventArgs<T>(selected));
             }
+        }
+
+        private void searchTextBox_Cleared (object sender, EventArgs e) {
+            this.objectListView.AdditionalFilter = null;
+        }
+
+        private void Search (string text) {
+            this.objectListView.AdditionalFilter = TextMatchFilter.Contains(this.objectListView, text);
         }
     }
 

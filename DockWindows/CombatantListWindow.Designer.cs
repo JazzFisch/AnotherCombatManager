@@ -27,6 +27,7 @@
             this.nameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.levelColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.roleColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.searchTextBox = new BCCL.UI.WinForms.SearchTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -35,23 +36,25 @@
             this.objectListView.AllColumns.Add(this.nameColumn);
             this.objectListView.AllColumns.Add(this.levelColumn);
             this.objectListView.AllColumns.Add(this.roleColumn);
+            this.objectListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.objectListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.nameColumn,
             this.levelColumn,
             this.roleColumn});
             this.objectListView.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectListView.EmptyListMsg = "Loading the awesome...";
             this.objectListView.FullRowSelect = true;
             this.objectListView.HeaderUsesThemes = false;
             this.objectListView.IsSimpleDragSource = true;
-            this.objectListView.Location = new System.Drawing.Point(0, 0);
+            this.objectListView.Location = new System.Drawing.Point(1, 25);
             this.objectListView.Name = "objectListView";
             this.objectListView.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
             this.objectListView.ShowCommandMenuOnRightClick = true;
             this.objectListView.ShowItemCountOnGroups = true;
-            this.objectListView.Size = new System.Drawing.Size(569, 468);
-            this.objectListView.TabIndex = 0;
+            this.objectListView.Size = new System.Drawing.Size(452, 460);
+            this.objectListView.TabIndex = 1;
             this.objectListView.UseCompatibleStateImageBehavior = false;
             this.objectListView.UseExplorerTheme = true;
             this.objectListView.UseFilterIndicator = true;
@@ -89,17 +92,32 @@
             this.roleColumn.Text = "Role";
             this.roleColumn.Width = 80;
             // 
+            // searchTextBox
+            // 
+            this.searchTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.searchTextBox.IconColorBase = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(69)))), ((int)(((byte)(114)))));
+            this.searchTextBox.IconColorHighlight = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(137)))), ((int)(((byte)(193)))));
+            this.searchTextBox.Location = new System.Drawing.Point(1, 1);
+            this.searchTextBox.Name = "searchTextBox";
+            this.searchTextBox.Size = new System.Drawing.Size(452, 20);
+            this.searchTextBox.TabIndex = 0;
+            this.searchTextBox.Cleared += new System.EventHandler(this.searchTextBox_Cleared);
+            // 
             // CombatantListWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(569, 468);
+            this.ClientSize = new System.Drawing.Size(453, 485);
+            this.Controls.Add(this.searchTextBox);
             this.Controls.Add(this.objectListView);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "CombatantListWindow";
             this.Text = "CombatantListWindow";
             ((System.ComponentModel.ISupportInitialize)(this.objectListView)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -109,5 +127,6 @@
         private BrightIdeasSoftware.OLVColumn nameColumn;
         private BrightIdeasSoftware.OLVColumn levelColumn;
         private BrightIdeasSoftware.OLVColumn roleColumn;
+        private BCCL.UI.WinForms.SearchTextBox searchTextBox;
     }
 }

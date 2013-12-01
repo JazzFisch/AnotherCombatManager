@@ -99,6 +99,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\SearchableObjectListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SearchableObjectListView.Designer.cs">
+      <DependentUpon>SearchableObjectListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SearchTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DockWindows\CombatantListWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +151,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\SearchableObjectListView.resx">
+      <DependentUpon>SearchableObjectListView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DockWindows\CombatantListWindow.resx">
       <DependentUpon>CombatantListWindow.cs</DependentUpon>
     </EmbeddedResource>
