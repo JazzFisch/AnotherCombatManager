@@ -11,17 +11,18 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
  */
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
 using System.Windows.Forms;
-using System.IO;
 
 namespace BCCL.UI.WinForms
 {
+    public enum SearchTextBoxMode {
+        Clear,
+        Search
+    }
+
     public class SearchTextBox : TextBox
     {
         private bool _isEmpty = true;
@@ -32,6 +33,9 @@ namespace BCCL.UI.WinForms
         const int WM_ERASEBKGND = 14;
         const int WM_PAINT = 15;
 
+        public SearchTextBox () {
+            
+        }
 
         //[Browsable(false)]
         public override bool Multiline
@@ -184,8 +188,6 @@ namespace BCCL.UI.WinForms
             }
 
 
-            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-
             if (!_isEmpty && this.Mode == SearchTextBoxMode.Clear)
             {
                 DrawCloseIcon(g, buttonarea);
@@ -264,7 +266,7 @@ namespace BCCL.UI.WinForms
             base.OnMouseDown(e);
 
             Rectangle buttonarea = new Rectangle(new Point(this.ClientRectangle.X + Width - this.Height, this.ClientRectangle.Y), new Size(this.Height, this.Height));
-            if (pointWithinRectangle(buttonarea, e.Location))
+            if (buttonarea.Contains(e.Location))
             {
                 switch (this.Mode)
                 {
@@ -278,6 +280,7 @@ namespace BCCL.UI.WinForms
                 }
 
             }
+            base.Refresh();
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -285,7 +288,7 @@ namespace BCCL.UI.WinForms
             base.OnMouseMove(e);
 
             Rectangle buttonarea = new Rectangle(new Point(this.ClientRectangle.X + Width - this.Height, this.ClientRectangle.Y), new Size(this.Height, this.Height));
-            if (pointWithinRectangle(buttonarea, e.Location))
+            if (buttonarea.Contains(e.Location))
             {
 
                 this.Cursor = Cursors.Arrow;
@@ -305,17 +308,6 @@ namespace BCCL.UI.WinForms
                 }
             }
         }
-
-        private bool pointWithinRectangle(Rectangle r, Point p)
-        {
-            return (p.X >= r.X && p.Y >= r.Y && p.X < (r.X + r.Width) && p.Y < (r.Y + r.Height));
-        }
-    }
-
-    public enum SearchTextBoxMode
-    {
-        Clear,
-        Search
     }
 
     public abstract class RoundedRectangle

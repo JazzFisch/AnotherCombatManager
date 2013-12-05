@@ -136,11 +136,11 @@ namespace DnD4e.CombatManager.Test {
         }
 
         private async void importFromATToolStripMenuItem_Click (object sender, EventArgs e) {
-            await this.AddFilesToStatsListAsync(CombatantType.Monster, "Import Monster");
+            await this.AddFilesToStatsListAsync(RenderType.Monster, "Import Monster");
         }
 
         private async void importFromCBToolStripMenuItem_Click (object sender, EventArgs e) {
-            await this.AddFilesToStatsListAsync(CombatantType.Character, "Import Character");
+            await this.AddFilesToStatsListAsync(RenderType.Character, "Import Character");
         }
 
         private void monstersWindow_SelectionChanged (object sender, CombatantsSelectionChangedEventArgs<Monster> e) {
@@ -185,15 +185,15 @@ namespace DnD4e.CombatManager.Test {
                 return;
             }
 
-            var type = this.selectedCombatants.First().CombatantType;
+            var type = this.selectedCombatants.First().RenderType;
             switch (type) {
-                case CombatantType.Character:
+                case RenderType.Character:
                     if (!this.charactersWindow.IsActivated) {
                         return;
                     }
                     break;
 
-                case CombatantType.Monster:
+                case RenderType.Monster:
                     if (!this.monstersWindow.IsActivated) {
                         return;
                     }
@@ -214,11 +214,11 @@ namespace DnD4e.CombatManager.Test {
             }
 
             switch (type) {
-                case CombatantType.Character:
+                case RenderType.Character:
                     this.RemoveCombatants<Character>(this.Library.Characters, this.selectedCombatants);
                     break;
 
-                case CombatantType.Monster:
+                case RenderType.Monster:
                     this.RemoveCombatants<Monster>(this.Library.Monsters, this.selectedCombatants);
                     break;
             }
@@ -262,8 +262,8 @@ namespace DnD4e.CombatManager.Test {
             }
         }
 
-        private async Task AddFilesToStatsListAsync (CombatantType type, string title = "Import") {
-            string filter = type == CombatantType.Monster ? "Monster Files|*.monster" : "Character Files|*.dnd4e";
+        private async Task AddFilesToStatsListAsync (RenderType type, string title = "Import") {
+            string filter = type == RenderType.Monster ? "Monster Files|*.monster" : "Character Files|*.dnd4e";
             OpenFileDialog dialog = new OpenFileDialog() {
                 Filter = filter + "|All files (*.*)|*.*",
                 CheckFileExists = true,
@@ -280,10 +280,10 @@ namespace DnD4e.CombatManager.Test {
 
             Stopwatch timer = Stopwatch.StartNew();
             IEnumerable<Combatant> added = null;
-            if (type == CombatantType.Character) {
+            if (type == RenderType.Character) {
                 added = await this.Library.ImportCharactersFromFileAsync(dialog.FileNames);
             }
-            else if (type == CombatantType.Monster) {
+            else if (type == RenderType.Monster) {
                 added = await this.Library.ImportMonstersFromFileAsync(dialog.FileNames);
             }
             timer.Stop();

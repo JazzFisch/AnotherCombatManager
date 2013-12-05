@@ -50,6 +50,7 @@
             this.objectListView.IsSimpleDragSource = true;
             this.objectListView.Location = new System.Drawing.Point(1, 25);
             this.objectListView.Name = "objectListView";
+            this.objectListView.OwnerDraw = true;
             this.objectListView.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
             this.objectListView.ShowCommandMenuOnRightClick = true;
             this.objectListView.ShowItemCountOnGroups = true;

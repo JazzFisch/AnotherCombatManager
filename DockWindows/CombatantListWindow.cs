@@ -15,9 +15,11 @@ namespace DnD4e.CombatManager.Test.DockWindows {
         public event EventHandler<CombatantsSelectionChangedEventArgs<T>> SelectionChanged;
 
         private ObservableKeyedCollection<string, T> combatants;
+        //private IRenderer defaultRenderer;
 
         public CombatantListWindow () {
             InitializeComponent();
+            //this.defaultRenderer = this.objectListView.DefaultRenderer;
 
             // setup text search throttle
             var textChanged = Observable.FromEventPattern(this.searchTextBox, "TextChanged").Select(x => ((TextBox)x.Sender).Text);
@@ -62,10 +64,13 @@ namespace DnD4e.CombatManager.Test.DockWindows {
 
         private void searchTextBox_Cleared (object sender, EventArgs e) {
             this.objectListView.AdditionalFilter = null;
+            //this.objectListView.DefaultRenderer = this.defaultRenderer;
         }
 
         private void Search (string text) {
-            this.objectListView.AdditionalFilter = TextMatchFilter.Contains(this.objectListView, text);
+            var filter = TextMatchFilter.Contains(this.objectListView, text);
+            this.objectListView.AdditionalFilter = filter;
+            //this.objectListView.DefaultRenderer = new HighlightTextRenderer(filter);
         }
     }
 

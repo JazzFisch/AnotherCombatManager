@@ -53,7 +53,7 @@
     <ManifestCertificateThumbprint>F30F737E2AC53F70F937000A4C30FB0AA4B78F27</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>DnD4e Combat Manager.Test_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Properties\DnD4e Combat Manager.Test_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -65,6 +65,9 @@
     <StartupObject>DnD4e.CombatManager.Test.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NBug">
+      <HintPath>..\packages\NBug.1.2.2\lib\net40-client\NBug.dll</HintPath>
+    </Reference>
     <Reference Include="ObjectListView">
       <HintPath>..\packages\Unofficial.ObjectListView.2.6.0\lib\net20\ObjectListView.dll</HintPath>
     </Reference>
@@ -108,6 +111,9 @@
     <Compile Include="Controls\SearchTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\StatblockControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DockWindows\CombatantListWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +150,12 @@
     <Compile Include="LibraryForm.Designer.cs">
       <DependentUpon>LibraryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -172,12 +184,15 @@
     <EmbeddedResource Include="LibraryForm.resx">
       <DependentUpon>LibraryForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="DnD4e Combat Manager.Test_TemporaryKey.pfx" />
+    <None Include="Properties\DnD4e Combat Manager.Test_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
