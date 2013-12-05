@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title data-bind="text: Character().Name"></title>
+    <meta name="description" content="D&amp;D 4E Character StatBlock display" />
+    <meta name="author" content="Jason Fischer" />
+<!--    <link type='text/css' href='statblock.css' media='screen' rel='stylesheet' />
+    <script type='text/javascript' src='underscore.js'></script>
+    <script type='text/javascript' src='jquery-1.10.2.js'></script>
+    <script type='text/javascript' src='knockout-3.0.0.debug.js'></script>
+    <script type='text/javascript' src='knockout-StringInterpolatingBindingProvider.js'></script>
+    <script type='text/javascript' src='ko.ninja.js'></script>
+    <script type='text/javascript' src='statblockHelpers.js'></script>
+    <script type='text/javascript' src='bindingHandlers.js'></script>
+    <script type='text/javascript' src='characterStatblock.js'></script>-->
+</head>
+<body>
+    <div class="character">
+        <table class="header">
+            <tr>
+                <td class="bold">{{Character().Name}}</td>
+                <td class="bold right">{{LevelString()}}</td>
+            </tr>
+            <tr>
+                <td>{{TraitsString()}}</td>
+                <td class="right">{{XPString()}}</td>
+            </tr>
+        </table>
+        <table class="flavor noindent">
+            <tr>
+                <td><b>HP</b> {{Character().HitPoints}}; <b>Bloodied</b> {{Bloodied()}}</td>                
+                <td class="right"><b>Initiative</b>&nbsp;<span data-bind="commaNum: Character().Initiative, signed: true"></span></td>
+            </tr>
+            <tr>
+                <td>
+                    <b>AC</b>&nbsp;{{Character().Defenses.AC}}&nbsp;<b>Fortitude</b>&nbsp;{{Character().Defenses.Fortitude}}&nbsp;<b>Reflex</b>&nbsp;{{Character().Defenses.Reflex}}&nbsp;<b>Will</b>&nbsp;{{Character().Defenses.Will}}
+                </td>
+                <td class="right">
+                    <!-- passives -->
+                </td>
+            </tr>
+            <tr>
+                <td><b>Speed</b> {{Character().Speed}}</td>
+                <td class="right"><b>Vision</b> {{Character().Vision}}</td>
+            </tr>
+        </table>
+
+        <!-- ko if: _.size(Character().Powers) -->
+            <h2>Powers</h2>
+            <div data-bind="template: { name: 'power', foreach: Character().Powers }"></div>
+        <!-- /ko -->        
+
+        <!-- ko if: _.size(Character().ClassFeatures) -->
+            <h2>Class Features</h2>
+            <div data-bind="template: { name: 'feat', foreach: Character().ClassFeatures }"></div>
+        <!-- /ko -->        
+
+        <!-- ko if: _.size(Character().Feats) -->
+            <h2>Feats</h2>
+            <div data-bind="template: { name: 'feat', foreach: Character().Feats }"></div>
+        <!-- /ko -->        
+
+        <!-- ko if: _.size(Character().RacialTraits) -->
+            <h2>Racial Traits</h2>
+            <div data-bind="template: { name: 'feat', foreach: Character().RacialTraits }"></div>
+        <!-- /ko -->        
+        
+        <p class="flavor dark noindent"><b>Skills</b><span data-bind="template: { name: 'skills', data: Character().Skills }"></span></p>
+		<table class="flavor dark noindent">
+			<tr>
+				<td>
+					<b>Str</b>&nbsp;<span data-bind="abilityScore: Character().AbilityScores.Strength"></span>
+				</td>
+				<td>
+					<b>Dex</b>&nbsp;<span data-bind="abilityScore: Character().AbilityScores.Dexterity"></span>
+				</td>
+				<td>
+					<b>Wis</b>&nbsp;<span data-bind="abilityScore: Character().AbilityScores.Wisdom"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<b>Con</b>&nbsp;<span data-bind="abilityScore: Character().AbilityScores.Constitution"></span>
+				</td>
+				<td>
+					<b>Int</b>&nbsp;<span data-bind="abilityScore: Character().AbilityScores.Intelligence"></span>
+				</td>
+				<td>
+					<b>Cha</b>&nbsp;<span data-bind="abilityScore: Character().AbilityScores.Charisma"></span>
+				</td>
+			</tr>
+		</table>
+        <p class="flavor noindent">
+            <b>Alignment</b>&nbsp;{{Alignment()}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>Languages</b>&nbsp;<span data-bind="stringArray: Character().Languages, fallback: '-'"></span><br/>
+            <b>Equipment</b>&nbsp;<span data-bind="template: { name: 'items', data: Character().Items }"></span>
+        </p>
+    </div>
+<script type="text/html" id="items">
+<!-- ko foreach: $data -->{{$data.Name}}<!-- ko if: $index() + 1 < _.size($parent) -->, <!-- /ko --><!-- /ko -->
+</script>
+<script type="text/html" id="skills">
+<!-- ko foreach: _.pairs($data) -->{{$data[0]}} {{($data[1].Value > 0 ? '+' : '') + $data[1].Value}}{{$data[1].IsTrained ? ' (Trained)' : ''}}<!-- ko if: $index() + 1 < _.size($parent) -->, <!-- /ko --><!-- /ko -->
+</script>
+<script type="text/html" id="power">
+    <h3><font face="4etools symbols" data-bind="powerFont: power"></font><b>{{Name}}&nbsp;</b><span data-bind="if: _.size(Keywords)">({{ Keywords.join(', ') }})&nbsp;</span><b>&bull; {{Usage}} </b></h3>    
+</script>
+<script type="text/html" id="feat">
+    <!-- TODO: go about finding an aura icon / font -->
+    <h3><b>{{Name}}&nbsp;</b></h3>
+    <p class="flavor indent">{{ShortDescription || Text}}</p>
+</script>
+</body>
+</html>
+

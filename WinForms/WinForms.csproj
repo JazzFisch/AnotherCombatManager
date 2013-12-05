@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9B80D980-C7A3-4DA2-9BE8-2C94297FA551}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DnD4e.CombatManager.Test</RootNamespace>
+    <AssemblyName>DnD4e.CombatManager.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Users\Jason.ASGARD\Documents\GitHub\DnD4eCM.drop\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>0.5.1.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>F30F737E2AC53F70F937000A4C30FB0AA4B78F27</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Properties\DnD4e Combat Manager.Test_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>DnD4e.CombatManager.Test.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NBug">
+      <HintPath>..\packages\NBug.1.2.2\lib\net40-client\NBug.dll</HintPath>
+    </Reference>
+    <Reference Include="ObjectListView">
+      <HintPath>..\packages\Unofficial.ObjectListView.2.6.0\lib\net20\ObjectListView.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\Net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\Net45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Windows.Forms">
+      <HintPath>..\packages\Rx-WinForms.2.1.30214.0\lib\Net45\System.Reactive.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=3.0.0.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DockPanelSuite.3.0.0-alpha7\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\SearchableObjectListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SearchableObjectListView.Designer.cs">
+      <DependentUpon>SearchableObjectListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SearchTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\StatblockControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DockWindows\CombatantListWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockWindows\CombatantListWindow.Designer.cs">
+      <DependentUpon>CombatantListWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockWindows\EncounterDetailsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockWindows\EncounterDetailsWindow.Designer.cs">
+      <DependentUpon>EncounterDetailsWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockWindows\EncountersWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockWindows\EncountersWindow.Designer.cs">
+      <DependentUpon>EncountersWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockWindows\PropertiesWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockWindows\PropertiesWindow.Designer.cs">
+      <DependentUpon>PropertiesWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockWindows\StatblockWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockWindows\StatblockWindow.Designer.cs">
+      <DependentUpon>StatblockWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LibraryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LibraryForm.Designer.cs">
+      <DependentUpon>LibraryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Controls\SearchableObjectListView.resx">
+      <DependentUpon>SearchableObjectListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockWindows\CombatantListWindow.resx">
+      <DependentUpon>CombatantListWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockWindows\EncounterDetailsWindow.resx">
+      <DependentUpon>EncounterDetailsWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockWindows\EncountersWindow.resx">
+      <DependentUpon>EncountersWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockWindows\PropertiesWindow.resx">
+      <DependentUpon>PropertiesWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockWindows\StatblockWindow.resx">
+      <DependentUpon>StatblockWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LibraryForm.resx">
+      <DependentUpon>LibraryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\DnD4e Combat Manager.Test_TemporaryKey.pfx" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LibraryHelper\LibraryHelper.csproj">
+      <Project>{3f18ceb6-e874-468b-9ee6-e0edad685b2d}</Project>
+      <Name>LibraryHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="HtmlContent\bindingHandlers.js" />
+    <Resource Include="HtmlContent\jquery-1.10.2.js" />
+    <Resource Include="HtmlContent\knockout-3.0.0.debug.js" />
+    <Resource Include="HtmlContent\knockout-StringInterpolatingBindingProvider.js" />
+    <Resource Include="HtmlContent\ko.ninja.js" />
+    <Resource Include="HtmlContent\modernizr-2.6.2.js" />
+    <Resource Include="HtmlContent\monsterStatblock.html" />
+    <Resource Include="HtmlContent\monsterStatblock.js" />
+    <Resource Include="HtmlContent\normalize.css" />
+    <Resource Include="HtmlContent\statblock.css" />
+    <Resource Include="HtmlContent\statblockHelpers.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="HtmlContent\characterStatblock.html">
+      <SubType>Designer</SubType>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="HtmlContent\characterStatblock.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HtmlContent\underscore.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
