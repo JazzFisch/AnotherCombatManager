@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3F18CEB6-E874-468B-9EE6-E0EDAD685B2D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DnD4e.LibraryHelper</RootNamespace>
+    <AssemblyName>DnD4e.LibraryHelper</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Character\Character.cs" />
+    <Compile Include="Common\ObservableKeyedCollection.cs" />
+    <Compile Include="Common\ObservableKeyedCollectionConverter.cs" />
+    <Compile Include="Common\Renderable.cs" />
+    <Compile Include="Encounter\CombatantWrapper.cs" />
+    <Compile Include="Common\Damage.cs" />
+    <Compile Include="Common\Feat.cs" />
+    <Compile Include="Character\Item.cs" />
+    <Compile Include="Character\Power.cs" />
+    <Compile Include="Character\SkillValue.cs" />
+    <Compile Include="Character\Weapon.cs" />
+    <Compile Include="Common\Combatant.cs" />
+    <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\Library.cs" />
+    <Compile Include="Encounter\Encounter.cs" />
+    <Compile Include="ExtensionMethods\Combatant.cs" />
+    <Compile Include="ExtensionMethods\Integer.cs" />
+    <Compile Include="ExtensionMethods\String.cs" />
+    <Compile Include="ExtensionMethods\StringBuilder.cs" />
+    <Compile Include="Import\Character\AbilityScores.cs" />
+    <Compile Include="Import\Character\Character.cs" />
+    <Compile Include="Import\Character\Damage.cs" />
+    <Compile Include="Import\Character\Defenses.cs" />
+    <Compile Include="Import\Character\Details.cs" />
+    <Compile Include="Import\Character\Item.cs" />
+    <Compile Include="Import\Character\Level.cs" />
+    <Compile Include="Import\Character\Modifier.cs" />
+    <Compile Include="Import\Character\Power.cs" />
+    <Compile Include="Import\Character\Sheet.cs" />
+    <Compile Include="Import\Character\Skills.cs" />
+    <Compile Include="Import\Character\Stat.cs" />
+    <Compile Include="Import\Character\StatBlock.cs" />
+    <Compile Include="Import\Character\Weapon.cs" />
+    <Compile Include="Import\Common\Collections.cs" />
+    <Compile Include="Import\Common\D20Rules.cs" />
+    <Compile Include="Import\Common\DiscoverableKeyedCollection.cs" />
+    <Compile Include="Import\Common\EnumCollection.cs" />
+    <Compile Include="Import\Common\NamedElement.cs" />
+    <Compile Include="Import\Common\Range.cs" />
+    <Compile Include="Import\Common\ReferencedObject.cs" />
+    <Compile Include="Import\Common\Rule.cs" />
+    <Compile Include="Import\Common\SimpleValue.cs" />
+    <Compile Include="Import\Common\SimpleValueWrappers.cs" />
+    <Compile Include="Import\Common\Specific.cs" />
+    <Compile Include="Import\Common\TextString.cs" />
+    <Compile Include="Import\Common\ValueEnumCollection.cs" />
+    <Compile Include="Import\Common\ValueList.cs" />
+    <Compile Include="Import\ExtensionMethods\AttackType.cs" />
+    <Compile Include="Import\ExtensionMethods\Character.cs" />
+    <Compile Include="Import\ExtensionMethods\Enums.cs" />
+    <Compile Include="Import\ExtensionMethods\Monster.cs" />
+    <Compile Include="Import\ExtensionMethods\String.cs" />
+    <Compile Include="Import\Monster\Attack.cs" />
+    <Compile Include="Import\Monster\AttackBonus.cs" />
+    <Compile Include="Import\Monster\AttackType.cs" />
+    <Compile Include="Import\Monster\Damage.cs" />
+    <Compile Include="Import\Monster\ItemAndQuantity.cs" />
+    <Compile Include="Import\Monster\Monster.cs" />
+    <Compile Include="Import\Monster\Power.cs" />
+    <Compile Include="Import\Monster\PowerBase.cs" />
+    <Compile Include="Import\Monster\Powers.cs" />
+    <Compile Include="Import\Monster\SenseReference.cs" />
+    <Compile Include="Import\Monster\Speed.cs" />
+    <Compile Include="Import\Monster\Susceptibility.cs" />
+    <Compile Include="Import\Monster\Trait.cs" />
+    <Compile Include="Monster\Attack.cs" />
+    <Compile Include="Monster\AttackType.cs" />
+    <Compile Include="Monster\Monster.cs" />
+    <Compile Include="Monster\Power.cs" />
+    <Compile Include="Monster\Regeration.cs" />
+    <Compile Include="Monster\Trait.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
