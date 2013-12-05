@@ -4,8 +4,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
 using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.Import.ExtensionMethods;
 using Newtonsoft.Json;
@@ -16,7 +14,7 @@ namespace DnD4e.LibraryHelper.Monster {
     [DefaultProperty("Name")]
     public class Monster : Combatant {
         [Browsable(false)]
-        public override CombatantType CombatantType { get { return Common.CombatantType.Monster; } }
+        public override RenderType RenderType { get { return Common.RenderType.Monster; } }
 
         public string CompendiumUrl { get; set; }
 
@@ -68,17 +66,6 @@ namespace DnD4e.LibraryHelper.Monster {
         public List<string> Weaknesses { get; set; }
 
         public Monster () {
-            // TODO: construct all collections
-            //this.Items = new List<KeyValuePair<string, int>>();
-            //this.Keywords = new List<string>();
-            //this.Immunities = new List<string>();
-            //this.OtherSpeeds = new List<string>();
-            //this.Powers = new List<Power>();
-            //this.Resistances = new List<string>();
-            //this.Senses = new List<KeyValuePair<string, int>>();
-            //this.Skills = new Dictionary<Skill, int>();
-            //this.Traits = new List<Trait>();
-            //this.Weaknesses = new List<string>();
         }
 
         public static async Task<Monster> LoadFromFileAsync (string filename) {
@@ -94,10 +81,6 @@ namespace DnD4e.LibraryHelper.Monster {
 
                 ImportMonster import = await xmlString.DeserializeXmlAsync<ImportMonster>();
                 monster = import.ToMonster();
-            }
-            catch (System.Exception ex) {
-                Trace.TraceError(ex.ToString());
-                System.Diagnostics.Debugger.Break();
             }
             finally {
                 timer.Stop();

@@ -36,10 +36,6 @@ namespace DnD4e.LibraryHelper.Import.Common {
                     return d20Rules;
                 }).ConfigureAwait(false);
             }
-            catch (System.Exception ex) {
-                Trace.TraceError(ex.ToString());
-                System.Diagnostics.Debugger.Break();
-            }
             finally {
                 timer.Stop();
                 Trace.TraceInformation("Deserializing D20Rules took {0}ms", timer.ElapsedMilliseconds);

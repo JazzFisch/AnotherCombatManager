@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using DnD4e.LibraryHelper.Common;
 using DnD4e.LibraryHelper.Import.Common;
 using DnD4e.LibraryHelper.Import.ExtensionMethods;
-using Newtonsoft.Json;
 using ImportCharacter = DnD4e.LibraryHelper.Import.Character.Character;
 
 namespace DnD4e.LibraryHelper.Character {
@@ -15,7 +14,7 @@ namespace DnD4e.LibraryHelper.Character {
 
         public List<Feat> ClassFeatures { get; set; }
 
-        public override CombatantType CombatantType { get { return Common.CombatantType.Character; } }
+        public override RenderType RenderType { get { return Common.RenderType.Character; } }
 
         public List<Feat> Feats { get; set; }
 
@@ -40,12 +39,6 @@ namespace DnD4e.LibraryHelper.Character {
         public string Vision { get; set; }
 
         public Character () {
-            // TODO: construct all collections
-            //this.ClassFeatures = new List<Feat>();
-            //this.Feats = new List<Feat>();
-            //this.Powers = new List<Power>();
-            //this.RacialTraits = new List<Feat>();
-            //this.Skills = new Dictionary<Skill, SkillValue>();
         }
 
         internal static async Task<Character> LoadFromFileAsync (string filename, Rules rules) {
@@ -70,10 +63,6 @@ namespace DnD4e.LibraryHelper.Character {
 
                 ImportCharacter import = await xmlString.DeserializeXmlAsync<ImportCharacter>();
                 character = import.ToCharacter(rules);
-            }
-            catch (System.Exception ex) {
-                Trace.TraceError(ex.ToString());
-                System.Diagnostics.Debugger.Break();
             }
             finally {
                 timer.Stop();

@@ -48,12 +48,6 @@ namespace DnD4e.LibraryHelper.Common {
         Trait
     }
 
-    public enum CombatantType {
-        Invalid,
-        Character,
-        Monster
-    }
-
     public enum Defense {
         Invalid,
         AC,
@@ -68,6 +62,15 @@ namespace DnD4e.LibraryHelper.Common {
         Encounter,
         Daily,
         Recharge
+    }
+
+    public enum RenderType {
+        Invalid,
+        Character,
+        Monster,
+        Encounter,
+        CharacterPower,
+        MonsterPower
     }
 
     public enum Skill {

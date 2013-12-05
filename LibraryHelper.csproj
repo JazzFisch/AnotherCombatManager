@@ -54,6 +54,7 @@
     <Compile Include="Character\Character.cs" />
     <Compile Include="Common\ObservableKeyedCollection.cs" />
     <Compile Include="Common\ObservableKeyedCollectionConverter.cs" />
+    <Compile Include="Common\Renderable.cs" />
     <Compile Include="Encounter\CombatantWrapper.cs" />
     <Compile Include="Common\Damage.cs" />
     <Compile Include="Common\Feat.cs" />

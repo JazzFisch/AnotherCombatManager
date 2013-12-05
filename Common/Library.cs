@@ -66,23 +66,16 @@ namespace DnD4e.LibraryHelper.Common {
         #region Public Methods
 
         public void Flush () {
-            try {
-                var path = Path.GetTempPath();
-                var tmp = Path.GetRandomFileName();
-                var random = Path.Combine(path, tmp);
-                var backup = String.Concat(this.FileName, ".bak");
-                using (var file = new FileStream(this.FileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 0x1000)) {
-                    using (var archive = new ZipArchive(file, ZipArchiveMode.Update)) {
-                        this.WriteEntry(archive, CharactersKey, this.Characters);
-                        this.WriteEntry(archive, MonstersKey, this.Monsters);
-                        this.WriteEntry(archive, EncountersKey, this.Encounters);
-                    }
+            var path = Path.GetTempPath();
+            var tmp = Path.GetRandomFileName();
+            var random = Path.Combine(path, tmp);
+            var backup = String.Concat(this.FileName, ".bak");
+            using (var file = new FileStream(this.FileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 0x1000)) {
+                using (var archive = new ZipArchive(file, ZipArchiveMode.Update)) {
+                    this.WriteEntry(archive, CharactersKey, this.Characters);
+                    this.WriteEntry(archive, MonstersKey, this.Monsters);
+                    this.WriteEntry(archive, EncountersKey, this.Encounters);
                 }
-            }
-            catch (System.Exception ex) {
-                Trace.TraceError(ex.ToString());
-                System.Diagnostics.Debugger.Break();
-                throw;
             }
         }
 
@@ -160,31 +153,25 @@ namespace DnD4e.LibraryHelper.Common {
                 return true;
             }
 
-            try {
-                using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 0x1000, useAsync: true)) {
-                    using (var archive = new ZipArchive(file, ZipArchiveMode.Read)) {
-                        // ZipArchive methods are not thread safe, so serializing access
-                        var characterConverter = new ObservableKeyedCollectionConverter<string, Character.Character>(c => c.Handle);
-                        var monsterConverter = new ObservableKeyedCollectionConverter<string, Monster.Monster>(m => m.Handle);
-                        var characters = this.ReadEntry<ObservableKeyedCollection<string, Character.Character>>(archive, CharactersKey, characterConverter);
-                        var monsters = this.ReadEntry<ObservableKeyedCollection<string, Monster.Monster>>(archive, MonstersKey, monsterConverter);
-                        var encounters = this.ReadEntry<ObservableCollection<Encounter.Encounter>>(archive, EncountersKey);
+            using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 0x1000, useAsync: true)) {
+                using (var archive = new ZipArchive(file, ZipArchiveMode.Read)) {
+                    // ZipArchive methods are not thread safe, so serializing access
+                    var characterConverter = new ObservableKeyedCollectionConverter<string, Character.Character>(c => c.Handle);
+                    var monsterConverter = new ObservableKeyedCollectionConverter<string, Monster.Monster>(m => m.Handle);
+                    var characters = this.ReadEntry<ObservableKeyedCollection<string, Character.Character>>(archive, CharactersKey, characterConverter);
+                    var monsters = this.ReadEntry<ObservableKeyedCollection<string, Monster.Monster>>(archive, MonstersKey, monsterConverter);
+                    var encounters = this.ReadEntry<ObservableCollection<Encounter.Encounter>>(archive, EncountersKey);
 
-                        if (characters != null) {
-                            this.Characters = characters;
-                        }
-                        if (monsters != null) {
-                            this.Monsters = monsters;
-                        }
-                        if (encounters != null) {
-                            this.Encounters = encounters;
-                        }
+                    if (characters != null) {
+                        this.Characters = characters;
+                    }
+                    if (monsters != null) {
+                        this.Monsters = monsters;
+                    }
+                    if (encounters != null) {
+                        this.Encounters = encounters;
                     }
                 }
-            }
-            catch (System.Exception ex) {
-                Trace.TraceError(ex.ToString());
-                return false;
             }
 
             // fixup encounter combatants

@@ -65,7 +65,7 @@ namespace DnD4e.LibraryHelper.Encounter {
         [JsonIgnore]
         public int MonsterCount {
             get {
-                return this.combatants.Where(c => c.Type == CombatantType.Monster).Sum(c => c.Count);
+                return this.combatants.Where(c => c.RenderType == RenderType.Monster).Sum(c => c.Count);
             }
         }
 

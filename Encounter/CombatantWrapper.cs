@@ -36,6 +36,6 @@ namespace DnD4e.LibraryHelper.Encounter {
         public int Level { get { return this.Combatant.Level; } }
 
         [JsonIgnore]
-        public CombatantType Type { get { return this.Combatant.CombatantType; } }
+        public RenderType RenderType { get { return this.Combatant.RenderType; } }
     }
 }
