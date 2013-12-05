@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
-namespace DnD4e.LibraryHelper.Common {
+namespace AnotherCM.Library.Common {
     public abstract class Combatant : Renderable {
         public Dictionary<AbilityScore, int> AbilityScores { get; set; }
 

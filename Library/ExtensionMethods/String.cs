@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DnD4e.LibraryHelper.ExtensionMethods {
+namespace AnotherCM.Library.ExtensionMethods {
     internal static class StringMethods {
         public static string FixWhitespace (this string value) {
             if (value == null) {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DnD4e.LibraryHelper.Common {
+namespace AnotherCM.Library.Common {
     public enum AbilityScore {
         Invalid,
         Strength,

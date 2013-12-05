@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using DnD4e.LibraryHelper.Common;
+using AnotherCM.Library.Common;
 using Newtonsoft.Json;
 
-namespace DnD4e.LibraryHelper.Encounter {
+namespace AnotherCM.Library.Encounter {
     [DefaultProperty("Name")]
     public class Encounter {
         private ObservableKeyedCollection<string, CombatantWrapper> combatants;

@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DnD4e.LibraryHelper.Common;
-using DnD4e.LibraryHelper.ExtensionMethods;
-using DnD4e.LibraryHelper.Import.Common;
-using ExportCharacter = DnD4e.LibraryHelper.Character.Character;
-using ExportClassFeat = DnD4e.LibraryHelper.Character.ClassFeat;
-using ExportFeat = DnD4e.LibraryHelper.Character.Feat;
-using ExportItem = DnD4e.LibraryHelper.Character.Item;
-using ExportPower = DnD4e.LibraryHelper.Character.Power;
-using ExportSkillValue = DnD4e.LibraryHelper.Character.SkillValue;
-using ExportWeapon = DnD4e.LibraryHelper.Character.Weapon;
-using ImportCharacter = DnD4e.LibraryHelper.Import.Character.Character;
+using AnotherCM.Library.Common;
+using AnotherCM.Library.ExtensionMethods;
+using AnotherCM.Library.Import.Common;
+using ExportCharacter = AnotherCM.Library.Character.Character;
+using ExportFeat = AnotherCM.Library.Character.Feat;
+using ExportItem = AnotherCM.Library.Character.Item;
+using ExportPower = AnotherCM.Library.Character.Power;
+using ExportSkillValue = AnotherCM.Library.Character.SkillValue;
+using ExportWeapon = AnotherCM.Library.Character.Weapon;
+using ImportCharacter = AnotherCM.Library.Import.Character.Character;
 
-namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
+namespace AnotherCM.Library.Import.ExtensionMethods {
     internal static class CharacterMethods {
         public static ExportCharacter ToCharacter (this ImportCharacter import, Rules d20Rules) {
             Rules rules = d20Rules ?? import.Sheet.Rules;

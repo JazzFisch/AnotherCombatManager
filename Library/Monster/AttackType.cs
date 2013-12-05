@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DnD4e.LibraryHelper.Monster {
+namespace AnotherCM.Library.Monster {
     public class AttackType {
         public string Action { get; set; }
 

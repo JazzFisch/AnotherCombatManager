@@ -1,7 +1,7 @@
 ﻿using System;
-using DnD4e.LibraryHelper.Common;
+using AnotherCM.Library.Common;
 
-namespace DnD4e.LibraryHelper.Import.Common {
+namespace AnotherCM.Library.Import.Common {
     public class Range {
         public static readonly Range Invalid = new Range();
 

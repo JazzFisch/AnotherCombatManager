@@ -10,9 +10,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DnD4e.LibraryHelper.Common;
-using DnD4e.LibraryHelper.Character;
-using DnD4e.LibraryHelper.Monster;
+using AnotherCM.Library.Common;
+using AnotherCM.Library.Character;
+using AnotherCM.Library.Monster;
 using Microsoft.Win32;
 using WeifenLuo.WinFormsUI.Docking;
 

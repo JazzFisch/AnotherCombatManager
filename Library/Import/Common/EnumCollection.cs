@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DnD4e.LibraryHelper.Import.Common {
+namespace AnotherCM.Library.Import.Common {
     public sealed class EnumCollection<TKey, TItem> : DiscoverableKeyedCollection<TKey, TItem>
         where TKey : struct
         where TItem : INamedObject 

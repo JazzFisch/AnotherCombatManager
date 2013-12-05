@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using DnD4e.LibraryHelper.Import.Common;
+using AnotherCM.Library.Import.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace DnD4e.LibraryHelper.Common {
+namespace AnotherCM.Library.Common {
     public class Library {
         // TODO: add lazy commit on throttle this[handle] sets / removes
         // TODO: add restoring from backup if open fails

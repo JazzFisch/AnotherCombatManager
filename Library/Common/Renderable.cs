@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace DnD4e.LibraryHelper.Common {
+namespace AnotherCM.Library.Common {
     [DefaultProperty("Name")]
     public abstract class Renderable {
         [Browsable(false)]

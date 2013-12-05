@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.ExtensionMethods;
-using DnD4e.LibraryHelper.Import.Common;
+using AnotherCM.Library.ExtensionMethods;
+using AnotherCM.Library.Import.Common;
 
-namespace DnD4e.LibraryHelper.Import.Character {
+namespace AnotherCM.Library.Import.Character {
     [XmlRoot("D20Character")]
     public class Character {
         // private so we can track when the serialize changes it

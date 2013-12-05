@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using BCCL.UI.WinForms;
 using BrightIdeasSoftware;
-using DnD4e.LibraryHelper.Common;
+using AnotherCM.Library.Common;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace DnD4e.CombatManager.Test.DockWindows {

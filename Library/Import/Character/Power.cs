@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Common;
-using DnD4e.LibraryHelper.Import.Common;
-using DnD4e.LibraryHelper.Import.ExtensionMethods;
+using AnotherCM.Library.Common;
+using AnotherCM.Library.Import.Common;
+using AnotherCM.Library.Import.ExtensionMethods;
 
-namespace DnD4e.LibraryHelper.Import.Character {
+namespace AnotherCM.Library.Import.Character {
     public class Power : NamedAttributeElement {
         [XmlElement("specific")]
         public Specifics Specifics { get; set; }

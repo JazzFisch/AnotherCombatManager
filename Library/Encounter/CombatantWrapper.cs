@@ -1,8 +1,8 @@
 ﻿using System;
-using DnD4e.LibraryHelper.Common;
+using AnotherCM.Library.Common;
 using Newtonsoft.Json;
 
-namespace DnD4e.LibraryHelper.Encounter {
+namespace AnotherCM.Library.Encounter {
     public class CombatantWrapper {
         private string handle;  // only use for deserialization
 

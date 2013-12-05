@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using DnD4e.LibraryHelper.Common;
+using AnotherCM.Library.Common;
 
-namespace DnD4e.LibraryHelper.Monster {
+namespace AnotherCM.Library.Monster {
     public class Attack {
         public Dictionary<Defense, int> AttackBonuses { get; set; }
 

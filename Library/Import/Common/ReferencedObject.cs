@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Common;
+using AnotherCM.Library.Common;
 
-namespace DnD4e.LibraryHelper.Import.Common {
+namespace AnotherCM.Library.Import.Common {
     public class ReferencedObject : NamedValueElement {
         [XmlElement]
         public string Description { get; set; }

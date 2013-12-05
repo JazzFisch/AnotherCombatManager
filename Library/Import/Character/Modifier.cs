@@ -2,7 +2,7 @@
 using System.Text;
 using System.Xml.Serialization;
 
-namespace DnD4e.LibraryHelper.Import.Character {
+namespace AnotherCM.Library.Import.Character {
     public class Modifier {
         [XmlAttribute("abilmod")]
         public bool AbilityModifier { get; set; }

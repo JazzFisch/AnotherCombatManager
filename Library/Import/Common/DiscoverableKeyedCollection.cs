@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace DnD4e.LibraryHelper.Import.Common {
+namespace AnotherCM.Library.Import.Common {
     public abstract class DiscoverableKeyedCollection<TKey, TItem> : KeyedCollection<TKey, TItem> {
         public ICollection<TKey> Keys {
             get {

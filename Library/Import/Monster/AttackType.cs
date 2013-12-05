@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Common;
-using DnD4e.LibraryHelper.Import.Common;
-using DnD4e.LibraryHelper.Import.ExtensionMethods;
+using AnotherCM.Library.Common;
+using AnotherCM.Library.Import.Common;
+using AnotherCM.Library.Import.ExtensionMethods;
 
-namespace DnD4e.LibraryHelper.Import.Monster {
+namespace AnotherCM.Library.Import.Monster {
     public class AttackType : NamedValueElement {
         [XmlElement]
         public string Action { get; set; }

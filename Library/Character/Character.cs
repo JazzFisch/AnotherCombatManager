@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using DnD4e.LibraryHelper.Common;
-using DnD4e.LibraryHelper.Import.Common;
-using DnD4e.LibraryHelper.Import.ExtensionMethods;
-using ImportCharacter = DnD4e.LibraryHelper.Import.Character.Character;
+using AnotherCM.Library.Common;
+using AnotherCM.Library.Import.Common;
+using AnotherCM.Library.Import.ExtensionMethods;
+using ImportCharacter = AnotherCM.Library.Import.Character.Character;
 
-namespace DnD4e.LibraryHelper.Character {
+namespace AnotherCM.Library.Character {
     public class Character : Combatant {
         public string Class { get; set; }
 
@@ -53,7 +53,7 @@ namespace DnD4e.LibraryHelper.Character {
                 }
 
                 // cleanup campaign settings
-                // CBuilder seems to insert invalid XML values?
+                // CBuilder sometimes seems to insert invalid XML values?
                 var endStr = "</D20CampaignSetting>";
                 int start = xmlString.IndexOf("<D20CampaignSetting");
                 int end = xmlString.IndexOf(endStr) + endStr.Length;

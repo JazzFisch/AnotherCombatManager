@@ -4,9 +4,9 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Import.Character;
+using AnotherCM.Library.Import.Character;
 
-namespace DnD4e.LibraryHelper.Import.Common {
+namespace AnotherCM.Library.Import.Common {
     [XmlRoot]
     public class D20Rules {
         [XmlElement("RulesElement")]

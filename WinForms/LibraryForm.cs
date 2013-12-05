@@ -6,10 +6,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DnD4e.CombatManager.Test.DockWindows;
-using DnD4e.LibraryHelper.Character;
-using DnD4e.LibraryHelper.Common;
-using DnD4e.LibraryHelper.Encounter;
-using DnD4e.LibraryHelper.Monster;
+using AnotherCM.Library.Character;
+using AnotherCM.Library.Common;
+using AnotherCM.Library.Encounter;
+using AnotherCM.Library.Monster;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace DnD4e.CombatManager.Test {

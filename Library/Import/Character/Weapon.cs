@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Import.Common;
+using AnotherCM.Library.Import.Common;
 
-namespace DnD4e.LibraryHelper.Import.Character {
+namespace AnotherCM.Library.Import.Character {
     public class Weapon : NamedAttributeElement {
         [XmlElement("RulesElement")]
         public Rules Rules { get; set; }

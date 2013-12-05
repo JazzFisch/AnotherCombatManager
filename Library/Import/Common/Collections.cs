@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DnD4e.LibraryHelper.Import.Character;
+using AnotherCM.Library.Import.Character;
 
-namespace DnD4e.LibraryHelper.Import.Common {
+namespace AnotherCM.Library.Import.Common {
     public class Rules : DiscoverableKeyedCollection<string, Rule> {
         private Dictionary<string, Dictionary<string, List<Rule>>> byType;
 

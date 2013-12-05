@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DnD4e.LibraryHelper.Common;
 
-namespace DnD4e.LibraryHelper.Character {
+namespace AnotherCM.Library.Character {
     public class Power {
         public string Name { get; set; }
 
@@ -28,7 +24,7 @@ namespace DnD4e.LibraryHelper.Character {
         public string PowerType { get; set; }
 
         // TODO: move Range to Common?
-        public DnD4e.LibraryHelper.Import.Common.Range Range { get; set; }
+        public AnotherCM.Library.Import.Common.Range Range { get; set; }
 
         public string Source { get; set; }
 
@@ -41,9 +37,6 @@ namespace DnD4e.LibraryHelper.Character {
         public List<Weapon> Weapons { get; set; }
 
         public Power () {
-            // TODO: construct all collections
-            //this.Keywords = new List<string>();
-            //this.Weapons = new List<Weapon>();
         }
 
         public override string ToString () {

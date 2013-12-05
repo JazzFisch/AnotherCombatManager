@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using DnD4e.LibraryHelper.Common;
+using AnotherCM.Library.Common;
 using Microsoft.Win32;
 
 namespace DnD4e.CombatManager.Test.Controls {

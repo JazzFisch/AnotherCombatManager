@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
+namespace AnotherCM.Library.Import.ExtensionMethods {
     internal static class StringMethods {
         public static async Task<T> DeserializeXmlAsync<T> (this string xmlString) where T : class {
             return await Task.Run<T>(() => {

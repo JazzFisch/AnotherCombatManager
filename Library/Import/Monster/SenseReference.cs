@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Text;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.ExtensionMethods;
-using DnD4e.LibraryHelper.Import.Common;
+using AnotherCM.Library.ExtensionMethods;
+using AnotherCM.Library.Import.Common;
 
-namespace DnD4e.LibraryHelper.Import.Monster {
+namespace AnotherCM.Library.Import.Monster {
     public class SenseReference : ReferencedObjectWrapper {
         [XmlElement]
         public int Range { get; set; }

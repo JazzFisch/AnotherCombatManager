@@ -1,7 +1,8 @@
-﻿using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Import.Common;
+﻿using System;
+using System.Xml.Serialization;
+using AnotherCM.Library.Import.Common;
 
-namespace DnD4e.LibraryHelper.Import.Character {
+namespace AnotherCM.Library.Import.Character {
     public class Details {
         [XmlElement]
         public string Age { get; set; }

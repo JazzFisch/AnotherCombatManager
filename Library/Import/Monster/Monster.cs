@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Common;
-using DnD4e.LibraryHelper.Import.Common;
-using ImportAbilityScoreNumber = DnD4e.LibraryHelper.Import.Common.AbilityScoreNumber;
+using AnotherCM.Library.Common;
+using AnotherCM.Library.Import.Common;
+using ImportAbilityScoreNumber = AnotherCM.Library.Import.Common.AbilityScoreNumber;
 
-namespace DnD4e.LibraryHelper.Import.Monster {
+namespace AnotherCM.Library.Import.Monster {
     [XmlRoot]
     public class Monster : NamedValueElement {
         [XmlElement]

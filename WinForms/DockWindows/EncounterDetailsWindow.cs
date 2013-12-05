@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
-using DnD4e.LibraryHelper.Character;
-using DnD4e.LibraryHelper.Common;
-using DnD4e.LibraryHelper.Encounter;
+using AnotherCM.Library.Character;
+using AnotherCM.Library.Common;
+using AnotherCM.Library.Encounter;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace DnD4e.CombatManager.Test.DockWindows {

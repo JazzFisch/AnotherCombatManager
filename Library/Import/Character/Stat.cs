@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Import.Common;
+using AnotherCM.Library.Import.Common;
 
-namespace DnD4e.LibraryHelper.Import.Character {
+namespace AnotherCM.Library.Import.Character {
     public class Stat {
         [XmlElement("alias")]
         public List<TextString> Aliases { get; set; }

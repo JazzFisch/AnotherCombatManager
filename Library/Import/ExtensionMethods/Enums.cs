@@ -1,8 +1,8 @@
 ﻿using System;
-using DnD4e.LibraryHelper.Common;
-using DnD4e.LibraryHelper.Import.Common;
+using AnotherCM.Library.Common;
+using AnotherCM.Library.Import.Common;
 
-namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
+namespace AnotherCM.Library.Import.ExtensionMethods {
     internal static class EnumExtensionMethods {
         public static AbilityScore ToAbilityScore (this string abilityScoreString) {
             if (String.IsNullOrWhiteSpace(abilityScoreString)) {

@@ -7,8 +7,8 @@
     <ProjectGuid>{3F18CEB6-E874-468B-9EE6-E0EDAD685B2D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DnD4e.LibraryHelper</RootNamespace>
-    <AssemblyName>DnD4e.LibraryHelper</AssemblyName>
+    <RootNamespace>AnotherCM.Library</RootNamespace>
+    <AssemblyName>AnotherCM.Library</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -39,15 +39,9 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -67,16 +61,13 @@
     <Compile Include="Common\Library.cs" />
     <Compile Include="Encounter\Encounter.cs" />
     <Compile Include="ExtensionMethods\Combatant.cs" />
-    <Compile Include="ExtensionMethods\Integer.cs" />
     <Compile Include="ExtensionMethods\String.cs" />
-    <Compile Include="ExtensionMethods\StringBuilder.cs" />
     <Compile Include="Import\Character\AbilityScores.cs" />
     <Compile Include="Import\Character\Character.cs" />
     <Compile Include="Import\Character\Damage.cs" />
     <Compile Include="Import\Character\Defenses.cs" />
     <Compile Include="Import\Character\Details.cs" />
     <Compile Include="Import\Character\Item.cs" />
-    <Compile Include="Import\Character\Level.cs" />
     <Compile Include="Import\Character\Modifier.cs" />
     <Compile Include="Import\Character\Power.cs" />
     <Compile Include="Import\Character\Sheet.cs" />
@@ -98,7 +89,6 @@
     <Compile Include="Import\Common\TextString.cs" />
     <Compile Include="Import\Common\ValueEnumCollection.cs" />
     <Compile Include="Import\Common\ValueList.cs" />
-    <Compile Include="Import\ExtensionMethods\AttackType.cs" />
     <Compile Include="Import\ExtensionMethods\Character.cs" />
     <Compile Include="Import\ExtensionMethods\Enums.cs" />
     <Compile Include="Import\ExtensionMethods\Monster.cs" />

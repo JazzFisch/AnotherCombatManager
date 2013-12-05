@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DnD4e.LibraryHelper.Character {
+namespace AnotherCM.Library.Character {
     public class SkillValue {
         public bool IsTrained { get; set; }
 

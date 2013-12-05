@@ -4,12 +4,12 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using DnD4e.LibraryHelper.Common;
-using DnD4e.LibraryHelper.Import.ExtensionMethods;
+using AnotherCM.Library.Common;
+using AnotherCM.Library.Import.ExtensionMethods;
 using Newtonsoft.Json;
-using ImportMonster = DnD4e.LibraryHelper.Import.Monster.Monster;
+using ImportMonster = AnotherCM.Library.Import.Monster.Monster;
 
-namespace DnD4e.LibraryHelper.Monster {
+namespace AnotherCM.Library.Monster {
     [JsonObject]
     [DefaultProperty("Name")]
     public class Monster : Combatant {

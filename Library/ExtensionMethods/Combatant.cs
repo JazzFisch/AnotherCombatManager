@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
-using DnD4e.LibraryHelper.Common;
+using AnotherCM.Library.Common;
 
-namespace DnD4e.LibraryHelper.ExtensionMethods {
+namespace AnotherCM.Library.ExtensionMethods {
     internal static class CombatantMethods {
         public static string ToHandle (this Combatant combatant) {
             var handle = new StringBuilder();

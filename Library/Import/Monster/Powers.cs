@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Import.Common;
+using AnotherCM.Library.Import.Common;
 
-namespace DnD4e.LibraryHelper.Import.Monster {
+namespace AnotherCM.Library.Import.Monster {
     public class Powers {
         [XmlElement("MonsterPower")]
         public List<MonsterPower> MonsterPowers { get; set; }

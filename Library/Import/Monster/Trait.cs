@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Import.Common;
+using AnotherCM.Library.Import.Common;
 
-namespace DnD4e.LibraryHelper.Import.Monster {
+namespace AnotherCM.Library.Import.Monster {
     public class MonsterTrait : PowerBase {
         [XmlElement]
         public string Details { get; set; }

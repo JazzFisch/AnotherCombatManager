@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using DnD4e.LibraryHelper.ExtensionMethods;
-using DnD4e.LibraryHelper.Import.Common;
-using DnD4e.LibraryHelper.Import.Monster;
-using ExportAttack = DnD4e.LibraryHelper.Monster.Attack;
-using ExportAttackType = DnD4e.LibraryHelper.Monster.AttackType;
-using ExportMonster = DnD4e.LibraryHelper.Monster.Monster;
-using ExportPower = DnD4e.LibraryHelper.Monster.Power;
-using ExportRegeneration = DnD4e.LibraryHelper.Monster.Regeration;
-using ExportTrait = DnD4e.LibraryHelper.Monster.Trait;
-using ImportMonster = DnD4e.LibraryHelper.Import.Monster.Monster;
+using AnotherCM.Library.ExtensionMethods;
+using AnotherCM.Library.Import.Common;
+using AnotherCM.Library.Import.Monster;
+using ExportAttack = AnotherCM.Library.Monster.Attack;
+using ExportAttackType = AnotherCM.Library.Monster.AttackType;
+using ExportMonster = AnotherCM.Library.Monster.Monster;
+using ExportPower = AnotherCM.Library.Monster.Power;
+using ExportRegeneration = AnotherCM.Library.Monster.Regeration;
+using ExportTrait = AnotherCM.Library.Monster.Trait;
+using ImportMonster = AnotherCM.Library.Import.Monster.Monster;
 
-namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
+namespace AnotherCM.Library.Import.ExtensionMethods {
     internal static class MonsterMethods {
         private static readonly CultureInfo Culture = new CultureInfo("en-US");
 
@@ -130,7 +130,7 @@ namespace DnD4e.LibraryHelper.Import.ExtensionMethods {
                 Action = monsterAttackType.Action.FixWhitespace(),
                 AfterEffects = monsterAttackType.AfterEffects.Count != 0 ? monsterAttackType.AfterEffects.Select(ae => ae.ToExportAttackType()).ToList() : null,
                 Attacks = monsterAttackType.Attacks.Count != 0 ? monsterAttackType.Attacks.Select(a => a.ToExportAttack()).ToList() : null,
-                Damage = !String.IsNullOrWhiteSpace(monsterAttackType.Damage.Expression) ? new LibraryHelper.Common.Damage() {
+                Damage = !String.IsNullOrWhiteSpace(monsterAttackType.Damage.Expression) ? new Library.Common.Damage() {
                     Bonus = monsterAttackType.Damage.Bonus,
                     Dice = monsterAttackType.Damage.Dice,
                     DieSides = monsterAttackType.Damage.DiceSides,

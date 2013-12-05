@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml.Serialization;
-using DnD4e.LibraryHelper.Import.Common;
-using DnD4e.LibraryHelper.Import.ExtensionMethods;
-using ActionTypeEnum = DnD4e.LibraryHelper.Common.ActionType;
-using PowerUsageEnum = DnD4e.LibraryHelper.Common.PowerUsage;
+using AnotherCM.Library.Import.ExtensionMethods;
+using ActionTypeEnum = AnotherCM.Library.Common.ActionType;
+using PowerUsageEnum = AnotherCM.Library.Common.PowerUsage;
 
-namespace DnD4e.LibraryHelper.Import.Monster {
+namespace AnotherCM.Library.Import.Monster {
     public class MonsterPower : PowerBase {
         private ActionTypeEnum actionType;
         private PowerUsageEnum powerUsage;

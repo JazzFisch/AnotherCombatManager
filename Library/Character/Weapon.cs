@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DnD4e.LibraryHelper.Common;
+using AnotherCM.Library.Common;
 
-namespace DnD4e.LibraryHelper.Character {
+namespace AnotherCM.Library.Character {
     public class Weapon {
         public string Name { get; set; }
 
@@ -25,10 +23,6 @@ namespace DnD4e.LibraryHelper.Character {
         public List<string> HitComponents { get; set; }
 
         public Weapon () {
-            // TODO: construct all collections
-            //this.Conditions = new List<string>();
-            //this.DamageComponents = new List<string>();
-            //this.HitComponents = new List<string>();
         }
 
         public override string ToString () {
