@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace DnD4e.CombatManager.Test.Controls {
+namespace AnotherCM.WinForms.Controls {
     public partial class SearchableObjectListView : UserControl {
         public SearchableObjectListView () {
             InitializeComponent();

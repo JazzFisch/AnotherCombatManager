@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using BrightIdeasSoftware;
-using AnotherCM.Library.Character;
 using AnotherCM.Library.Common;
 using AnotherCM.Library.Encounter;
+using BrightIdeasSoftware;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace DnD4e.CombatManager.Test.DockWindows {
+namespace AnotherCM.WinForms.DockWindows {
     // TODO: listen for flush / save events
     public partial class EncounterDetailsWindow : DockContent {
         private bool dirty = false;

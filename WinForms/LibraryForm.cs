@@ -5,14 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DnD4e.CombatManager.Test.DockWindows;
 using AnotherCM.Library.Character;
 using AnotherCM.Library.Common;
 using AnotherCM.Library.Encounter;
 using AnotherCM.Library.Monster;
+using AnotherCM.WinForms.DockWindows;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace DnD4e.CombatManager.Test {
+namespace AnotherCM.WinForms {
     // TODO: put library file name in title (add option to specify / store library file name?)
     // TODO: lock all access to Library for true thread safe Open new Library?
     public partial class LibraryForm : Form {
@@ -38,7 +38,7 @@ namespace DnD4e.CombatManager.Test {
             : this(null) {
         }
 
-        public LibraryForm (Library library) {
+        public LibraryForm (Library.Common.Library library) {
             this.Library = library;
             InitializeComponent();
 
@@ -49,7 +49,7 @@ namespace DnD4e.CombatManager.Test {
 
         #endregion
 
-        public Library Library { get; private set; }
+        public Library.Common.Library Library { get; private set; }
 
         #region Event Handlers
 
@@ -79,7 +79,7 @@ namespace DnD4e.CombatManager.Test {
             // the general idea is to get off the UI thread as soon as possible
             // while we load various parts of the library in the background
             if (this.Library == null) {
-                this.Library = await Library.OpenLibraryAsync();
+                this.Library = await AnotherCM.Library.Common.Library.OpenLibraryAsync();
             }
             this.UpdateCounts();
 
@@ -171,7 +171,7 @@ namespace DnD4e.CombatManager.Test {
             var old = this.Library;
             var path = Path.GetDirectoryName(dialog.FileName);
             var file = Path.GetFileName(dialog.FileName);
-            this.Library = await Library.OpenLibraryAsync(path, file);
+            this.Library = await AnotherCM.Library.Common.Library.OpenLibraryAsync(path, file);
             this.UpdateCounts();
             old.Flush();
         }

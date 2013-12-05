@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using AnotherCM.Library.Common;
 using Microsoft.Win32;
 
-namespace DnD4e.CombatManager.Test.Controls {
+namespace AnotherCM.WinForms.Controls {
     // TODO: add reference counted removal for render keys?
     public partial class StatblockControl : WebBrowser {
         private const string WebBrowserEmulationPath = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION";

@@ -1,4 +1,4 @@
-﻿namespace DnD4e.CombatManager.Test.DockWindows {
+﻿namespace AnotherCM.WinForms.DockWindows {
     partial class StatblockWindow {
         /// <summary>
         /// Required designer variable.
@@ -23,7 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent () {
-            this.statblockControl = new DnD4e.CombatManager.Test.Controls.StatblockControl();
+            this.statblockControl = new AnotherCM.WinForms.Controls.StatblockControl();
             this.SuspendLayout();
             // 
             // statblockControl

@@ -4,7 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace DnD4e.CombatManager.Test.DockWindows {
+namespace AnotherCM.WinForms.DockWindows {
     public partial class PropertiesWindow : DockContent {
         public PropertiesWindow () {
             InitializeComponent();

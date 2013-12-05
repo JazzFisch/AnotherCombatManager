@@ -1,4 +1,4 @@
-﻿namespace DnD4e.CombatManager.Test {
+﻿namespace AnotherCM.WinForms {
     partial class LibraryForm {
         /// <summary>
         /// Required designer variable.

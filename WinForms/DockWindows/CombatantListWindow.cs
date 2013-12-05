@@ -5,12 +5,11 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using BCCL.UI.WinForms;
-using BrightIdeasSoftware;
 using AnotherCM.Library.Common;
+using BrightIdeasSoftware;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace DnD4e.CombatManager.Test.DockWindows {
+namespace AnotherCM.WinForms.DockWindows {
     public partial class CombatantListWindow<T> : DockContent where T : Combatant {
         public event EventHandler<CombatantsSelectionChangedEventArgs<T>> SelectionChanged;
 

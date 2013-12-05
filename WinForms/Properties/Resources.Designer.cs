@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DnD4e.CombatManager.Test.Properties {
+namespace AnotherCM.WinForms.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace DnD4e.CombatManager.Test.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DnD4e.CombatManager.Test.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AnotherCM.WinForms.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -347,9 +347,6 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///var Monster = Combatant.extend({
         ///});
         ///
-        ///var Trap = Combatant.extend({
-        ///});
-        ///
         ///var Browser = {
         ///    Version: function() {
         ///        var version = 999; // we assume a sane browser
@@ -359,7 +356,10 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///        }
         ///        return version;
         ///    }
-        ///} [rest of string was truncated]&quot;;.
+        ///}
+        ///
+        ///var StatblockHelpers = {
+        ///    toCo [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string statblockHelpers_js {
             get {
@@ -384,7 +384,7 @@ namespace DnD4e.CombatManager.Test.Properties {
         ///  // Save the previous value of the `_` variable.
         ///  var previousUnderscore = root._;
         ///
-        ///  // Establish the object that gets returned to b [rest of string was truncated]&quot;;.
+        ///  // Establish the object that ge [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string underscore_js {
             get {

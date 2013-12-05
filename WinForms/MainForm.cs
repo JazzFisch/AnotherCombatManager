@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DnD4e.CombatManager.Test {
+namespace AnotherCM.WinForms {
     public partial class MainForm : Form {
         public MainForm () {
             InitializeComponent();

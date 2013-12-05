@@ -7,8 +7,8 @@
     <ProjectGuid>{9B80D980-C7A3-4DA2-9BE8-2C94297FA551}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DnD4e.CombatManager.Test</RootNamespace>
-    <AssemblyName>DnD4e.CombatManager.Test</AssemblyName>
+    <RootNamespace>AnotherCM.WinForms</RootNamespace>
+    <AssemblyName>AnotherCM.WinForms</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -62,7 +62,8 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>DnD4e.CombatManager.Test.Program</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NBug">

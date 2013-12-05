@@ -1,4 +1,4 @@
-﻿namespace DnD4e.CombatManager.Test.Controls {
+﻿namespace AnotherCM.WinForms.Controls {
     partial class SearchableObjectListView {
         /// <summary> 
         /// Required designer variable.

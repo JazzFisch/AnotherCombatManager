@@ -1,4 +1,4 @@
-﻿namespace DnD4e.CombatManager.Test.DockWindows {
+﻿namespace AnotherCM.WinForms.DockWindows {
     partial class EncounterDetailsWindow {
         /// <summary>
         /// Required designer variable.
