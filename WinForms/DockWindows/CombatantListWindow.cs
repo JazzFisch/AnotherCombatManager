@@ -14,11 +14,13 @@ namespace DnD4e.CombatManager.Test.DockWindows {
     public partial class CombatantListWindow<T> : DockContent where T : Combatant {
         public event EventHandler<CombatantsSelectionChangedEventArgs<T>> SelectionChanged;
 
+        private TypedObjectListView<T> typedView;
         private ObservableKeyedCollection<string, T> combatants;
         //private IRenderer defaultRenderer;
 
         public CombatantListWindow () {
             InitializeComponent();
+            this.typedView = new TypedObjectListView<T>(this.objectListView);
             //this.defaultRenderer = this.objectListView.DefaultRenderer;
 
             // setup text search throttle
@@ -51,12 +53,12 @@ namespace DnD4e.CombatManager.Test.DockWindows {
 
         protected virtual void OnSelectionChanged (CombatantsSelectionChangedEventArgs<T> e) {
             if (this.SelectionChanged != null) {
-                this.SelectionChanged(this, e);
+                this.SelectionChanged(this, e); 
             }
         }
 
         private void objectListView_SelectionChanged (object sender, EventArgs e) {
-            var selected = this.objectListView.SelectedObjects.OfType<T>();
+            var selected = this.typedView.SelectedObjects;
             if (selected.Any()) {
                 this.OnSelectionChanged(new CombatantsSelectionChangedEventArgs<T>(selected));
             }

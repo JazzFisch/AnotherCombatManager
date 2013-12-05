@@ -208,12 +208,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LibraryHelper\LibraryHelper.csproj">
-      <Project>{3f18ceb6-e874-468b-9ee6-e0edad685b2d}</Project>
-      <Name>LibraryHelper</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="HtmlContent\bindingHandlers.js" />
     <Resource Include="HtmlContent\jquery-1.10.2.js" />
     <Resource Include="HtmlContent\knockout-3.0.0.debug.js" />
@@ -253,6 +247,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="HtmlContent\underscore.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Library\Library.csproj">
+      <Project>{3f18ceb6-e874-468b-9ee6-e0edad685b2d}</Project>
+      <Name>Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

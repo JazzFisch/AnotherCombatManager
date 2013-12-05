@@ -56,6 +56,7 @@
             this.objectListView.ShowItemCountOnGroups = true;
             this.objectListView.Size = new System.Drawing.Size(452, 460);
             this.objectListView.TabIndex = 1;
+            this.objectListView.TintSortColumn = true;
             this.objectListView.UseCompatibleStateImageBehavior = false;
             this.objectListView.UseExplorerTheme = true;
             this.objectListView.UseFilterIndicator = true;

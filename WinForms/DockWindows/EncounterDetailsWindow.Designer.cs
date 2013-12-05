@@ -49,6 +49,7 @@
             this.objectListView.Name = "objectListView";
             this.objectListView.Size = new System.Drawing.Size(706, 546);
             this.objectListView.TabIndex = 0;
+            this.objectListView.TintSortColumn = true;
             this.objectListView.UseCompatibleStateImageBehavior = false;
             this.objectListView.View = System.Windows.Forms.View.Details;
             this.objectListView.ModelCanDrop += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.objectListView_ModelCanDrop);

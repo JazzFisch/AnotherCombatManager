@@ -49,6 +49,7 @@
             this.objectListView.Name = "objectListView";
             this.objectListView.Size = new System.Drawing.Size(386, 456);
             this.objectListView.TabIndex = 1;
+            this.objectListView.TintSortColumn = true;
             this.objectListView.UseCompatibleStateImageBehavior = false;
             this.objectListView.View = System.Windows.Forms.View.Details;
             // 

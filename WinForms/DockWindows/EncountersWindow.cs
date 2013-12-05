@@ -15,10 +15,12 @@ namespace DnD4e.CombatManager.Test.DockWindows {
     public partial class EncountersWindow : DockContent {
         public event EventHandler<EncountersSelectionChangedEventArgs> SelectionChanged;
 
+        private TypedObjectListView<Encounter> typedView;
         private ObservableCollection<Encounter> encounters;
 
         public EncountersWindow () {
             InitializeComponent();
+            this.typedView = new TypedObjectListView<Encounter>(this.objectListView);
 
             // setup text search throttle
             var textChanged = Observable.FromEventPattern(this.searchTextBox, "TextChanged").Select(x => ((TextBox)x.Sender).Text);
@@ -55,7 +57,7 @@ namespace DnD4e.CombatManager.Test.DockWindows {
         }
 
         private void objectListView_SelectionChanged (object sender, EventArgs e) {
-            var selected = this.objectListView.SelectedObjects.OfType<Encounter>();
+            var selected = this.typedView.SelectedObjects;
             if (selected.Any()) {
                 this.OnSelectionChanged(new EncountersSelectionChangedEventArgs(selected));
             }
