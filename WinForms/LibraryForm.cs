@@ -25,7 +25,7 @@ namespace AnotherCM.WinForms {
         private CombatantListWindow<Monster> monstersWindow = new CombatantListWindow<Monster>() { Text = "Monsters", HideOnClose = true };
         private PropertiesWindow propertiesWindow = new PropertiesWindow() { HideOnClose = true };
         private EncounterDetailsWindow encounterDetailsWindow = new EncounterDetailsWindow() { HideOnClose = true };
-        private StatblockWindow statblockWindow = new StatblockWindow() { HideOnClose = true };
+        private StatBlockWindow statblockWindow = new StatBlockWindow() { HideOnClose = true };
         private IEnumerable<Combatant> selectedCombatants;
         private IEnumerable<Encounter> selectedEncounters;
         private bool saveLayout = true;
@@ -39,10 +39,12 @@ namespace AnotherCM.WinForms {
         }
 
         public LibraryForm (Library.Common.Library library) {
+            AnotherCM.WinForms.Controls.StatBlockControl.SetBrowserRenderingRegistryKeys(addKeys: true);
             this.Library = library;
             InitializeComponent();
 
             this.charactersWindow.SelectionChanged += charactersWindow_SelectionChanged;
+            this.encounterDetailsWindow.SelectionChanged += encounterDetailsWindow_SelectionChanged;
             this.encountersWindow.SelectionChanged += encountersWindow_SelectionChanged;
             this.monstersWindow.SelectionChanged += monstersWindow_SelectionChanged;
         }
@@ -63,7 +65,7 @@ namespace AnotherCM.WinForms {
                     else if (type == typeof(EncountersWindow).ToString()) { return this.encountersWindow; }
                     else if (type == typeof(EncounterDetailsWindow).ToString()) { return this.encounterDetailsWindow; }
                     else if (type == typeof(PropertiesWindow).ToString()) { return this.propertiesWindow; }
-                    else if (type == typeof(StatblockWindow).ToString()) { return this.statblockWindow; }
+                    else if (type == typeof(StatBlockWindow).ToString()) { return this.statblockWindow; }
                     else { System.Diagnostics.Debugger.Break(); return null; }
                 });
             }
@@ -88,6 +90,7 @@ namespace AnotherCM.WinForms {
         }
 
         private void LibraryForm_FormClosing (object sender, FormClosingEventArgs e) {
+            AnotherCM.WinForms.Controls.StatBlockControl.SetBrowserRenderingRegistryKeys(addKeys: false);
             if (this.saveLayout) {
                 this.dockPanel.SaveAsXml(DockPanelLayoutPath);
             }
@@ -117,6 +120,13 @@ namespace AnotherCM.WinForms {
                 this.statblockWindow.Combatant = e.Combatants.First();
             }
             this.selectedCombatants = e.Combatants;
+        }
+
+        void encounterDetailsWindow_SelectionChanged (object sender, CombatantsSelectionChangedEventArgs<Combatant> e) {
+            if (e.Combatants.Count() == 1) {
+                this.propertiesWindow.SelectedObject = e.Combatants.First();
+                this.statblockWindow.Combatant = e.Combatants.First();
+            }
         }
 
         private void encounterDetailsWindowToolStripMenuItem_Click (object sender, EventArgs e) {
@@ -153,6 +163,12 @@ namespace AnotherCM.WinForms {
 
         private void monstersWindowToolStripMenuItem_Click (object sender, EventArgs e) {
             this.ActivateDockWindow(this.monstersWindow);
+        }
+
+        private void newEncounterToolStripMenuItem_Click (object sender, EventArgs e) {
+            var count = this.Library.Encounters.Count;
+            var encounter = new Encounter("New Campaign", "New Encounter" + count.ToString());
+            this.Library.Encounters.Add(encounter);
         }
 
         private async void openToolStripMenuItem_Click (object sender, EventArgs e) {

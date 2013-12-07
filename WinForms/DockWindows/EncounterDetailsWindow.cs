@@ -10,17 +10,38 @@ using WeifenLuo.WinFormsUI.Docking;
 namespace AnotherCM.WinForms.DockWindows {
     // TODO: listen for flush / save events
     public partial class EncounterDetailsWindow : DockContent {
+        public event EventHandler<CombatantsSelectionChangedEventArgs<Combatant>> SelectionChanged;
+
         private bool dirty = false;
         private Encounter encounter;
+        private Notify.Tracker tracker;
 
         public EncounterDetailsWindow () {
             InitializeComponent();
+            this.objectListView.EmptyListMsg = "No encounter selected.";
+
+            this.addColumn.AspectGetter = (row) => {
+                var wrapper = row as CombatantWrapper;
+                if (wrapper.RenderType == RenderType.Character) {
+                    return String.Empty;
+                }
+                else {
+                    return "+";
+                }
+            };
+            this.removeColumn.AspectGetter = (row) => { return "-"; };
         }
 
         public Encounter Encounter {
             get { return this.encounter; }
             set {
-                if (this.dirty && !this.IsHidden) {
+                if (value == null) {
+                    throw new ArgumentNullException("value");
+                }
+                else if (Object.ReferenceEquals(this.encounter, value)) {
+                    return;
+                }
+                else if (this.dirty && !this.IsHidden) {
                     var result = MessageBox.Show(
                         "You have unsaved changes.\nDo you wish to discard your changes?",
                         "Discard warning",
@@ -31,15 +52,47 @@ namespace AnotherCM.WinForms.DockWindows {
                         return;
                     }
                 }
+
+                if (this.tracker != null) {
+                    this.tracker.Dispose();
+                }
+
+                this.objectListView.EmptyListMsg = String.Empty;
                 this.dirty = false;
                 this.encounter = value;
-                this.objectListView.SetObjects(this.encounter.Combatants);
-                this.Text = this.encounter.Name;
+                this.Text = this.Encounter.Name;
+                this.objectListView.SetObjects(this.Encounter.Combatants);
+                this.tracker = new Notify.Tracker();
+                this.tracker.Track(this.encounter);
+                this.tracker.Changed += tracker_Changed;
             }
         }
 
+        protected virtual void OnSelectionChanged (CombatantsSelectionChangedEventArgs<Combatant> e) {
+            var changed = this.SelectionChanged;
+            if (changed != null) {
+                changed(this, e);
+            }
+        }
+
+        private void objectListView_HyperlinkClicked (object sender, HyperlinkClickedEventArgs e) {
+            var row = e.Model as CombatantWrapper;
+            switch (e.Column.Text) {
+                case "+":
+                    this.Encounter.AddCombatant(row.Combatant);
+                    break;
+
+                case "-":
+                    this.Encounter.RemoveCombatant(row.Combatant);
+                    break;
+            }
+
+            // finally, don't attempt to browse to the URL
+            e.Handled = true;
+        }
+
         private void objectListView_ModelCanDrop (object sender, ModelDropEventArgs e) {
-            if (!e.SourceModels.OfType<Combatant>().Any()) {
+            if ((this.Encounter == null) || !e.SourceModels.OfType<Combatant>().Any()) {
                 e.Effect = DragDropEffects.None;
                 return;
             }
@@ -53,23 +106,24 @@ namespace AnotherCM.WinForms.DockWindows {
                 return;
             }
 
-            this.dirty = true;
-            this.Text = String.Concat("* ", this.Text);
+            foreach (var combatant in copy) {
+                this.Encounter.AddCombatant(combatant);
+            }
+        }
 
-            //var handles = this.encounter.Handles;
-            //var combatants = this.encounter.Combatants;
-            //foreach (var combatant in copy) {
-            //    int count;
-            //    if (!handles.TryGetValue(combatant.Handle, out count)) {
-            //        combatants.Add(combatant.Handle, combatant);
-            //    }
-            //    else if (combatant is Character) {
-            //        continue; // only one copy of a character allowed
-            //    }
-            //    else {
-            //        this.encounter.IncrementCombatant(combatant.Handle);
-            //    }
-            //}
+        private void objectListView_SelectionChanged (object sender, EventArgs e) {
+            var selected = this.objectListView.SelectedObjects.OfType<CombatantWrapper>().Select(w => w.Combatant);
+            if (selected.Any()) {
+                this.OnSelectionChanged(new CombatantsSelectionChangedEventArgs<Combatant>(selected));
+            }
+        }
+
+        void tracker_Changed (Notify.Tracker tracker) {
+            if (!this.dirty) {
+                this.dirty = true;
+                this.Text = String.Concat("* ", this.Text);
+            }
+            this.objectListView.SetObjects(this.Encounter.Combatants);
         }
     }
 }

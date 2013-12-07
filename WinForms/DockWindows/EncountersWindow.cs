@@ -14,6 +14,7 @@ namespace AnotherCM.WinForms.DockWindows {
     public partial class EncountersWindow : DockContent {
         public event EventHandler<EncountersSelectionChangedEventArgs> SelectionChanged;
 
+        private Notify.Tracker tracker;
         private TypedObjectListView<Encounter> typedView;
         private ObservableCollection<Encounter> encounters;
 
@@ -36,17 +37,15 @@ namespace AnotherCM.WinForms.DockWindows {
             }
             set {
                 this.objectListView.EmptyListMsg = null;
-                if (this.encounters != null) {
-                    this.encounters.CollectionChanged -= encounters_CollectionChanged;
+                if (this.tracker != null) {
+                    this.tracker.Dispose();
                 }
                 this.encounters = value;
                 this.objectListView.SetObjects(this.encounters);
-                this.encounters.CollectionChanged += encounters_CollectionChanged;
+                this.tracker = new Notify.Tracker();
+                this.tracker.Track(this.encounters);
+                this.tracker.Changed += tracker_Changed;
             }
-        }
-
-        private void encounters_CollectionChanged (object sender, NotifyCollectionChangedEventArgs e) {
-            this.objectListView.SetObjects(this.encounters);
         }
 
         protected virtual void OnSelectionChanged (EncountersSelectionChangedEventArgs e) {
@@ -64,6 +63,10 @@ namespace AnotherCM.WinForms.DockWindows {
 
         private void searchTextBox_Cleared (object sender, EventArgs e) {
             this.objectListView.AdditionalFilter = null;
+        }
+
+        void tracker_Changed (Notify.Tracker tracker) {
+            this.objectListView.SetObjects(this.encounters);
         }
 
         private void Search (string text) {

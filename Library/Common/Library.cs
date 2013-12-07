@@ -156,9 +156,10 @@ namespace AnotherCM.Library.Common {
                     // ZipArchive methods are not thread safe, so serializing access
                     var characterConverter = new ObservableKeyedCollectionConverter<string, Character.Character>(c => c.Handle);
                     var monsterConverter = new ObservableKeyedCollectionConverter<string, Monster.Monster>(m => m.Handle);
+                    var wrapperConverter = new ObservableKeyedCollectionConverter<string, Encounter.CombatantWrapper>(w => w.Handle);
                     var characters = this.ReadEntry<ObservableKeyedCollection<string, Character.Character>>(archive, CharactersKey, characterConverter);
                     var monsters = this.ReadEntry<ObservableKeyedCollection<string, Monster.Monster>>(archive, MonstersKey, monsterConverter);
-                    var encounters = this.ReadEntry<ObservableCollection<Encounter.Encounter>>(archive, EncountersKey);
+                    var encounters = this.ReadEntry<ObservableCollection<Encounter.Encounter>>(archive, EncountersKey, wrapperConverter);
 
                     if (characters != null) {
                         this.Characters = characters;

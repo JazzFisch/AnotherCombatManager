@@ -1,41 +1,77 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using AnotherCM.Library.Common;
 using Newtonsoft.Json;
 
 namespace AnotherCM.Library.Encounter {
     [DefaultProperty("Name")]
-    public class Encounter {
+    public class Encounter : INotifyPropertyChanged {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private ObservableKeyedCollection<string, CombatantWrapper> combatants;
+        private string adventure;
+        private string name;
 
         public Encounter () {
-            this.combatants = new ObservableKeyedCollection<string, CombatantWrapper>(c => c.Handle);
-            //this.Combatants.CollectionChanged += this.Combatants_CollectionChanged;
+            this.Combatants = new ObservableKeyedCollection<string, CombatantWrapper>(c => c.Handle);
+        }
+
+        public Encounter (string adventure, string name) : this() {
+            this.Adventure = adventure;
+            this.Name = name;
         }
 
         [JsonConstructor]
-        public Encounter (string campaign, string name, ObservableKeyedCollection<string, CombatantWrapper> combatants) {
+        public Encounter (string adventure, string name, ObservableKeyedCollection<string, CombatantWrapper> combatants) {
             // mostly here as a helper for JSON.Net
-            this.Campaign = campaign;
+            this.Adventure = adventure;
             this.Name = name;
-            this.Combatants = combatants;
+            if (combatants == null) {
+                this.Combatants = new ObservableKeyedCollection<string, CombatantWrapper>(c => c.Handle);
+            }
+            else {
+                this.Combatants = combatants;
+            }
         }
 
-        public string Campaign { get; set; }
+        public string Adventure {
+            get { return this.adventure; }
+            set {
+                if (this.adventure == value) {
+                    return;
+                }
+                this.adventure = value;
+                this.OnPropertyChanged();
+            }
+        }
 
-        public string Name { get; set; }
+        public string Name {
+            get { return this.name; }
+            set {
+                if (this.name == value) {
+                    return;
+                }
+                this.name = value;
+                this.OnPropertyChanged();
+            }
+        }
 
-        [JsonIgnore]
         public ObservableKeyedCollection<string, CombatantWrapper> Combatants {
             get { return this.combatants; }
             internal set {
-                //if (this.combatants != null) {
-                //    this.combatants.CollectionChanged -= this.Combatants_CollectionChanged;
-                //}
+                if (Object.ReferenceEquals(this.combatants, value)) {
+                    return;
+                }
+                else if (this.combatants != null) {
+                    this.combatants.CollectionChanged -= this.Combatants_CollectionChanged;
+                }
                 this.combatants = value;
-                //this.combatants.CollectionChanged += this.Combatants_CollectionChanged;
+                this.combatants.CollectionChanged += this.Combatants_CollectionChanged;
+                this.OnPropertyChanged();
             }
         }
 
@@ -70,7 +106,12 @@ namespace AnotherCM.Library.Encounter {
         [JsonIgnore]
         public int AverageLevel {
             get {
-                return (int)this.Monsters.Average(m => m.Level);
+                if (this.Monsters.Any()) {
+                    return (int)this.Monsters.Average(m => m.Level);
+                }
+                else {
+                    return 0;
+                }
             }
         }
 
@@ -89,8 +130,59 @@ namespace AnotherCM.Library.Encounter {
         [JsonIgnore]
         public int TotalXP {
             get {
-                return (int)this.Monsters.Sum(m => m.Experience);
+                if (this.Monsters.Any()) {
+                    return (int)this.Monsters.Sum(m => m.Experience);
+                }
+                else {
+                    return 0;
+                }
             }
+        }
+
+        public void AddCombatant (Combatant combatant) {
+            if (combatant == null) {
+                throw new ArgumentNullException("combatant");
+            }
+
+            CombatantWrapper wrapper;
+            if (this.Combatants.TryGetValue(combatant.Handle, out wrapper)) {
+                if (wrapper.RenderType != RenderType.Character) {
+                    wrapper.Count++;
+                }
+            }
+            else {
+                this.Combatants.Add(new CombatantWrapper(combatant));
+            }
+        }
+
+        public void RemoveCombatant (Combatant combatant) {
+            if (combatant == null) {
+                throw new ArgumentNullException("combatant");
+            }
+
+            CombatantWrapper wrapper;
+            if (this.Combatants.TryGetValue(combatant.Handle, out wrapper) && (wrapper.RenderType != RenderType.Character)) {
+                if (wrapper.Count <= 1) {
+                    this.Combatants.Remove(combatant.Handle);
+                }
+                else {
+                    wrapper.Count--;
+                }
+            }
+            else if (wrapper.RenderType == RenderType.Character) {
+                this.Combatants.Remove(combatant.Handle);
+            }
+        }
+
+        protected virtual void OnPropertyChanged ([CallerMemberName]string propertyName = null) {
+            var propertyChanged = this.PropertyChanged;
+            if (propertyChanged != null) {
+                propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void Combatants_CollectionChanged (object sender, NotifyCollectionChangedEventArgs e) {
+            this.OnPropertyChanged("Combatants");
         }
 
         private int CalculateEncounterLevel (int partySize) {

@@ -36,6 +36,7 @@
             this.objectListView.AllColumns.Add(this.nameColumn);
             this.objectListView.AllColumns.Add(this.levelColumn);
             this.objectListView.AllColumns.Add(this.roleColumn);
+            this.objectListView.AllowColumnReorder = true;
             this.objectListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -56,7 +57,6 @@
             this.objectListView.ShowItemCountOnGroups = true;
             this.objectListView.Size = new System.Drawing.Size(452, 460);
             this.objectListView.TabIndex = 1;
-            this.objectListView.TintSortColumn = true;
             this.objectListView.UseCompatibleStateImageBehavior = false;
             this.objectListView.UseExplorerTheme = true;
             this.objectListView.UseFilterIndicator = true;

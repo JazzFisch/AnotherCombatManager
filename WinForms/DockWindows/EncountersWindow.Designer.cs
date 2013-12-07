@@ -25,7 +25,7 @@
         private void InitializeComponent () {
             this.objectListView = new BrightIdeasSoftware.ObjectListView();
             this.nameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.campaignColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.adventureColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.charactersColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.monstersColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.averageLevelColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -37,33 +37,34 @@
             // objectListView
             // 
             this.objectListView.AllColumns.Add(this.nameColumn);
-            this.objectListView.AllColumns.Add(this.campaignColumn);
+            this.objectListView.AllColumns.Add(this.adventureColumn);
             this.objectListView.AllColumns.Add(this.charactersColumn);
             this.objectListView.AllColumns.Add(this.monstersColumn);
             this.objectListView.AllColumns.Add(this.averageLevelColumn);
             this.objectListView.AllColumns.Add(this.totalXPColumn);
+            this.objectListView.AllowColumnReorder = true;
             this.objectListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.objectListView.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
             this.objectListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.nameColumn,
-            this.campaignColumn,
+            this.adventureColumn,
             this.charactersColumn,
             this.monstersColumn,
-            this.averageLevelColumn,
-            this.totalXPColumn});
+            this.averageLevelColumn});
             this.objectListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.objectListView.EmptyListMsg = "Loading the awesome...";
             this.objectListView.FullRowSelect = true;
             this.objectListView.HeaderUsesThemes = false;
             this.objectListView.Location = new System.Drawing.Point(1, 25);
             this.objectListView.Name = "objectListView";
+            this.objectListView.OwnerDraw = true;
             this.objectListView.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
             this.objectListView.ShowCommandMenuOnRightClick = true;
             this.objectListView.ShowItemCountOnGroups = true;
             this.objectListView.Size = new System.Drawing.Size(567, 472);
             this.objectListView.TabIndex = 1;
-            this.objectListView.TintSortColumn = true;
             this.objectListView.UseCompatibleStateImageBehavior = false;
             this.objectListView.UseExplorerTheme = true;
             this.objectListView.UseFilterIndicator = true;
@@ -80,19 +81,17 @@
             this.nameColumn.CellPadding = null;
             this.nameColumn.FillsFreeSpace = true;
             this.nameColumn.Hideable = false;
-            this.nameColumn.IsEditable = false;
             this.nameColumn.Text = "Name";
             this.nameColumn.UseInitialLetterForGroup = true;
             this.nameColumn.Width = 96;
             // 
-            // campaignColumn
+            // adventureColumn
             // 
-            this.campaignColumn.AspectName = "Campaign";
-            this.campaignColumn.CellPadding = null;
-            this.campaignColumn.FillsFreeSpace = true;
-            this.campaignColumn.IsEditable = false;
-            this.campaignColumn.Text = "Campaign";
-            this.campaignColumn.Width = 96;
+            this.adventureColumn.AspectName = "Adventure";
+            this.adventureColumn.CellPadding = null;
+            this.adventureColumn.FillsFreeSpace = true;
+            this.adventureColumn.Text = "Adventure";
+            this.adventureColumn.Width = 96;
             // 
             // charactersColumn
             // 
@@ -119,7 +118,9 @@
             // 
             this.totalXPColumn.AspectName = "TotalXP";
             this.totalXPColumn.CellPadding = null;
+            this.totalXPColumn.DisplayIndex = 5;
             this.totalXPColumn.IsEditable = false;
+            this.totalXPColumn.IsVisible = false;
             this.totalXPColumn.Text = "Total XP";
             // 
             // searchTextBox
@@ -155,7 +156,7 @@
 
         private BrightIdeasSoftware.ObjectListView objectListView;
         private BrightIdeasSoftware.OLVColumn nameColumn;
-        private BrightIdeasSoftware.OLVColumn campaignColumn;
+        private BrightIdeasSoftware.OLVColumn adventureColumn;
         private BrightIdeasSoftware.OLVColumn charactersColumn;
         private BrightIdeasSoftware.OLVColumn monstersColumn;
         private BrightIdeasSoftware.OLVColumn totalXPColumn;

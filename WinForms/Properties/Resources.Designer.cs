@@ -116,32 +116,6 @@ namespace AnotherCM.WinForms.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /*!
-        /// * jQuery JavaScript Library v1.10.2
-        /// * http://jquery.com/
-        /// *
-        /// * Includes Sizzle.js
-        /// * http://sizzlejs.com/
-        /// *
-        /// * Copyright 2005, 2013 jQuery Foundation, Inc. and other contributors
-        /// * Released under the MIT license
-        /// * http://jquery.org/license
-        /// *
-        /// * Date: 2013-07-03T13:48Z
-        /// */
-        ///(function( window, undefined ) {
-        ///
-        ///// Can&apos;t do this because several apps including ASP.NET trace
-        ///// the stack via arguments.caller.callee and Firefox dies if
-        ///// you try to trace through &quot;use strict&quot; call chains. ( [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string jquery_1_10_2_js {
-            get {
-                return ResourceManager.GetString("jquery_1_10_2_js", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to // Knockout JavaScript library v3.0.0
         ///// (c) Steven Sanderson - http://knockoutjs.com/
         ///// License: MIT (http://www.opensource.org/licenses/mit-license.php)

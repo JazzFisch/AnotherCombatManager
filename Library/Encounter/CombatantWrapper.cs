@@ -1,9 +1,14 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using AnotherCM.Library.Common;
 using Newtonsoft.Json;
 
 namespace AnotherCM.Library.Encounter {
-    public class CombatantWrapper {
+    public class CombatantWrapper : INotifyPropertyChanged {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private int count;
         private string handle;  // only use for deserialization
 
         public CombatantWrapper () { }
@@ -13,10 +18,24 @@ namespace AnotherCM.Library.Encounter {
             this.handle = handle;
         }
 
+        public CombatantWrapper (Combatant combatant) {
+            this.Combatant = combatant;
+            this.Count = 1;
+        }
+
         [JsonIgnore]
         public Combatant Combatant { get; internal set; }
 
-        public int Count { get; set; }
+        public int Count {
+            get { return this.count; }
+            set {
+                if (this.count == value) {
+                    return;
+                }
+                this.count = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         public string Handle { 
             get {
@@ -37,5 +56,12 @@ namespace AnotherCM.Library.Encounter {
 
         [JsonIgnore]
         public RenderType RenderType { get { return this.Combatant.RenderType; } }
+
+        protected virtual void OnPropertyChanged ([CallerMemberName]string propertyName = null) {
+            var propertyChanged = this.PropertyChanged;
+            if (propertyChanged != null) {
+                propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }

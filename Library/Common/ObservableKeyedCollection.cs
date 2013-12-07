@@ -97,6 +97,10 @@ namespace AnotherCM.Library.Common {
         }
 
         public bool TryGetValue (TKey key, out TItem item) {
+            if (base.Dictionary == null || this.Count == 0) {
+                item = default(TItem);
+                return false;
+            }
             return base.Dictionary.TryGetValue(key, out item);
         }
     }

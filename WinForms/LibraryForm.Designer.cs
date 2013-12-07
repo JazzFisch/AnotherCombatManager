@@ -242,25 +242,26 @@
             this.newToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripMenuItem.Image")));
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "&New";
             // 
             // newCharacterToolStripMenuItem
             // 
             this.newCharacterToolStripMenuItem.Name = "newCharacterToolStripMenuItem";
-            this.newCharacterToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.newCharacterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newCharacterToolStripMenuItem.Text = "&Character";
             // 
             // newEncounterToolStripMenuItem
             // 
             this.newEncounterToolStripMenuItem.Name = "newEncounterToolStripMenuItem";
-            this.newEncounterToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.newEncounterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newEncounterToolStripMenuItem.Text = "&Encounter";
+            this.newEncounterToolStripMenuItem.Click += new System.EventHandler(this.newEncounterToolStripMenuItem_Click);
             // 
             // newMonsterToolStripMenuItem
             // 
             this.newMonsterToolStripMenuItem.Name = "newMonsterToolStripMenuItem";
-            this.newMonsterToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.newMonsterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newMonsterToolStripMenuItem.Text = "&Monster";
             // 
             // editToolStripMenuItem

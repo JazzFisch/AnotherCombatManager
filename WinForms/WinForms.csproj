@@ -69,6 +69,9 @@
     <Reference Include="NBug">
       <HintPath>..\packages\NBug.1.2.2\lib\net40-client\NBug.dll</HintPath>
     </Reference>
+    <Reference Include="Notify">
+      <HintPath>..\packages\Notify.1.0.2\lib\net40\Notify.dll</HintPath>
+    </Reference>
     <Reference Include="ObjectListView">
       <HintPath>..\packages\Unofficial.ObjectListView.2.6.0\lib\net20\ObjectListView.dll</HintPath>
     </Reference>
@@ -103,6 +106,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ButtonRenderer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\SearchableObjectListView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -112,7 +118,7 @@
     <Compile Include="Controls\SearchTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\StatblockControl.cs">
+    <Compile Include="Controls\StatBlockControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DockWindows\CombatantListWindow.cs">
@@ -133,17 +139,23 @@
     <Compile Include="DockWindows\EncountersWindow.Designer.cs">
       <DependentUpon>EncountersWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="DockWindows\InitiativeWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockWindows\InitiativeWindow.Designer.cs">
+      <DependentUpon>InitiativeWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="DockWindows\PropertiesWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DockWindows\PropertiesWindow.Designer.cs">
       <DependentUpon>PropertiesWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="DockWindows\StatblockWindow.cs">
+    <Compile Include="DockWindows\StatBlockWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DockWindows\StatblockWindow.Designer.cs">
-      <DependentUpon>StatblockWindow.cs</DependentUpon>
+    <Compile Include="DockWindows\StatBlockWindow.Designer.cs">
+      <DependentUpon>StatBlockWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="LibraryForm.cs">
       <SubType>Form</SubType>
@@ -164,6 +176,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\CombatParticipant.cs" />
     <EmbeddedResource Include="Controls\SearchableObjectListView.resx">
       <DependentUpon>SearchableObjectListView.cs</DependentUpon>
     </EmbeddedResource>
@@ -176,11 +189,14 @@
     <EmbeddedResource Include="DockWindows\EncountersWindow.resx">
       <DependentUpon>EncountersWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DockWindows\InitiativeWindow.resx">
+      <DependentUpon>InitiativeWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DockWindows\PropertiesWindow.resx">
       <DependentUpon>PropertiesWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DockWindows\StatblockWindow.resx">
-      <DependentUpon>StatblockWindow.cs</DependentUpon>
+    <EmbeddedResource Include="DockWindows\StatBlockWindow.resx">
+      <DependentUpon>StatBlockWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LibraryForm.resx">
       <DependentUpon>LibraryForm.cs</DependentUpon>
@@ -210,7 +226,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="HtmlContent\bindingHandlers.js" />
-    <Resource Include="HtmlContent\jquery-1.10.2.js" />
+    <None Include="HtmlContent\jquery-1.10.2.js" />
     <Resource Include="HtmlContent\knockout-3.0.0.debug.js" />
     <Resource Include="HtmlContent\knockout-StringInterpolatingBindingProvider.js" />
     <Resource Include="HtmlContent\ko.ninja.js" />
@@ -247,7 +263,7 @@
     <Resource Include="HtmlContent\characterStatblock.js" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="HtmlContent\underscore.js" />
+    <Resource Include="HtmlContent\underscore.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Library\Library.csproj">
@@ -255,6 +271,7 @@
       <Name>Library</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

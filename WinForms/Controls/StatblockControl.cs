@@ -7,13 +7,12 @@ using Microsoft.Win32;
 
 namespace AnotherCM.WinForms.Controls {
     // TODO: add reference counted removal for render keys?
-    public partial class StatblockControl : WebBrowser {
+    public partial class StatBlockControl : WebBrowser {
         private const string WebBrowserEmulationPath = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION";
         private const string DefaultRenderMethod = "renderStatBlock";
         private Renderable selectedObject;
 
-        public StatblockControl () {
-            this.SetBrowserRenderingRegistryKeys(addKeys: true);
+        public StatBlockControl () {
             this.RenderMethod = DefaultRenderMethod;
         }
 
@@ -85,7 +84,26 @@ namespace AnotherCM.WinForms.Controls {
             }
         }
 
-        private void SetBrowserRenderingRegistryKeys (bool addKeys) {
+        private void StopListeningAndAddCommonHtmlElements (WebBrowserDocumentCompletedEventHandler completedHandler) {
+            // ordering of the following is IMPORTANT
+            // stop listening
+            this.AllowNavigation = false;
+            this.DocumentCompleted -= completedHandler;
+
+            // load our css in
+            this.AddStyleSheet(Properties.Resources.statblock_css);
+
+            // load our javascript in
+            this.AddScriptElement(Properties.Resources.modernizr_2_6_2_js);
+            this.AddScriptElement(Properties.Resources.underscore_js);
+            this.AddScriptElement(Properties.Resources.knockout_3_0_0_debug_js);
+            this.AddScriptElement(Properties.Resources.knockout_StringInterpolatingBindingProvider_js);
+            this.AddScriptElement(Properties.Resources.ko_ninja_js);
+            this.AddScriptElement(Properties.Resources.statblockHelpers_js);
+            this.AddScriptElement(Properties.Resources.bindingHandlers_js);
+        }
+
+        public static void SetBrowserRenderingRegistryKeys (bool addKeys) {
             var exeName = Path.GetFileName(Assembly.GetEntryAssembly().Location);
             var key = Registry.CurrentUser.OpenSubKey(WebBrowserEmulationPath, true);
 
@@ -112,25 +130,6 @@ namespace AnotherCM.WinForms.Controls {
                 key.DeleteValue(exeName);
             }
 #endif
-        }
-
-        private void StopListeningAndAddCommonHtmlElements (WebBrowserDocumentCompletedEventHandler completedHandler) {
-            // ordering of the following is IMPORTANT
-            // stop listening
-            this.AllowNavigation = false;
-            this.DocumentCompleted -= completedHandler;
-
-            // load our css in
-            this.AddStyleSheet(Properties.Resources.statblock_css);
-
-            // load our javascript in
-            this.AddScriptElement(Properties.Resources.modernizr_2_6_2_js);
-            this.AddScriptElement(Properties.Resources.underscore_js);
-            this.AddScriptElement(Properties.Resources.knockout_3_0_0_debug_js);
-            this.AddScriptElement(Properties.Resources.knockout_StringInterpolatingBindingProvider_js);
-            this.AddScriptElement(Properties.Resources.ko_ninja_js);
-            this.AddScriptElement(Properties.Resources.statblockHelpers_js);
-            this.AddScriptElement(Properties.Resources.bindingHandlers_js);
         }
     }
 

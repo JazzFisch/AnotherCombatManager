@@ -51,8 +51,9 @@ namespace AnotherCM.WinForms.DockWindows {
         }
 
         protected virtual void OnSelectionChanged (CombatantsSelectionChangedEventArgs<T> e) {
-            if (this.SelectionChanged != null) {
-                this.SelectionChanged(this, e); 
+            var changed = this.SelectionChanged;
+            if (changed != null) {
+                changed(this, e); 
             }
         }
 

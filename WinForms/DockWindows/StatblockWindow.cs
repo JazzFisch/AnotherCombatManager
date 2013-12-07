@@ -3,10 +3,10 @@ using AnotherCM.Library.Common;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace AnotherCM.WinForms.DockWindows {
-    public partial class StatblockWindow : DockContent {
+    public partial class StatBlockWindow : DockContent {
         #region Constructors
 
-        public StatblockWindow () {
+        public StatBlockWindow () {
             InitializeComponent();
         }
 

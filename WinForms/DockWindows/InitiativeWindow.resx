@@ -117,44 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="bindingHandlers_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\htmlcontent\bindinghandlers.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="characterStatblock_html" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\htmlcontent\characterstatblock.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="characterStatblock_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\htmlcontent\characterstatblock.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="knockout_3_0_0_debug_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\htmlcontent\knockout-3.0.0.debug.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="knockout_StringInterpolatingBindingProvider_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\htmlcontent\knockout-stringinterpolatingbindingprovider.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="ko_ninja_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\htmlcontent\ko.ninja.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="modernizr_2_6_2_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\htmlcontent\modernizr-2.6.2.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="monsterStatblock_html" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\htmlcontent\monsterstatblock.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="monsterStatblock_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\htmlcontent\monsterstatblock.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="normalize_css" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\htmlcontent\normalize.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="statblockHelpers_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\htmlcontent\statblockhelpers.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="statblock_css" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\htmlcontent\statblock.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="underscore_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\htmlcontent\underscore.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
 </root>
