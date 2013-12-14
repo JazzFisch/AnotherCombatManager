@@ -10,6 +10,7 @@ namespace AnotherCM.Library.Encounter {
 
         private int count;
         private string handle;  // only use for deserialization
+        private bool inReserve;
 
         public CombatantWrapper () { }
 
@@ -46,6 +47,17 @@ namespace AnotherCM.Library.Encounter {
                     return this.Combatant.Handle;
                 }
             } 
+        }
+
+        public bool InReserve {
+            get { return this.inReserve; }
+            set {
+                if (this.inReserve == value) {
+                    return;
+                }
+                this.inReserve = value;
+                this.OnPropertyChanged();
+            }
         }
 
         [JsonIgnore]

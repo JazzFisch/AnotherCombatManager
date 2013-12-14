@@ -17,6 +17,7 @@ namespace AnotherCM.WinForms.DockWindows {
         private Notify.Tracker tracker;
         private TypedObjectListView<Encounter> typedView;
         private ObservableCollection<Encounter> encounters;
+        private IDisposable textChanged;
 
         public EncountersWindow () {
             InitializeComponent();
@@ -24,11 +25,11 @@ namespace AnotherCM.WinForms.DockWindows {
 
             // setup text search throttle
             var textChanged = Observable.FromEventPattern(this.searchTextBox, "TextChanged").Select(x => ((TextBox)x.Sender).Text);
-            textChanged.Throttle(TimeSpan.FromMilliseconds(300))
-                       .ObserveOn(SynchronizationContext.Current)
-                       .Subscribe(text => {
-                           this.Search(text);
-                       });
+            this.textChanged = textChanged.Throttle(TimeSpan.FromMilliseconds(300))
+                                          .ObserveOn(SynchronizationContext.Current)
+                                          .Subscribe(text => {
+                                              this.Search(text);
+                                          });
         }
 
         public ObservableCollection<Encounter> Encounters {
@@ -52,6 +53,10 @@ namespace AnotherCM.WinForms.DockWindows {
             if (this.SelectionChanged != null) {
                 this.SelectionChanged(this, e);
             }
+        }
+
+        private void EncountersWindow_FormClosing (object sender, FormClosingEventArgs e) {
+            this.textChanged.Dispose();
         }
 
         private void objectListView_SelectionChanged (object sender, EventArgs e) {

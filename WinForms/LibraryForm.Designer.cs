@@ -94,6 +94,8 @@
             this.monsterCountToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.VS2012LightTheme = new WeifenLuo.WinFormsUI.Docking.VS2012LightTheme();
+            this.encountersToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.encounterCountToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainMenu.SuspendLayout();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -242,26 +244,26 @@
             this.newToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripMenuItem.Image")));
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
             this.newToolStripMenuItem.Text = "&New";
             // 
             // newCharacterToolStripMenuItem
             // 
             this.newCharacterToolStripMenuItem.Name = "newCharacterToolStripMenuItem";
-            this.newCharacterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newCharacterToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.newCharacterToolStripMenuItem.Text = "&Character";
             // 
             // newEncounterToolStripMenuItem
             // 
             this.newEncounterToolStripMenuItem.Name = "newEncounterToolStripMenuItem";
-            this.newEncounterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newEncounterToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.newEncounterToolStripMenuItem.Text = "&Encounter";
             this.newEncounterToolStripMenuItem.Click += new System.EventHandler(this.newEncounterToolStripMenuItem_Click);
             // 
             // newMonsterToolStripMenuItem
             // 
             this.newMonsterToolStripMenuItem.Name = "newMonsterToolStripMenuItem";
-            this.newMonsterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newMonsterToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.newMonsterToolStripMenuItem.Text = "&Monster";
             // 
             // editToolStripMenuItem
@@ -521,6 +523,8 @@
             // 
             this.statusStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.encountersToolStripStatusLabel,
+            this.encounterCountToolStripStatusLabel,
             this.charactersToolStripStatusLabel,
             this.characterCountToolStripStatusLabel,
             this.monstersToolStripStatusLabel,
@@ -612,6 +616,19 @@
             this.dockPanel.TabIndex = 0;
             this.dockPanel.Theme = this.VS2012LightTheme;
             // 
+            // encountersToolStripStatusLabel
+            // 
+            this.encountersToolStripStatusLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.encountersToolStripStatusLabel.Name = "encountersToolStripStatusLabel";
+            this.encountersToolStripStatusLabel.Size = new System.Drawing.Size(73, 17);
+            this.encountersToolStripStatusLabel.Text = "Encounters:";
+            // 
+            // encounterCountToolStripStatusLabel
+            // 
+            this.encounterCountToolStripStatusLabel.Name = "encounterCountToolStripStatusLabel";
+            this.encounterCountToolStripStatusLabel.Size = new System.Drawing.Size(13, 17);
+            this.encounterCountToolStripStatusLabel.Text = "0";
+            // 
             // LibraryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -695,5 +712,7 @@
         private System.Windows.Forms.ToolStripMenuItem encounterDetailsWindowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel encountersToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel encounterCountToolStripStatusLabel;
     }
 }

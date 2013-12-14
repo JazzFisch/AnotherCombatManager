@@ -15,20 +15,19 @@ namespace AnotherCM.WinForms.DockWindows {
 
         private TypedObjectListView<T> typedView;
         private ObservableKeyedCollection<string, T> combatants;
-        //private IRenderer defaultRenderer;
+        private IDisposable textChanged;
 
         public CombatantListWindow () {
             InitializeComponent();
             this.typedView = new TypedObjectListView<T>(this.objectListView);
-            //this.defaultRenderer = this.objectListView.DefaultRenderer;
 
             // setup text search throttle
             var textChanged = Observable.FromEventPattern(this.searchTextBox, "TextChanged").Select(x => ((TextBox)x.Sender).Text);
-            textChanged.Throttle(TimeSpan.FromMilliseconds(300))
-                       .ObserveOn(SynchronizationContext.Current)
-                       .Subscribe(text => {
-                           this.Search(text);
-                       });
+            this.textChanged = textChanged.Throttle(TimeSpan.FromMilliseconds(300))
+                                          .ObserveOn(SynchronizationContext.Current)
+                                          .Subscribe(text => {
+                                              this.Search(text);
+                                          });
         }
 
         public ObservableKeyedCollection<string, T> Combatants {
@@ -46,15 +45,23 @@ namespace AnotherCM.WinForms.DockWindows {
             }
         }
 
-        private void combatants_CollectionChanged (object sender, NotifyCollectionChangedEventArgs e) {
-            this.objectListView.SetObjects(this.combatants);
-        }
-
         protected virtual void OnSelectionChanged (CombatantsSelectionChangedEventArgs<T> e) {
             var changed = this.SelectionChanged;
             if (changed != null) {
                 changed(this, e); 
             }
+        }
+
+        private void CombatantListWindow_FormClosing (object sender, FormClosingEventArgs e) {
+            this.textChanged.Dispose();
+        }
+
+        private void combatants_CollectionChanged (object sender, NotifyCollectionChangedEventArgs e) {
+            this.objectListView.SetObjects(this.combatants);
+        }
+
+        private void objectListView_KeyPress (object sender, KeyPressEventArgs e) {
+
         }
 
         private void objectListView_SelectionChanged (object sender, EventArgs e) {
@@ -66,13 +73,11 @@ namespace AnotherCM.WinForms.DockWindows {
 
         private void searchTextBox_Cleared (object sender, EventArgs e) {
             this.objectListView.AdditionalFilter = null;
-            //this.objectListView.DefaultRenderer = this.defaultRenderer;
         }
 
         private void Search (string text) {
             var filter = TextMatchFilter.Contains(this.objectListView, text);
             this.objectListView.AdditionalFilter = filter;
-            //this.objectListView.DefaultRenderer = new HighlightTextRenderer(filter);
         }
     }
 

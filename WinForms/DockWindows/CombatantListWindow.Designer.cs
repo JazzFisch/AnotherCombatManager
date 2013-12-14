@@ -66,6 +66,7 @@
             this.objectListView.UseTranslucentSelection = true;
             this.objectListView.View = System.Windows.Forms.View.Details;
             this.objectListView.SelectionChanged += new System.EventHandler(this.objectListView_SelectionChanged);
+            this.objectListView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.objectListView_KeyPress);
             // 
             // nameColumn
             // 
@@ -117,6 +118,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "CombatantListWindow";
             this.Text = "CombatantListWindow";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CombatantListWindow_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.objectListView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

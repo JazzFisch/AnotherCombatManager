@@ -106,15 +106,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\ButtonRenderer.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\SearchableObjectListView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\SearchableObjectListView.Designer.cs">
-      <DependentUpon>SearchableObjectListView.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\SearchTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -177,9 +168,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CombatParticipant.cs" />
-    <EmbeddedResource Include="Controls\SearchableObjectListView.resx">
-      <DependentUpon>SearchableObjectListView.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="DockWindows\CombatantListWindow.resx">
       <DependentUpon>CombatantListWindow.cs</DependentUpon>
     </EmbeddedResource>

@@ -320,6 +320,7 @@ namespace AnotherCM.WinForms {
             this.monstersWindow.Combatants = this.Library.Monsters;
             this.encountersWindow.Encounters = this.Library.Encounters;
 
+            this.encounterCountToolStripStatusLabel.Text = this.Library.Encounters.Count().ToString("#,0");
             this.characterCountToolStripStatusLabel.Text = this.Library.Characters.Count().ToString("#,0");
             this.monsterCountToolStripStatusLabel.Text = this.Library.Monsters.Count().ToString("#,0");
         }

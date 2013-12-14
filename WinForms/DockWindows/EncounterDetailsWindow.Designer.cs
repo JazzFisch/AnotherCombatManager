@@ -30,6 +30,7 @@
             this.levelColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.countColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.combatantTypeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.reserveColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.objectListView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -40,28 +41,33 @@
             this.objectListView.AllColumns.Add(this.nameColumn);
             this.objectListView.AllColumns.Add(this.levelColumn);
             this.objectListView.AllColumns.Add(this.countColumn);
+            this.objectListView.AllColumns.Add(this.reserveColumn);
             this.objectListView.AllColumns.Add(this.combatantTypeColumn);
             this.objectListView.AllowColumnReorder = true;
             this.objectListView.AllowDrop = true;
+            this.objectListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.objectListView.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
             this.objectListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.addColumn,
             this.removeColumn,
             this.nameColumn,
             this.levelColumn,
             this.countColumn,
+            this.reserveColumn,
             this.combatantTypeColumn});
             this.objectListView.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectListView.FullRowSelect = true;
             this.objectListView.HeaderUsesThemes = false;
             this.objectListView.IsSimpleDropSink = true;
-            this.objectListView.Location = new System.Drawing.Point(0, 0);
+            this.objectListView.Location = new System.Drawing.Point(0, 133);
             this.objectListView.Name = "objectListView";
             this.objectListView.OwnerDraw = true;
             this.objectListView.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
             this.objectListView.ShowCommandMenuOnRightClick = true;
             this.objectListView.ShowItemCountOnGroups = true;
-            this.objectListView.Size = new System.Drawing.Size(706, 546);
+            this.objectListView.Size = new System.Drawing.Size(706, 413);
             this.objectListView.TabIndex = 0;
             this.objectListView.UseCompatibleStateImageBehavior = false;
             this.objectListView.UseExplorerTheme = true;
@@ -117,6 +123,7 @@
             this.nameColumn.AspectName = "Name";
             this.nameColumn.CellPadding = null;
             this.nameColumn.FillsFreeSpace = true;
+            this.nameColumn.IsEditable = false;
             this.nameColumn.MinimumWidth = 100;
             this.nameColumn.Text = "Name";
             this.nameColumn.Width = 100;
@@ -126,6 +133,7 @@
             this.levelColumn.AspectName = "Level";
             this.levelColumn.CellPadding = null;
             this.levelColumn.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.levelColumn.IsEditable = false;
             this.levelColumn.Text = "Level";
             this.levelColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.levelColumn.Width = 44;
@@ -135,6 +143,7 @@
             this.countColumn.AspectName = "Count";
             this.countColumn.CellPadding = null;
             this.countColumn.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.countColumn.IsEditable = false;
             this.countColumn.Text = "Count";
             this.countColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.countColumn.Width = 44;
@@ -143,8 +152,18 @@
             // 
             this.combatantTypeColumn.AspectName = "RenderType";
             this.combatantTypeColumn.CellPadding = null;
+            this.combatantTypeColumn.IsEditable = false;
             this.combatantTypeColumn.Text = "Type";
             this.combatantTypeColumn.Width = 56;
+            // 
+            // reserveColumn
+            // 
+            this.reserveColumn.AspectName = "InReserve";
+            this.reserveColumn.CellPadding = null;
+            this.reserveColumn.CheckBoxes = true;
+            this.reserveColumn.Searchable = false;
+            this.reserveColumn.Text = "Reserved";
+            this.reserveColumn.Width = 40;
             // 
             // EncounterDetailsWindow
             // 
@@ -169,6 +188,7 @@
         private BrightIdeasSoftware.OLVColumn combatantTypeColumn;
         private BrightIdeasSoftware.OLVColumn addColumn;
         private BrightIdeasSoftware.OLVColumn removeColumn;
+        private BrightIdeasSoftware.OLVColumn reserveColumn;
 
 
     }
