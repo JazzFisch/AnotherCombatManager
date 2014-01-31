@@ -24,6 +24,7 @@ namespace AnotherCM.WinForms.DockWindows {
             // setup text search throttle
             var textChanged = Observable.FromEventPattern(this.searchTextBox, "TextChanged").Select(x => ((TextBox)x.Sender).Text);
             this.textChanged = textChanged.Throttle(TimeSpan.FromMilliseconds(300))
+                                          .DistinctUntilChanged()
                                           .ObserveOn(SynchronizationContext.Current)
                                           .Subscribe(text => {
                                               this.Search(text);

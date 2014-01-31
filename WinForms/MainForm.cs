@@ -1,11 +1,10 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
-namespace AnotherCM.WinForms
-{
-    public partial class MainForm : Form
-    {
-        public MainForm()
-        {
+namespace AnotherCM.WinForms {
+    public partial class MainForm : Form {
+
+        public MainForm () {
             InitializeComponent();
         }
     }
