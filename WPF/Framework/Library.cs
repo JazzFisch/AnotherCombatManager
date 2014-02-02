@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using AnotherCM.Library.Character;
 using AnotherCM.Library.Encounter;
 using AnotherCM.Library.Monster;
@@ -11,6 +12,7 @@ namespace AnotherCM.WPF.Framework {
         private AnotherCM.Library.Common.Library library;
 
         public Library () {
+            // TODO: make Library use BindableCollection?
             this.Characters = new BindableCollection<Character>();
             this.Monsters = new BindableCollection<Monster>();
             this.Encounters = new BindableCollection<Encounter>();
@@ -24,10 +26,44 @@ namespace AnotherCM.WPF.Framework {
             });
         }
 
+        public string FilePath {
+            get {
+                if (this.library != null) {
+                    return this.library.FileName;
+                }
+                return null;
+            }
+            set {
+                if (this.library != null) {
+                    this.library.SaveAs(value);
+                }
+            }
+        }
+
         public BindableCollection<Character> Characters { get; private set; }
 
         public BindableCollection<Monster> Monsters { get; private set; }
 
         public BindableCollection<Encounter> Encounters { get; private set; }
+
+        public async Task AddCharactersAsync (params string[] paths) {
+            await this.library.ImportCharactersFromFileAsync(paths);
+            this.Characters.IsNotifying = false;
+            this.Characters.Clear();
+            this.Characters.IsNotifying = true;
+            this.Characters.AddRange(this.library.Characters);
+        }
+
+        public async Task AddMonstersAsync (params string[] paths) {
+            await this.library.ImportMonstersFromFileAsync(paths);
+            this.Monsters.IsNotifying = false;
+            this.Monsters.Clear();
+            this.Monsters.IsNotifying = true;
+            this.Monsters.AddRange(this.library.Monsters);
+        }
+
+        public void Flush () {
+            this.library.Flush();
+        }
     }
 }

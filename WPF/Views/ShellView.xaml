@@ -21,7 +21,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Resources/Icons.xaml" />
+                <ResourceDictionary Source="/Resources/Theme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="DescriptionHeaderStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="22" />
@@ -36,6 +36,7 @@
     
     <controls:MetroWindow.WindowCommands>
         <controls:WindowCommands>
+            <Button caliburn:Message.Attach="OpenAbout" Content="about" />
             <Button caliburn:Message.Attach="OpenSettings" Content="settings" />
         </controls:WindowCommands>
     </controls:MetroWindow.WindowCommands>

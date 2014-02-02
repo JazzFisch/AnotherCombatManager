@@ -1,9 +1,10 @@
 ﻿using System;
+using AnotherCM.WPF.Framework;
 using Caliburn.Micro;
 using MahApps.Metro.Controls;
 
 namespace AnotherCM.WPF.ViewModels {
-    public abstract class FlyoutBaseViewModel : PropertyChangedBase {
+    public abstract class FlyoutBaseViewModel : PropertyChangedBase, IFlyout {
         private string header;
         private bool isOpen;
         private Position position;

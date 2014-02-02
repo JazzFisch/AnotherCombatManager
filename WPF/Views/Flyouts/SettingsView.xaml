@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:p="clr-namespace:PropertyTools.Wpf;assembly=PropertyTools.Wpf"
              d:DesignHeight="300"
              d:DesignWidth="300"
              Width="300"
@@ -16,16 +17,26 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <StackPanel Width="250" Margin="5,5,5,5">
-        <TextBlock Text="a test for left" />
-        <CheckBox Content="a simple checkbox" />
-        <RadioButton Content="a simple RadioButton" />
-        <ComboBox>
-            <ComboBoxItem>Item 1</ComboBoxItem>
-            <ComboBoxItem>Item 2</ComboBoxItem>
-            <ComboBoxItem>Item 3</ComboBoxItem>
-        </ComboBox>
-        <Button x:Name="Cancel" Content="Cancel" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-        <Button x:Name="Save" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-    </StackPanel>
+    <Grid>
+        <StackPanel Width="250" Margin="5,5,5,5">
+            <TextBlock Text="a test for left" Margin="4" />
+            <CheckBox Content="a simple checkbox" Margin="4" />
+            <RadioButton Content="a simple RadioButton" Margin="4" />
+            <ComboBox Margin="4">
+                <ComboBoxItem>Item 1</ComboBoxItem>
+                <ComboBoxItem>Item 2</ComboBoxItem>
+                <ComboBoxItem>Item 3</ComboBoxItem>
+            </ComboBox>
+            <TextBlock Margin="4">Open existing library</TextBlock>
+            <p:FilePicker FilePath="{Binding FilePath}" Filter="Library files|*.zip" Margin="4" />
+            <Grid>
+                <Button x:Name="AddCharacter" Content="Add Character" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Width="100" Margin="4" />
+                <Button x:Name="AddMonster" Content="Add Monster" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Right" Width="100" Margin="4" />
+            </Grid>
+        </StackPanel>
+        <Grid Margin="25,5,25,5">
+            <Button x:Name="Cancel" Content="Cancel" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="100" Margin="4" />
+            <Button x:Name="Save" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="100" Margin="4" />
+        </Grid>
+    </Grid>
 </UserControl>

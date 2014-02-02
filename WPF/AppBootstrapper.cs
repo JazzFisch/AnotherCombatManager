@@ -6,6 +6,8 @@ using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using AnotherCM.WPF.Framework;
 using Caliburn.Micro;
 using MahApps.Metro.Controls;
@@ -37,10 +39,12 @@ namespace AnotherCM.WPF {
 
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
+            batch.AddExportedValue<ILibrary>(new AnotherCM.WPF.Framework.Library());
             batch.AddExportedValue(this.container);
 
             this.container.Compose(batch);
 
+            this.AddElementConventions();
             this.AddFlyoutsBindingScope();
         }
 
@@ -53,7 +57,15 @@ namespace AnotherCM.WPF {
         protected override object GetInstance (Type service, string key) {
             this.logger.Info("GetInstance {0}, {1}", service, key);
             string contract = String.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(service) : key;
-            var exports = container.GetExportedValues<object>(contract);
+
+            IEnumerable<object> exports;
+            try {
+                exports = container.GetExportedValues<object>(contract);
+            }
+            catch (System.Exception ex) {
+                this.logger.Error(ex);
+                throw;
+            }
 
             if (exports.Any())
                 return exports.First();
@@ -63,6 +75,10 @@ namespace AnotherCM.WPF {
 
         protected override void OnStartup (object sender, StartupEventArgs e) {
             DisplayRootViewFor<IShell>();
+        }
+
+        private void AddElementConventions () {
+            //ConventionManager.AddElementConvention<MultiSelector>(DependencyProperties.BindableSelectedItemsProperty, "SelectedItems", "SelectedItems");
         }
 
         private void AddFlyoutsBindingScope () {

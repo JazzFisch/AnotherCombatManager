@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace AnotherCM.WPF.Framework {
-    public static class WebBrowserBehaviors {
+    public static class DependencyProperties {
 
         public static readonly DependencyProperty BindableStreamProperty = DependencyProperty.RegisterAttached(
             "BindableStream",
             typeof(Stream),
-            typeof(WebBrowserBehaviors),
+            typeof(DependencyProperties),
             new UIPropertyMetadata(null, BindableStreamPropertyChanged)
         );
 

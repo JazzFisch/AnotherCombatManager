@@ -14,7 +14,7 @@
                                    IsInputRedirectionEnabled="True"
                                    IsOutputRedirectionEnabled="True">
             <WebBrowser x:Name="Browser"
-                    local:WebBrowserBehaviors.BindableStream="{Binding Stream}" 
+                    local:DependencyProperties.BindableStream="{Binding Stream}" 
                     caliburn:Message.Attach="[Event LoadCompleted] = [Action LoadCompleted($eventArgs)]" />
         </interop:AirspaceDecorator>
     </Grid>

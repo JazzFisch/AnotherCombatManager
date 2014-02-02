@@ -1,26 +1,26 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using AnotherCM.Library.Monster;
+using AnotherCM.Library.Character;
 using AnotherCM.WPF.Framework;
 using Caliburn.Micro;
 
 namespace AnotherCM.WPF.ViewModels.Tabs {
     [Export(typeof(IShellViewTab))]
-    public class MonstersViewModel : TabsBaseViewModel, IShellViewTab {
+    public class CharactersViewModel : TabsBaseViewModel, IShellViewTab {
         private IEventAggregator eventAggregator;
-        private IObservableCollection<Monster> items;
+        private IObservableCollection<Character> items;
         private ILibrary library;
-        private Monster selectedItem;
+        private Character selectedItem;
 
         [ImportingConstructor]
-        public MonstersViewModel (ILibrary library, IEventAggregator eventAggregator) {
-            this.DisplayName = "monsters";
+        public CharactersViewModel (ILibrary library, IEventAggregator eventAggregator) {
+            this.DisplayName = "characters";
             this.eventAggregator = eventAggregator;
             this.library = library;
-            this.items = this.library.Monsters;
+            this.items = this.library.Characters;
         }
 
-        public IObservableCollection<Monster> Items {
+        public IObservableCollection<Character> Items {
             get {
                 return this.items;
             }
@@ -30,16 +30,12 @@ namespace AnotherCM.WPF.ViewModels.Tabs {
             }
         }
 
-        public Monster SelectedItem {
+        public Character SelectedItem {
             get { return this.selectedItem; }
             set {
                 if (value == null) {
                     return;
                 }
-
-                
-
-
                 this.selectedItem = value;
                 this.eventAggregator.PublishOnBackgroundThread(value);
                 NotifyOfPropertyChange(() => SelectedItem);
